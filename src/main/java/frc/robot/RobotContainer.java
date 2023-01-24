@@ -8,7 +8,6 @@ import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,11 +15,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.DefaultDriveCommand;
@@ -73,10 +74,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
-    // new Button(m_controller1::getRawButton(7)
+    // new Button(m_controller::getBackButton)
             // No requirements because we don't need to interrupt anything
             // .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-  }
+            final JoystickButton xboxButton1 = new JoystickButton(m_controller, XboxController.Button.kX.value);        
+            xboxButton1.onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+          // Command resetGyroCommand = new InstantCommand(m_drivetrainSubsystem::zeroGyroscope);
+          }
 //   new Button(m_controller::getBackButton)
 //   // No requirements because we don't need to interrupt anything
 //   .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
