@@ -206,9 +206,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
         });
   }
 
-  public void zeroGyroscope() {
+  public boolean zeroGyroscope() {
     // FIXME Remove if you are using a Pigeon
     m_pigeon.reset();
+    m_pigeon.setYaw(0);
+    return true;
 
     // FIXME Uncomment if you are using a NavX
     // m_navx.zeroYaw();
@@ -216,7 +218,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public Rotation2d getGyroscopeRotation() {
     // FIXME Remove if you are using a Pigeon
-    return Rotation2d.fromDegrees(m_pigeon.getYaw() + 90);
+    return Rotation2d.fromDegrees(m_pigeon.getYaw());
 
     // FIXME Uncomment if you are using a NavX
     // if (m_navx.isMagnetometerCalibrated()) {
