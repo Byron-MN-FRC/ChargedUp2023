@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.List;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -24,8 +26,10 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.ChaseTagCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.PoseEstimatorSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,9 +38,11 @@ import frc.robot.subsystems.DrivetrainSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final PhotonCamera photonCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+  private static RobotContainer m_RobotContainer = new RobotContainer();
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-
+  private final PoseEstimatorSubsystem m_PoseEstimatorSubsystem = new PoseEstimatorSubsystem(photonCamera, m_drivetrainSubsystem);
   private final XboxController m_controller = new XboxController(0);
   // private final Joystick m_controller1 = new Joystick(0);
   /**
@@ -79,8 +85,11 @@ public class RobotContainer {
             // .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
             final JoystickButton xboxButton1 = new JoystickButton(m_controller, XboxController.Button.kX.value);        
             xboxButton1.onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+            final JoystickButton btnChaseTag = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+            btnChaseTag.whileTrue(new ChaseTagCommand(photonCamera, m_drivetrainSubsystem, m_PoseEstimatorSubsystem::getCurrentPose).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
           // Command resetGyroCommand = new InstantCommand(m_drivetrainSubsystem::zeroGyroscope);
           }
+          
 //   new Button(m_controller::getBackButton)
 //   // No requirements because we don't need to interrupt anything
 //   .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
@@ -117,9 +126,10 @@ thetaController.enableContinuousInput(-Math.PI, Math.PI);
            new Pose2d(0, 0, new Rotation2d(0)),
            // Pass through these two interior waypoints, making an 's' curve path
           //  List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-          List.of(new Translation2d(2.3114, 0.3048)),
+          List.of(new Translation2d(1, 0)),
            // End 3 meters straight ahead of where we started, facing forward
-           new Pose2d(2.3114, 0.3048, new Rotation2d(0)),
+           new Pose2d(5.2, -0.381, new Rotation2d(0)),
+          // new Pose2d(3, 0, new Rotation2d(0)),
            // Pass config
            config);
 
@@ -146,6 +156,8 @@ thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
   } 
 
+
+
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
       if (value > 0.0) {
@@ -166,5 +178,11 @@ thetaController.enableContinuousInput(-Math.PI, Math.PI);
     value = Math.copySign(value * value, value);
 
     return value;
+  }
+  public XboxController getXboxController(){
+    return m_controller;
+  }
+  public static RobotContainer getInstance(){
+    return m_RobotContainer;
   }
 }

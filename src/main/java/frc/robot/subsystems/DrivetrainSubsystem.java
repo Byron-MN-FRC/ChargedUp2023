@@ -24,11 +24,15 @@ import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_ENCODER;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_MOTOR;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_OFFSET;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
+
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -37,11 +41,14 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /**
@@ -113,8 +120,28 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // private final DifferentialDriveOdometry odometry;
 
+// photon vision
+ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+// Constants such as camera and target height stored. Change per robot and goal!
+    final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(23.5);
+    final double TARGET_HEIGHT_METERS = Units.inchesToMeters(15.13);
+    // Angle between horizontal and the camera.
+    final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
+
+    // How far from the target we want to be
+    final double GOAL_RANGE_METERS = Units.feetToMeters(5);
+    // Change this to match the name of your camera
+    PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+        // PID constants should be tuned per robot
+        final double LINEAR_P = 0.5;
+        final double LINEAR_D = 0.0;
+        PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
+    
+        final double ANGULAR_P = 0.05;
+        final double ANGULAR_D = 0.0;
+        PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
+
   public DrivetrainSubsystem() {
-    ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
     // There are 4 methods you can call to create your swerve modules.
     // The method you use depends on what motors you are using.
@@ -232,8 +259,46 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
+    
+
+    if (RobotContainer.getInstance().getXboxController().getAButton()) {
+            // Vision-alignment mode][poiuytr]
+            // Query the latest result from PhotonVision
+            var result = camera.getLatestResult();
+            double y;
+            double x;
+            if (result.hasTargets()) {
+                // First calculate range
+                double range = PhotonUtils.calculateDistanceToTargetMeters(
+                        CAMERA_HEIGHT_METERS,
+                        TARGET_HEIGHT_METERS,
+                        CAMERA_PITCH_RADIANS,
+                        Units.degreesToRadians(result.getBestTarget().getPitch()));
+                SmartDashboard.putNumber("range=", range);
+
+                // Use this range as the measurement we give to the PID controller.
+                // -1.0 required to ensure positive PID controller effort _increases_ range
+                y = -forwardController.calculate(range, GOAL_RANGE_METERS);
+                SmartDashboard.putNumber("y = ", y);
+                // Also calculate angular power
+                // -1.0 required to ensure positive PID controller effort _increases_ yaw
+                x = turnController.calculate(result.getBestTarget().getYaw(), 0);
+                SmartDashboard.putNumber("yaw = ", result.getBestTarget().getYaw());
+                SmartDashboard.putNumber("x = ", x);
+                // y=0;
+
+            } else {
+                // If we have no targets, stay still.
+                y = 0;
+                x = 0;
+            }
+
+         m_chassisSpeeds = new ChassisSpeeds(x, y, 0);
+  }else{
     m_chassisSpeeds = chassisSpeeds;
   }
+
+}
 
   @Override
   public void periodic() {
@@ -283,4 +348,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
         },
         pose);
   }
+  public void stop() {
+    drive(new ChassisSpeeds());
+  }
+  public SwerveModulePosition[] getSwerveModulePosition() {
+    return new SwerveModulePosition[] {
+        m_frontLeftModule.getPosition(),
+        m_frontRightModule.getPosition(),
+        m_backLeftModule.getPosition(),
+        m_backRightModule.getPosition()
+    };
+}
 }

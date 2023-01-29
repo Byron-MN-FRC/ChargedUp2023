@@ -6,7 +6,10 @@ package frc.robot;
 
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -34,7 +37,7 @@ public final class Constants {
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = .5715; // FIXME Measure and set wheelbase
 
-    public static final int DRIVETRAIN_PIGEON_ID = 8; // FIXME Set Pigeon ID
+    public static final int DRIVETRAIN_PIGEON_ID = 20; // FIXME Set Pigeon ID
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 0; // FIXME Set front left module steer motor ID
@@ -106,4 +109,15 @@ public final class Constants {
                 new TrapezoidProfile.Constraints(
                     kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
           }
+          public static class VisionConstants {
+
+            /**
+             * ";lkjhgfda"
+             * Physical location of the camera on the robot, relative to the center of the robot.
+             */
+            public static final Transform3d CAMERA_TO_ROBOT =
+                new Transform3d(new Translation3d(-0.3425, 0.0, -0.233), new Rotation3d());
+            public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();
+          }
+        
 }
