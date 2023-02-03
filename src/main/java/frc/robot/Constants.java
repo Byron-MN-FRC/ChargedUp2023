@@ -4,6 +4,14 @@
 
 package frc.robot;
 
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
@@ -29,7 +37,7 @@ public final class Constants {
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = .5715; // FIXME Measure and set wheelbase
 
-    public static final int DRIVETRAIN_PIGEON_ID = 8; // FIXME Set Pigeon ID
+    public static final int DRIVETRAIN_PIGEON_ID = 20; // FIXME Set Pigeon ID
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 0; // FIXME Set front left module steer motor ID
@@ -53,4 +61,63 @@ public final class Constants {
 
     public static final ShuffleboardTab tab_subsystems = Shuffleboard.getTab("Subsytems");
     public static final ShuffleboardTab tab_commands = Shuffleboard.getTab("Commands");
+    static public final class DriveConstants {
+        /* public static final int kLeftMotor1Port = 0;
+            public static final int kLeftMotor2Port = 1;
+            public static final int kRightMotor1Port = 2;
+            public static final int kRightMotor2Port = 3;
+            */
+
+     
+             // Autonomous 
+             public static final double kTrackWidth = DRIVETRAIN_TRACKWIDTH_METERS; // ??
+             public static final double kWheelBase = DRIVETRAIN_WHEELBASE_METERS;
+             // Distance between front and back wheels on robot
+             public static final SwerveDriveKinematics kDriveKinematics = 
+                 new SwerveDriveKinematics(
+                     new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+                     new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+                     new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+                     new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+         
+            // public static final int kEncoderCPR = 1024; 
+             public static final double kWheelDiameterMeters = 0.15; //??
+            // public static final double kEncoderDistancePerPulse =
+                 // Assumes the encoders are directly mounted on the wheel shafts
+             //    (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
+         
+              // Values from Robot Characterization Toolsuite
+             public static final double ksVolts = 0.127957; // 0.22
+             public static final double kvVoltSecondsPerMeter = 2.7085; // 1.98
+             public static final double kaVoltSecondsSquaredPerMeter = 0.31875; //.2  
+         
+         }
+         public static final class AutoConstants {
+            public static final double kMaxSpeedMetersPerSecond =  6380.0 / 60.0 *
+            SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
+            SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
+            public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+            public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
+            public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+        
+            public static final double kPXController = 1;
+            public static final double kPYController = 1;
+            public static final double kPThetaController = 1;
+        
+            // Constraint for the motion profiled robot angle controller
+            public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
+                new TrapezoidProfile.Constraints(
+                    kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+          }
+          public static class VisionConstants {
+
+            /**
+             * ";lkjhgfda"
+             * Physical location of the camera on the robot, relative to the center of the robot.
+             */
+            public static final Transform3d CAMERA_TO_ROBOT =
+                new Transform3d(new Translation3d(-0.3425, 0.0, -0.233), new Rotation3d());
+            public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();
+          }
+        
 }
