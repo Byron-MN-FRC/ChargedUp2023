@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
         m_robotContainer = RobotContainer.getInstance();
     // m_robotContainer = new RobotContainer();
 
-    CameraServer.startAutomaticCapture("forward", 0);
+    // CameraServer.startAutomaticCapture("forward", 0);
     
     }
 

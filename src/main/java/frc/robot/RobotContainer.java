@@ -200,7 +200,7 @@ thetaController.enableContinuousInput(-Math.PI, Math.PI);
     }
 }
 
-  private static double modifyAxis(double value) {
+  public static double modifyAxis(double value) {
     // Deadband
     value = deadband(value, 0.05);
 

@@ -48,6 +48,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -129,7 +130,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
 
     // How far from the target we want to be
-    final double GOAL_RANGE_METERS = Units.feetToMeters(5);
+    final double GOAL_RANGE_METERS = Units.feetToMeters(1);
     // Change this to match the name of your camera
     PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
         // PID constants should be tuned per robot
@@ -286,14 +287,15 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
                 SmartDashboard.putNumber("yaw = ", result.getBestTarget().getYaw());
                 SmartDashboard.putNumber("x = ", x);
                 // y=0;
-
+                System.out.println("I'm driving towards the target");
             } else {
                 // If we have no targets, stay still.
                 y = 0;
                 x = 0;
+                System.out.println("I'm not driving");
             }
 
-         m_chassisSpeeds = new ChassisSpeeds(x, y, 0);
+         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-RobotContainer.modifyAxis(y)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(x)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(0)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
   }else{
     m_chassisSpeeds = chassisSpeeds;
   }
