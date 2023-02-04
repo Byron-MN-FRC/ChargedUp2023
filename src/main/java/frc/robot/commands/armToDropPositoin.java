@@ -55,7 +55,9 @@ public class armToDropPositoin extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+
         System.out.println("arm to drop posistion");
+
     }
 
     // Called once the command ends or is interrupted.
