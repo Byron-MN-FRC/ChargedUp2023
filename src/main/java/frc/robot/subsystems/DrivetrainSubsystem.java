@@ -267,7 +267,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     
 
 
-    if (RobotContainer.getInstance().getXboxController().getAButton()) {
+    if (RobotContainer.getInstance().getDriveController().getAButton()) {
         // Vision-alignment mode][poiuytr]
         // Query the latest result from PhotonVision
         var result = camera.getLatestResult();
@@ -301,7 +301,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         }
 
          m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-RobotContainer.modifyAxis(y)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(x)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(0)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
-    }else if(RobotContainer.getInstance().getXboxController().getBButton()){
+    }else if(RobotContainer.getInstance().getDriveController().getBButton()){
         forwardController.setP(.03);
         turnController.setP(0.16);
         double x;
