@@ -28,16 +28,17 @@ public class ChaseTagCommand extends CommandBase {
   private static final int TAG_TO_CHASE = 3;
   private static final Transform3d TAG_TO_GOAL = 
       new Transform3d(
-          new Translation3d(1.5, 0.0, 0.0),
+          new Translation3d(1, 0, 0.0),
           new Rotation3d(0.0, 0.0, Math.PI));
+          
 
   private final PhotonCamera photonCamera;
   private final DrivetrainSubsystem drivetrainSubsystem;
   private final Supplier<Pose2d> poseProvider;
 
-  private final ProfiledPIDController xController = new ProfiledPIDController(3, 0, 0, X_CONSTRAINTS);
-  private final ProfiledPIDController yController = new ProfiledPIDController(3, 0, 0, Y_CONSTRAINTS);
-  private final ProfiledPIDController omegaController = new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
+  private final ProfiledPIDController xController = new ProfiledPIDController(2.75, .5, 0, X_CONSTRAINTS);
+  private final ProfiledPIDController yController = new ProfiledPIDController(2.75, .5, 0, Y_CONSTRAINTS);
+  private final ProfiledPIDController omegaController = new ProfiledPIDController(3, .5, 0, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lastTarget;
 
@@ -80,12 +81,14 @@ public class ChaseTagCommand extends CommandBase {
     var photonRes = photonCamera.getLatestResult();
     if (photonRes.hasTargets()) {
       // Find the tag we want to chase
-      var targetOpt = photonRes.getTargets().stream()
-          .filter(t -> t.getFiducialId() == TAG_TO_CHASE)
-          .filter(t -> !t.equals(lastTarget) && t.getPoseAmbiguity() <= .2 && t.getPoseAmbiguity() != -1)
-          .findFirst();
+      // var targetOpt = photonRes.getBestTarget();
+          var targetOpt = photonRes.getTargets().stream()
+          .filter(t -> t.getFiducialId() == TAG_TO_CHASE).findFirst();
+          // .filter(t -> !t.equals(lastTarget) && t.getPoseAmbiguity() <= .2 && t.getPoseAmbiguity() != -1)
+          // .findFirst();
+          System.out.println("Seeing Target");
       if (targetOpt.isPresent()) {
-        var target = targetOpt.get();
+        PhotonTrackedTarget target = targetOpt.get();
         // This is new target data, so recalculate the goal
         lastTarget = target;
         
@@ -109,6 +112,7 @@ public class ChaseTagCommand extends CommandBase {
     if (lastTarget == null) {
       // No target has been visible
       drivetrainSubsystem.stop();
+      System.out.println("No Target");
     } else {
       // Drive to the target
       var xSpeed = xController.calculate(robotPose.getX());
@@ -125,7 +129,9 @@ public class ChaseTagCommand extends CommandBase {
       if (omegaController.atGoal()) {
         omegaSpeed = 0;
       }
-
+      System.out.println("This xSpeed" + xSpeed);
+      System.out.println("ySpeed"+ySpeed);
+      System.out.println("omegaSpeed"+omegaSpeed);
       drivetrainSubsystem.drive(
         ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, omegaSpeed, robotPose2d.getRotation()));
     }
