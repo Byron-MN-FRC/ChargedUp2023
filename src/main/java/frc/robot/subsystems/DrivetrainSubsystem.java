@@ -261,7 +261,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
   public void drive(ChassisSpeeds chassisSpeeds) {
     
 
-    if (RobotContainer.getInstance().getXboxController().getAButton()) {
+    if (RobotContainer.getInstance().getDriveController().getAButton()) {
             // Vision-alignment mode][poiuytr]
             // Query the latest result from PhotonVision
             var result = camera.getLatestResult();
