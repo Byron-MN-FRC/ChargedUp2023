@@ -151,7 +151,7 @@ Children:
         default: 1
         name: Number
         validators: &id012 [Joystick]
-        value: '1'
+        value: '0'
     Base: Xbox Controller
     Name: driveController
   - Children: []
@@ -161,7 +161,7 @@ Children:
         default: 1
         name: Number
         validators: *id012
-        value: '0'
+        value: '1'
     Base: Xbox Controller
     Name: Controller2
   Properties: {}
