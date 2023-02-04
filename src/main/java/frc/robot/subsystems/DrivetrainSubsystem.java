@@ -141,7 +141,9 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         final double ANGULAR_P = 0.05;
         final double ANGULAR_D = 0.0;
         PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
-
+        
+        private double pitchOffset;
+        private double rollOffset;
   public DrivetrainSubsystem() {
 
     // There are 4 methods you can call to create your swerve modules.
@@ -232,6 +234,8 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             m_backLeftModule.getPosition(),
             m_backRightModule.getPosition()
         });
+        rollOffset = m_pigeon.getRoll();
+        pitchOffset = m_pigeon.getPitch();
   }
 
   public boolean zeroGyroscope() {
@@ -263,42 +267,62 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     
 
     if (RobotContainer.getInstance().getXboxController().getAButton()) {
-            // Vision-alignment mode][poiuytr]
-            // Query the latest result from PhotonVision
-            var result = camera.getLatestResult();
-            double y;
-            double x;
-            if (result.hasTargets()) {
-                // First calculate range
-                double range = PhotonUtils.calculateDistanceToTargetMeters(
-                        CAMERA_HEIGHT_METERS,
-                        TARGET_HEIGHT_METERS,
-                        CAMERA_PITCH_RADIANS,
-                        Units.degreesToRadians(result.getBestTarget().getPitch()));
-                SmartDashboard.putNumber("range=", range);
+        // Vision-alignment mode][poiuytr]
+        // Query the latest result from PhotonVision
+        var result = camera.getLatestResult();
+        double y;
+        double x;
+        if (result.hasTargets()) {
+            // First calculate range
+            double range = PhotonUtils.calculateDistanceToTargetMeters(
+                    CAMERA_HEIGHT_METERS,
+                    TARGET_HEIGHT_METERS,
+                    CAMERA_PITCH_RADIANS,
+                    Units.degreesToRadians(result.getBestTarget().getPitch()));
+            SmartDashboard.putNumber("range=", range);
 
-                // Use this range as the measurement we give to the PID controller.
-                // -1.0 required to ensure positive PID controller effort _increases_ range
-                y = -forwardController.calculate(range, GOAL_RANGE_METERS);
-                SmartDashboard.putNumber("y = ", y);
-                // Also calculate angular power
-                // -1.0 required to ensure positive PID controller effort _increases_ yaw
-                x = turnController.calculate(result.getBestTarget().getYaw(), 0);
-                SmartDashboard.putNumber("yaw = ", result.getBestTarget().getYaw());
-                SmartDashboard.putNumber("x = ", x);
-                // y=0;
-                System.out.println("I'm driving towards the target");
-            } else {
-                // If we have no targets, stay still.
-                y = 0;
-                x = 0;
-                System.out.println("I'm not driving");
-            }
+            // Use this range as the measurement we give to the PID controller.
+            // -1.0 required to ensure positive PID controller effort _increases_ range
+            y = -forwardController.calculate(range, GOAL_RANGE_METERS);
+            SmartDashboard.putNumber("y = ", y);
+            // Also calculate angular power
+            // -1.0 required to ensure positive PID controller effort _increases_ yaw
+            x = turnController.calculate(result.getBestTarget().getYaw(), 0);
+            SmartDashboard.putNumber("yaw = ", result.getBestTarget().getYaw());
+            SmartDashboard.putNumber("x = ", x);
+            // y=0;
+            System.out.println("I'm driving towards the target");
+        } else {
+            // If we have no targets, stay still.
+            y = 0;
+            x = 0;
+            System.out.println("I'm not driving");
+        }
 
          m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-RobotContainer.modifyAxis(y)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(x)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(0)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
-  }else{
-    m_chassisSpeeds = chassisSpeeds;
-  }
+    }else if(RobotContainer.getInstance().getXboxController().getBButton()){
+        forwardController.setP(.03);
+        turnController.setP(0.16);
+        double x;
+        double z;
+        double pitch = getPitch();
+        double roll = getRoll();
+        x = forwardController.calculate(pitch, 0);
+        // pitch is current value and setpoint is desired value
+        z = turnController.calculate(roll, 0);
+        SmartDashboard.putNumber("z = ", z*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+        SmartDashboard.putNumber("x = ", x*MAX_VELOCITY_METERS_PER_SECOND);
+        if (m_pigeon.getYaw()>90 && m_pigeon.getYaw()<270) {
+            x = -x;
+        }
+        m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        -RobotContainer.modifyAxis(-x)*MAX_VELOCITY_METERS_PER_SECOND, 
+        -RobotContainer.modifyAxis(0)*MAX_VELOCITY_METERS_PER_SECOND, 
+        -RobotContainer.modifyAxis(0)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 
+        getGyroscopeRotation());
+    }else {
+        m_chassisSpeeds = chassisSpeeds;
+    }
 
 }
 
@@ -360,5 +384,37 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         m_backLeftModule.getPosition(),
         m_backRightModule.getPosition()
     };
+}
+public void autoBalanceDrive() {
+    forwardController.setP(.06);
+    turnController.setP(0.16);
+    double y;
+    double z;
+    // double y = driveJoystick.getY();
+    // double twist = driveJoystick.getZ();
+
+    double pitch = getRoll();
+    double roll = getPitch();
+    y = forwardController.calculate(pitch, 0);
+    // pitch is current value and setpoint is desired value
+    z = turnController.calculate(roll, 0);
+    SmartDashboard.putNumber("z = ", z);
+    SmartDashboard.putNumber("y = ", y);
+
+    // if (pitch > 0) {
+    //     differentialDrive.arcadeDrive(y, z);
+    // } else {
+    //     differentialDrive.arcadeDrive(y, -z);
+    // }
+}
+
+private double getPitch() {
+    // return m_pigeon.getPitch() - pitchOffset;
+    return m_pigeon.getPitch();
+
+}
+
+private double getRoll() {
+    return m_pigeon.getRoll() - rollOffset;
 }
 }
