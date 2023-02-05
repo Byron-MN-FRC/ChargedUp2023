@@ -4,6 +4,8 @@ import static frc.robot.Constants.VisionConstants.ROBOT_TO_CAMERA;
 
 import java.util.function.Supplier;
 
+import javax.swing.text.TabExpander;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -16,7 +18,9 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class ChaseTagCommand extends CommandBase {
@@ -24,31 +28,31 @@ public class ChaseTagCommand extends CommandBase {
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 2);
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 2);
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =   new TrapezoidProfile.Constraints(8, 8);
-  
-  private static final int TAG_TO_CHASE = 3;
-  private static final Transform3d TAG_TO_GOAL = 
+  private double offset = 0;
+  private int TAG_TO_CHASE = 3;
+  private Transform3d TAG_TO_GOAL = 
       new Transform3d(
           new Translation3d(1, 0, 0.0),
           new Rotation3d(0.0, 0.0, Math.PI));
-          
-
   private final PhotonCamera photonCamera;
   private final DrivetrainSubsystem drivetrainSubsystem;
   private final Supplier<Pose2d> poseProvider;
+  private final XboxController controller;
 
   private final ProfiledPIDController xController = new ProfiledPIDController(2.75, .5, 0, X_CONSTRAINTS);
   private final ProfiledPIDController yController = new ProfiledPIDController(2.75, .5, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController = new ProfiledPIDController(3, .5, 0, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lastTarget;
-
   public ChaseTagCommand(
         PhotonCamera photonCamera, 
         DrivetrainSubsystem drivetrainSubsystem,
-        Supplier<Pose2d> poseProvider) {
+        Supplier<Pose2d> poseProvider,
+        XboxController controller) {
     this.photonCamera = photonCamera;
     this.drivetrainSubsystem = drivetrainSubsystem;
     this.poseProvider = poseProvider;
+    this.controller = controller;
 
     xController.setTolerance(0.2);
     yController.setTolerance(0.2);
@@ -65,6 +69,32 @@ public class ChaseTagCommand extends CommandBase {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
+
+    //Checks for tag to chase
+    if (controller.getLeftBumper()){
+      TAG_TO_CHASE = 1;
+    }else if (controller.getRightBumper()){
+      TAG_TO_CHASE = 3;
+    }else{
+      TAG_TO_CHASE = 2;
+    }
+
+    // Checking the offset
+    if (controller.getBButton()){
+      offset = 1;
+    }
+    else if (controller.getXButton()){
+      offset = -1;
+    }
+    else {
+      offset = 0;
+    }
+    System.out.println("offset " + offset);
+    System.out.println("Tag To Chase " + TAG_TO_CHASE);
+    TAG_TO_GOAL = 
+    new Transform3d(
+        new Translation3d(1, offset, 0.0),
+        new Rotation3d(0.0, 0.0, Math.PI));
   }
 
   @Override
@@ -134,6 +164,14 @@ public class ChaseTagCommand extends CommandBase {
       System.out.println("omegaSpeed"+omegaSpeed);
       drivetrainSubsystem.drive(
         ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, omegaSpeed, robotPose2d.getRotation()));
+    }
+  }
+  @Override
+  public boolean isFinished(){
+    if (xController.atGoal()&yController.atGoal()&omegaController.atGoal()){
+      return true;
+    }else{
+      return false;
     }
   }
 
