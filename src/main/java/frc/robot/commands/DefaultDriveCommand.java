@@ -38,9 +38,9 @@ public class DefaultDriveCommand extends CommandBase {
         //     m_drivetrainSubsystem.getGyroscopeRotation()));
         m_drivetrainSubsystem.drive(
             ChassisSpeeds.fromFieldRelativeSpeeds(
-            (m_translationXSupplier.getAsDouble() * .5),
-            (m_translationYSupplier.getAsDouble() * .5),
-            (m_rotationSupplier.getAsDouble() * .5),
+            (m_translationXSupplier.getAsDouble()),
+            (m_translationYSupplier.getAsDouble()),  
+            (m_rotationSupplier.getAsDouble()),
             m_drivetrainSubsystem.getGyroscopeRotation()));
 // new ChassisSpeeds(
         // m_translationXSupplier.getAsDouble(),

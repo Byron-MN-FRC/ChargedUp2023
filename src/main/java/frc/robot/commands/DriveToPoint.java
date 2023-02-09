@@ -18,30 +18,25 @@ public class DriveToPoint extends CommandBase {
   /** Creates a new DriveToPoint. */
   private final DrivetrainSubsystem m_drivetrainSubsystem;
   private final Trajectory trajectory;
- 
+  private SwerveControllerCommand m_command;
        // Apply the voltage constraint
   public DriveToPoint(DrivetrainSubsystem drivetrainSubsystem, Trajectory trajectory) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_drivetrainSubsystem = drivetrainSubsystem;
     this.trajectory = trajectory;
     addRequirements(drivetrainSubsystem);
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
     var thetaController =
     new ProfiledPIDController(
         AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    new SwerveControllerCommand(
+    m_command = new SwerveControllerCommand(
       trajectory,
       m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
       DriveConstants.kDriveKinematics,
@@ -51,6 +46,13 @@ public class DriveToPoint extends CommandBase {
       (thetaController),
       m_drivetrainSubsystem::setModuleStates,
       m_drivetrainSubsystem);
+    
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    m_command.schedule();
   }
 
   // Called once the command ends or is interrupted.

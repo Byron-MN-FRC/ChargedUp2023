@@ -48,7 +48,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -307,17 +306,41 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         double x;
         double z;
         double pitch = getPitch();
+        double yaw = m_pigeon.getYaw();
+
         double roll = getRoll();
-        x = forwardController.calculate(pitch, 0);
         // pitch is current value and setpoint is desired value
         z = turnController.calculate(roll, 0);
         SmartDashboard.putNumber("z = ", z*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-        SmartDashboard.putNumber("x = ", x*MAX_VELOCITY_METERS_PER_SECOND);
-        if (m_pigeon.getYaw()>90 && m_pigeon.getYaw()<270) {
-            x = -x;
+        // SmartDashboard.putNumber("x = ", x*MAX_VELOCITY_METERS_PER_SECOND);
+        // if (m_pigeon.getYaw()>90 && m_pigeon.getYaw()<270) {
+        //     x = -x;
+        // }
+        double PitchPercent = Math.cos(m_pigeon.getYaw());
+        SmartDashboard.putNumber("PitchPercent", PitchPercent);
+        double YawPercent = Math.sin(m_pigeon.getYaw());
+        SmartDashboard.putNumber("YawPercent", YawPercent);
+
+        
+        if ((yaw>=0)&(yaw<90)){
+            PitchPercent = (1/(1+(Math.sin(m_pigeon.getYaw())/Math.cos(m_pigeon.getYaw()))));
+            YawPercent = 1-PitchPercent;
+        } else if(yaw>=90&yaw<180) {
+            PitchPercent = (-1/(1-(Math.sin(m_pigeon.getYaw())/Math.cos(m_pigeon.getYaw()))));
+            YawPercent = 1-PitchPercent;
+        } else if(yaw>=180&yaw<270){
+            PitchPercent = (-1/(1+(Math.sin(m_pigeon.getYaw())/Math.cos(m_pigeon.getYaw()))));
+            YawPercent = PitchPercent-1;
+        } else if(yaw>=270&yaw<360){
+            PitchPercent = (1/(1-(Math.sin(m_pigeon.getYaw())/Math.cos(m_pigeon.getYaw()))));
+            YawPercent = PitchPercent-1;
         }
+        double speed = (YawPercent*roll)+(PitchPercent*pitch);
+        speed = forwardController.calculate(speed);
+        SmartDashboard.putNumber("speed =", speed*MAX_VELOCITY_METERS_PER_SECOND);
+        
         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        -RobotContainer.modifyAxis(-x)*MAX_VELOCITY_METERS_PER_SECOND, 
+        -RobotContainer.modifyAxis(speed)*MAX_VELOCITY_METERS_PER_SECOND, 
         -RobotContainer.modifyAxis(0)*MAX_VELOCITY_METERS_PER_SECOND, 
         -RobotContainer.modifyAxis(0)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 
         getGyroscopeRotation());
