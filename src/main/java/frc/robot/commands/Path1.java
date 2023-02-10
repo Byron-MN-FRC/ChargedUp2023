@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.LifterConstants;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
@@ -18,10 +19,12 @@ public class Path1 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new armToDropPositoin(liftSubsystem),
+      new DriveToEncoder(liftSubsystem,LifterConstants.highDrop),
+    //  new ArmToDropPosition(liftSubsystem),
       new ExtendArm(liftSubsystem), 
       new ToggleClaw(clawSubsystem),
       new RetractArm(liftSubsystem),
+      new DriveToEncoder(liftSubsystem,LifterConstants.lowDrop),
       new DriveToPoint()
     );
   }

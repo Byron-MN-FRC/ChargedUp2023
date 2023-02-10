@@ -119,5 +119,17 @@ public final class Constants {
                 new Transform3d(new Translation3d(.09525, .0985, .5969), new Rotation3d());
             public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();
           }
-        
+          public static class LifterConstants {
+            public final static int kTimeoutMs = 30;
+            public static final int kPIDLoopIdx = 0; 
+	        public static final int kSlotIdx = 0;
+            public static final double highDrop = 10000;
+            public static final double middleDrop = 1000;
+            public static final double lowDrop = 5000;
+
+             /*
+	          * Gains(kp, ki, kd, kf, izone, peak output);
+	        */
+	        public static final Gains kGains_lifterMotor = new  Gains(0.7, 0.00001, 0.0, .14, 0, 1.0);
+          }
 }

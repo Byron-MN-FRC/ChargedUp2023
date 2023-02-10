@@ -18,7 +18,7 @@ public class Path3 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new armToDropPositoin(liftSubsystem),
+      new ArmToDropPosition(liftSubsystem),
       new ExtendArm(liftSubsystem), 
    new ToggleClaw(clawSubsystem),
    new RetractArm(liftSubsystem),
