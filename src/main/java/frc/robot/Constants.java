@@ -31,14 +31,14 @@ public final class Constants {
      */
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = .584; // FIXME Measure and set trackwidth
     /**
-     * The front-to-back distance between the drivetrain wheels.
+     * The front-tolokiuy-back distance between the drivetrain wheels.
      *
      * Should be measured from center to center.
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = .5715; // FIXME Measure and set wheelbase
 
     public static final int DRIVETRAIN_PIGEON_ID = 8; // FIXME Set Pigeon ID
-
+    public static final String CANBUS_DRIVETRAIN = "CANivore1";
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set front left module steer motor ID
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 12; // FIXME Set front left steer encoder ID
