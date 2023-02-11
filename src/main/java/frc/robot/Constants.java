@@ -61,75 +61,88 @@ public final class Constants {
 
     public static final ShuffleboardTab tab_subsystems = Shuffleboard.getTab("Subsytems");
     public static final ShuffleboardTab tab_commands = Shuffleboard.getTab("Commands");
+
     static public final class DriveConstants {
-        /* public static final int kLeftMotor1Port = 0;
-            public static final int kLeftMotor2Port = 1;
-            public static final int kRightMotor1Port = 2;
-            public static final int kRightMotor2Port = 3;
-            */
 
-     
-             // Autonomous 
-             public static final double kTrackWidth = DRIVETRAIN_TRACKWIDTH_METERS; // ??
-             public static final double kWheelBase = DRIVETRAIN_WHEELBASE_METERS;
-             // Distance between front and back wheels on robot
-             public static final SwerveDriveKinematics kDriveKinematics = 
-                 new SwerveDriveKinematics(
-                     new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                     new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                     new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-                     new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
-         
-            // public static final int kEncoderCPR = 1024; 
-             public static final double kWheelDiameterMeters = 0.15; //??
-            // public static final double kEncoderDistancePerPulse =
-                 // Assumes the encoders are directly mounted on the wheel shafts
-             //    (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
-         
-              // Values from Robot Characterization Toolsuite
-             public static final double ksVolts = 0.127957; // 0.22
-             public static final double kvVoltSecondsPerMeter = 2.7085; // 1.98
-             public static final double kaVoltSecondsSquaredPerMeter = 0.31875; //.2  
-         
-         }
-         public static final class AutoConstants {
-            public static final double kMaxSpeedMetersPerSecond =  6380.0 / 60.0 *
-            SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
-            SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
-            public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-            public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-            public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-        
-            public static final double kPXController = 1;
-            public static final double kPYController = 1;
-            public static final double kPThetaController = 1;
-        
-            // Constraint for the motion profiled robot angle controller
-            public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-                new TrapezoidProfile.Constraints(
-                    kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-          }
-          public static class VisionConstants {
+        // Autonomous 
+        public static final double kTrackWidth = DRIVETRAIN_TRACKWIDTH_METERS; // ??
+        public static final double kWheelBase = DRIVETRAIN_WHEELBASE_METERS;
+        // Distance between front and back wheels on robot
+        public static final SwerveDriveKinematics kDriveKinematics = 
+            new SwerveDriveKinematics(
+                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
-            /**
-             * ";lkjhgfda"
-             * Physical location of the camera on the robot, relative to the center of the robot.
-             */
-            public static final Transform3d CAMERA_TO_ROBOT =
-                new Transform3d(new Translation3d(.09525, .0985, .5969), new Rotation3d());
-            public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();
-          }
-          public static class LifterConstants {
-            public final static int kTimeoutMs = 30;
-            public static final int kPIDLoopIdx = 0; 
-	        public static final int kSlotIdx = 0;
-            public static final double highDrop = 10000;
-            public static final double middleDrop = 1000;
-            public static final double lowDrop = 5000;
+        public static final double kWheelDiameterMeters = 0.15; //??
 
-             /*
-	          * Gains(kp, ki, kd, kf, izone, peak output);
-	        */
-	        public static final Gains kGains_lifterMotor = new  Gains(0.7, 0.00001, 0.0, .14, 0, 1.0);
-          }
+        // Values from Robot Characterization Toolsuite
+        public static final double ksVolts = 0.127957; // 0.22
+        public static final double kvVoltSecondsPerMeter = 2.7085; // 1.98
+        public static final double kaVoltSecondsSquaredPerMeter = 0.31875; //.2  
+
+    }
+    public static final class AutoConstants {
+        public static final double kMaxSpeedMetersPerSecond =  6380.0 / 60.0 *
+        SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
+        SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+
+        public static final double kPXController = 1;
+        public static final double kPYController = 1;
+        public static final double kPThetaController = 1;
+
+        // Constraint for the motion profiled robot angle controller
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
+            new TrapezoidProfile.Constraints(
+                kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+        }
+
+    public static class VisionConstants {
+        /**
+         * 
+         * Physical location of the camera on the robot, relative to the center of the robot.
+         */
+        public static final Transform3d CAMERA_TO_ROBOT =
+            new Transform3d(new Translation3d(.09525, .0985, .5969), new Rotation3d());
+        public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();
+    }
+
+    public static class LifterConstants {
+        /**
+         * 
+         */
+        public static final double highPos = 50000;
+        public static final double storedPos = 0;
+        public static final double lowPos = 10000;
+
+        /**
+         * Which PID slot to pull gains from. Starting 2018, you can choose from
+         * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
+         * configuration.
+         */
+        public static final int kSlotIdx = 0;
+
+        /**
+         * Talon FX supports multiple (cascaded) PID loops. For
+         * now we just want the primary one.
+         */
+        public static final int kPIDLoopIdx = 0;
+
+        /**
+         * set to zero to skip waiting for confirmation, set to nonzero to wait and
+         * report to DS if action fails.
+         */
+        public static final int kTimeoutMs = 30;
+
+        /**
+         * Gains used in Motion Magic, to be adjusted accordingly
+         * Gains(kp, ki, kd, kf, izone, peak output);
+         */
+        public static final Gains kGains_lifterMotor = new Gains(0.2, 0.0, 0.0, 0.2, 0, 1.0);
+        }          
+
 }

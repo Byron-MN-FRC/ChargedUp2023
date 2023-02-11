@@ -144,6 +144,10 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         
         private double pitchOffset;
         private double rollOffset;
+        //april tag red field position 
+        public int middleAprilTag = 2;
+        public int rightAprilTag = 3;
+        public int leftAprilTag = 1;
   public DrivetrainSubsystem() {
 
     // There are 4 methods you can call to create your swerve modules.
@@ -267,7 +271,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     
 
 
-    if (RobotContainer.getInstance().getDriveController().getAButton()) {
+    if (RobotContainer.getInstance().getDriveController().getBackButton()) {
         // Vision-alignment mode][poiuytr]
         // Query the latest result from PhotonVision
         var result = camera.getLatestResult();
@@ -332,6 +336,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
     setModuleStates(states);
+    
 
   }
 
@@ -419,4 +424,11 @@ private double getPitch() {
 private double getRoll() {
     return m_pigeon.getRoll() - rollOffset;
 }
+
+public void switchColor() {
+    middleAprilTag = 7; 
+    leftAprilTag = 6;
+    rightAprilTag = 8;
+}
+
 }

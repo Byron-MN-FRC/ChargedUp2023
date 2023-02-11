@@ -4,6 +4,8 @@ import static frc.robot.Constants.VisionConstants.ROBOT_TO_CAMERA;
 
 import java.util.function.Supplier;
 
+import javax.lang.model.util.ElementScanner14;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -16,7 +18,9 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class ChaseTagCommand extends CommandBase {
@@ -25,7 +29,7 @@ public class ChaseTagCommand extends CommandBase {
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 2);
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =   new TrapezoidProfile.Constraints(8, 8);
   
-  private static final int TAG_TO_CHASE = 3;
+  private static int TAG_TO_CHASE = 1;
   private static final Transform3d TAG_TO_GOAL = 
       new Transform3d(
           new Translation3d(1, 0, 0.0),
@@ -69,6 +73,15 @@ public class ChaseTagCommand extends CommandBase {
 
   @Override
   public void execute() {
+    if (RobotContainer.getInstance().getAttachmentController().getLeftBumper()) {
+        TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.leftAprilTag;
+    } else if (RobotContainer.getInstance().getAttachmentController().getRightBumper()) {
+        TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.rightAprilTag;
+    } else {
+        TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.middleAprilTag;
+    }
+    SmartDashboard.putNumber("Tag to chase", TAG_TO_CHASE);
+
     var robotPose2d = poseProvider.get();
     var robotPose = 
         new Pose3d(
