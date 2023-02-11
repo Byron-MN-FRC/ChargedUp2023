@@ -12,6 +12,7 @@ import static frc.robot.Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_ENCODER;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_MOTOR;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_OFFSET;
+import static frc.robot.Constants.CANBUS_DRIVETRAIN;
 import static frc.robot.Constants.DRIVETRAIN_PIGEON_ID;
 import static frc.robot.Constants.DRIVETRAIN_TRACKWIDTH_METERS;
 import static frc.robot.Constants.DRIVETRAIN_WHEELBASE_METERS;
@@ -28,7 +29,9 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
-import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.MkModuleConfiguration;
+import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
+import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -42,12 +45,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -103,7 +106,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // the robot counter-clockwise should
   // cause the angle reading to increase until it wraps back over to zero.
   // FIXME Remove if you are using a Pigeon
-  private final WPI_Pigeon2 m_pigeon = new WPI_Pigeon2(DRIVETRAIN_PIGEON_ID);
+  private final WPI_Pigeon2 m_pigeon = new WPI_Pigeon2(DRIVETRAIN_PIGEON_ID, CANBUS_DRIVETRAIN);
   // FIXME Uncomment if you are using a NavX
   // private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX
   // connected over MXP
@@ -143,6 +146,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         
         private double pitchOffset;
         private double rollOffset;
+        
   public DrivetrainSubsystem() {
 
     // There are 4 methods you can call to create your swerve modules.
@@ -169,54 +173,46 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     // a different configuration or motors
     // you MUST change it. If you do not, your code will crash on startup.
     // FIXME Setup motor configuration
-    m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
-        // This parameter is optional, but will allow you to see the current state of
-        // the module on the dashboard.
-        tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-            .withSize(2, 4)
-            .withPosition(0, 0),
-        // This can either be STANDARD or FAST depending on your gear configuration
-        Mk4iSwerveModuleHelper.GearRatio.L1,
-        // This is the ID of the drive motor
-        FRONT_LEFT_MODULE_DRIVE_MOTOR,
-        // This is the ID of the steer motor
-        FRONT_LEFT_MODULE_STEER_MOTOR,
-        // This is the ID of the steer encoder
-        FRONT_LEFT_MODULE_STEER_ENCODER,
-        // This is how much the steer encoder is offset from true zero (In our case,
-        // zero is facing straight forward)
-        FRONT_LEFT_MODULE_STEER_OFFSET);
+    MkModuleConfiguration moduleConfig = MkModuleConfiguration.getDefaultSteerFalcon500();
+    m_frontLeftModule = new MkSwerveModuleBuilder(moduleConfig)
+    // .withLayout(getSMLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList))
+    //         .withPosition(0, 0))
+    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+    .withDriveMotor(MotorType.FALCON, FRONT_LEFT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
+    .withSteerMotor(MotorType.FALCON, FRONT_LEFT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
+    .withSteerEncoderPort(FRONT_LEFT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
+    .withSteerOffset(FRONT_LEFT_MODULE_STEER_OFFSET)
+    .build();
 
     // We will do the same for the other modules
-    m_frontRightModule = Mk4iSwerveModuleHelper.createFalcon500(
-        tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-            .withSize(2, 4)
-            .withPosition(2, 0),
-        Mk4iSwerveModuleHelper.GearRatio.L1,
-        FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-        FRONT_RIGHT_MODULE_STEER_MOTOR,
-        FRONT_RIGHT_MODULE_STEER_ENCODER,
-        FRONT_RIGHT_MODULE_STEER_OFFSET);
+    m_frontRightModule = new MkSwerveModuleBuilder(moduleConfig)
+    // .withLayout(getSMLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList))
+    //         .withPosition(3, 0))
+    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+    .withDriveMotor(MotorType.FALCON, FRONT_RIGHT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
+    .withSteerMotor(MotorType.FALCON, FRONT_RIGHT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
+    .withSteerEncoderPort(FRONT_RIGHT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
+    .withSteerOffset(FRONT_RIGHT_MODULE_STEER_OFFSET)
+    .build();
 
-    m_backLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
-        tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-            .withSize(2, 4)
-            .withPosition(4, 0),
-        Mk4iSwerveModuleHelper.GearRatio.L1,
-        BACK_LEFT_MODULE_DRIVE_MOTOR,
-        BACK_LEFT_MODULE_STEER_MOTOR,
-        BACK_LEFT_MODULE_STEER_ENCODER,
-        BACK_LEFT_MODULE_STEER_OFFSET);
+    m_backLeftModule = new MkSwerveModuleBuilder(moduleConfig)
+    // .withLayout(getSMLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList))
+    //         .withPosition(6, 0))
+    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+    .withDriveMotor(MotorType.FALCON, BACK_LEFT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)                .withSteerMotor(MotorType.FALCON, BACK_LEFT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
+    .withSteerEncoderPort(BACK_LEFT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
+    .withSteerOffset(BACK_LEFT_MODULE_STEER_OFFSET)
+    .build();
 
-    m_backRightModule = Mk4iSwerveModuleHelper.createFalcon500(
-        tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-            .withSize(2, 4)
-            .withPosition(6, 0),
-        Mk4iSwerveModuleHelper.GearRatio.L1,
-        BACK_RIGHT_MODULE_DRIVE_MOTOR,
-        BACK_RIGHT_MODULE_STEER_MOTOR,
-        BACK_RIGHT_MODULE_STEER_ENCODER,
-        BACK_RIGHT_MODULE_STEER_OFFSET);
+    m_backRightModule = new MkSwerveModuleBuilder(moduleConfig)
+    // .withLayout(getSMLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList))
+    //         .withPosition(9, 0))
+    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+    .withDriveMotor(MotorType.FALCON, BACK_RIGHT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
+    .withSteerMotor(MotorType.FALCON, BACK_RIGHT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
+    .withSteerEncoderPort(BACK_RIGHT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
+    .withSteerOffset(BACK_RIGHT_MODULE_STEER_OFFSET)
+    .build();
     // Constants.tab_subsystems.add("Field", Field2d)
 
     /**
@@ -355,7 +351,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
     setModuleStates(states);
-
+    SmartDashboard.putNumber("This is number", Constants.AutoConstants.kMaxSpeedMetersPerSecond);
   }
 
   /**

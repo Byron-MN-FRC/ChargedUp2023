@@ -36,7 +36,7 @@ public final class Constants {
      * Should be measured from center to center.
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = .5715; // FIXME Measure and set wheelbase
-
+    public static final String CANBUS_DRIVETRAIN = "CANivore1";
     public static final int DRIVETRAIN_PIGEON_ID = 8; // FIXME Set Pigeon ID
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
@@ -93,10 +93,11 @@ public final class Constants {
          
          }
          public static final class AutoConstants {
-            public static final double kMaxSpeedMetersPerSecond =  6380.0 / 60.0 *
+            public static final double kMaxSpeedMetersPerSecond =  6380.0 / 240.0 *
             SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
             SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
-            public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+ 
+            public static final double kMaxAccelerationMetersPerSecondSquared = 2;
             public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
             public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
         

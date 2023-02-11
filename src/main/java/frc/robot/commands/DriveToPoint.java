@@ -6,8 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants.AutoConstants;
@@ -46,22 +46,28 @@ public class DriveToPoint extends CommandBase {
       (thetaController),
       m_drivetrainSubsystem::setModuleStates,
       m_drivetrainSubsystem);
-    
+
+      // System.out.println("I'm drivingcool");
+      m_command.schedule();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_command.schedule();
+   
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_drivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(0,0,0,m_drivetrainSubsystem.getGyroscopeRotation()));
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return !m_command.isScheduled();
   }
 }
+
+
