@@ -19,7 +19,7 @@ public class Path3 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //new ArmToDropPosition(liftSubsystem),
-   new ExtendArm(true, liftSubsystem), 
+   new ExtendArm(false, liftSubsystem), 
    new ToggleClaw(clawSubsystem),
    new RetractArm(liftSubsystem),
    new DriveToPoint()
