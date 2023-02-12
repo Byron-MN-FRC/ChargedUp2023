@@ -18,6 +18,7 @@ import org.photonvision.PhotonCamera;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -94,10 +95,9 @@ private final XboxController driveController = new XboxController(0);
 
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
       m_drivetrainSubsystem,
-      () -> -modifyAxis(driveController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-      () -> -modifyAxis(driveController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-      () -> -modifyAxis(driveController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-));
+      () -> -modifyAxis(driveController.getLeftY(),m_drivetrainSubsystem.getYLimiter()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+      () -> -modifyAxis(driveController.getLeftX(),m_drivetrainSubsystem.getXLimiter()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+      () -> -modifyAxis(driveController.getRightX(),m_drivetrainSubsystem.getTurnLimiter()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     // Configure the button bindings
     configureButtonBindings();
 
@@ -250,12 +250,12 @@ thetaController.enableContinuousInput(-Math.PI, Math.PI);
     }
 }
 
-  public static double modifyAxis(double value) {
+  public static double modifyAxis(double value, SlewRateLimiter limiter) {
     // Deadband
     value = deadband(value, 0.05);
 
     // Square the axis
-    value = Math.copySign(value * value, value);
+    value = limiter.calculate(Math.copySign(value * value, value));
 
     return value;
   }
