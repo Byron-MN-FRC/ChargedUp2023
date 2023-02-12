@@ -53,7 +53,7 @@ public class DriveToEncoder extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (m_targetEncoders == 0) {
+        if (m_targetEncoders == -1) {
             if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
                 m_targetEncoders = LifterConstants.storedPos;
             } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45 || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315){
@@ -68,7 +68,7 @@ public class DriveToEncoder extends CommandBase {
     @Override
     public void execute() {
         m_liftSubsystem.setLiftPos(m_targetEncoders);
-        System.out.println("lift to drop posistion" + m_targetEncoders);
+        System.out.println("lift to drop position" + m_targetEncoders);
         
     }
 
