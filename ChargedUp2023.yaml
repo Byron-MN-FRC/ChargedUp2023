@@ -531,7 +531,8 @@ Children:
         name: Parameters
         validators: null
         value:
-        - !!robotbuilder.data.properties.ParameterDescriptor {name: HighGoal, type: boolean}
+        - !!robotbuilder.data.properties.ParameterDescriptor {name: overrideable,
+          type: boolean}
       Run When Disabled: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Run When Disabled, validators: null, value: false}
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
