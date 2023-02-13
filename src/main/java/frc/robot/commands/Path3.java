@@ -14,15 +14,14 @@ import frc.robot.subsystems.LiftSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Path3 extends SequentialCommandGroup {
   /** Creates a new Path3. */
-  public Path3(DrivetrainSubsystem drivesupSubsystem, LiftSubsystem liftSubsystem, ClawSubsystem clawSubsystem){
+  public Path3(DrivetrainSubsystem drivesupSubsystem, LiftSubsystem liftSubsystem, ClawSubsystem clawSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      //new ArmToDropPosition(liftSubsystem),
-   new ExtendArm(false, liftSubsystem), 
-   new ToggleClaw(clawSubsystem),
-   new RetractArm(liftSubsystem),
-   new DriveToPoint()
-   );
+        // new ArmToDropPosition(liftSubsystem),
+        new ExtendArm(false, liftSubsystem),
+        new ToggleClaw(clawSubsystem),
+        new RetractArm(liftSubsystem),
+        new DriveToPoint());
   }
 }
