@@ -103,16 +103,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
             // Back right
             new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
-  // By default we use a Pigeon for our gyroscope. But if you use another
-  // gyroscope, like a NavX, you can change this.
-  // The important thing about how you configure your gyroscope is that rotating
-  // the robot counter-clockwise should
-  // cause the angle reading to increase until it wraps back over to zero.
-  // FIXME Remove if you are using a Pigeon
-  private final WPI_Pigeon2 m_pigeon = new WPI_Pigeon2(DRIVETRAIN_PIGEON_ID, CANBUS_DRIVETRAIN);
-  // FIXME Uncomment if you are using a NavX
-  // private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX
-  // connected over MXP
+    // By default we use a Pigeon for our gyroscope. But if you use another
+    // gyroscope, like a NavX, you can change this.
+    // The important thing about how you configure your gyroscope is that rotating
+    // the robot counter-clockwise should
+    // cause the angle reading to increase until it wraps back over to zero.
+    // FIXME Remove if you are using a Pigeon
+    private final WPI_Pigeon2 m_pigeon = new WPI_Pigeon2(DRIVETRAIN_PIGEON_ID, CANBUS_DRIVETRAIN);
+    // FIXME Uncomment if you are using a NavX
+    // private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX
+    // connected over MXP
 
     private SwerveDriveOdometry m_odometry;
 
@@ -176,52 +176,57 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // Similar helpers also exist for Mk4 modules using the Mk4SwerveModuleHelper
         // class.
 
-    // By default we will use Falcon 500s in standard configuration. But if you use
-    // a different configuration or motors
-    // you MUST change it. If you do not, your code will crash on startup.
-    // FIXME Setup motor configuration
+        // By default we will use Falcon 500s in standard configuration. But if you use
+        // a different configuration or motors
+        // you MUST change it. If you do not, your code will crash on startup.
+        // FIXME Setup motor configuration
 
-    MkModuleConfiguration moduleConfig = MkModuleConfiguration.getDefaultSteerFalcon500();
-    m_frontLeftModule = new MkSwerveModuleBuilder(moduleConfig)
-    // .withLayout(getSMLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList))
-    //         .withPosition(0, 0))
-    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
-    .withDriveMotor(MotorType.FALCON, FRONT_LEFT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
-    .withSteerMotor(MotorType.FALCON, FRONT_LEFT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
-    .withSteerEncoderPort(FRONT_LEFT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
-    .withSteerOffset(FRONT_LEFT_MODULE_STEER_OFFSET)
-    .build();
+        MkModuleConfiguration moduleConfig = MkModuleConfiguration.getDefaultSteerFalcon500();
+        m_frontLeftModule = new MkSwerveModuleBuilder(moduleConfig)
+                // .withLayout(getSMLayout(tab.getLayout("Front Left Module",
+                // BuiltInLayouts.kList))
+                // .withPosition(0, 0))
+                .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+                .withDriveMotor(MotorType.FALCON, FRONT_LEFT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
+                .withSteerMotor(MotorType.FALCON, FRONT_LEFT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
+                .withSteerEncoderPort(FRONT_LEFT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
+                .withSteerOffset(FRONT_LEFT_MODULE_STEER_OFFSET)
+                .build();
 
-    // We will do the same for the other modules
-    m_frontRightModule = new MkSwerveModuleBuilder(moduleConfig)
-    // .withLayout(getSMLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList))
-    //         .withPosition(3, 0))
-    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
-    .withDriveMotor(MotorType.FALCON, FRONT_RIGHT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
-    .withSteerMotor(MotorType.FALCON, FRONT_RIGHT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
-    .withSteerEncoderPort(FRONT_RIGHT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
-    .withSteerOffset(FRONT_RIGHT_MODULE_STEER_OFFSET)
-    .build();
+        // We will do the same for the other modules
+        m_frontRightModule = new MkSwerveModuleBuilder(moduleConfig)
+                // .withLayout(getSMLayout(tab.getLayout("Front Right Module",
+                // BuiltInLayouts.kList))
+                // .withPosition(3, 0))
+                .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+                .withDriveMotor(MotorType.FALCON, FRONT_RIGHT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
+                .withSteerMotor(MotorType.FALCON, FRONT_RIGHT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
+                .withSteerEncoderPort(FRONT_RIGHT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
+                .withSteerOffset(FRONT_RIGHT_MODULE_STEER_OFFSET)
+                .build();
 
-    m_backLeftModule = new MkSwerveModuleBuilder(moduleConfig)
-    // .withLayout(getSMLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList))
-    //         .withPosition(6, 0))
-    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
-    .withDriveMotor(MotorType.FALCON, BACK_LEFT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)                .withSteerMotor(MotorType.FALCON, BACK_LEFT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
-    .withSteerEncoderPort(BACK_LEFT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
-    .withSteerOffset(BACK_LEFT_MODULE_STEER_OFFSET)
-    .build();
+        m_backLeftModule = new MkSwerveModuleBuilder(moduleConfig)
+                // .withLayout(getSMLayout(tab.getLayout("Back Left Module",
+                // BuiltInLayouts.kList))
+                // .withPosition(6, 0))
+                .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+                .withDriveMotor(MotorType.FALCON, BACK_LEFT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
+                .withSteerMotor(MotorType.FALCON, BACK_LEFT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
+                .withSteerEncoderPort(BACK_LEFT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
+                .withSteerOffset(BACK_LEFT_MODULE_STEER_OFFSET)
+                .build();
 
-    m_backRightModule = new MkSwerveModuleBuilder(moduleConfig)
-    // .withLayout(getSMLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList))
-    //         .withPosition(9, 0))
-    .withGearRatio(SdsModuleConfigurations.MK4I_L1)
-    .withDriveMotor(MotorType.FALCON, BACK_RIGHT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
-    .withSteerMotor(MotorType.FALCON, BACK_RIGHT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
-    .withSteerEncoderPort(BACK_RIGHT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
-    .withSteerOffset(BACK_RIGHT_MODULE_STEER_OFFSET)
-    .build();
-    // Constants.tab_subsystems.add("Field", Field2d)
+        m_backRightModule = new MkSwerveModuleBuilder(moduleConfig)
+                // .withLayout(getSMLayout(tab.getLayout("Back Right Module",
+                // BuiltInLayouts.kList))
+                // .withPosition(9, 0))
+                .withGearRatio(SdsModuleConfigurations.MK4I_L1)
+                .withDriveMotor(MotorType.FALCON, BACK_RIGHT_MODULE_DRIVE_MOTOR, CANBUS_DRIVETRAIN)
+                .withSteerMotor(MotorType.FALCON, BACK_RIGHT_MODULE_STEER_MOTOR, CANBUS_DRIVETRAIN)
+                .withSteerEncoderPort(BACK_RIGHT_MODULE_STEER_ENCODER, CANBUS_DRIVETRAIN)
+                .withSteerOffset(BACK_RIGHT_MODULE_STEER_OFFSET)
+                .build();
+        // Constants.tab_subsystems.add("Field", Field2d)
 
         /**
          * Sets the gyroscope angle to zero. This can be used to set the direction the
