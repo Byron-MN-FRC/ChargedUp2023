@@ -12,6 +12,7 @@ import static frc.robot.Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_ENCODER;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_MOTOR;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_OFFSET;
+import static frc.robot.Constants.CANBUS_DRIVETRAIN;
 import static frc.robot.Constants.DRIVETRAIN_PIGEON_ID;
 import static frc.robot.Constants.DRIVETRAIN_TRACKWIDTH_METERS;
 import static frc.robot.Constants.DRIVETRAIN_WHEELBASE_METERS;
@@ -23,21 +24,19 @@ import static frc.robot.Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_ENCODER;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_MOTOR;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_OFFSET;
-import static frc.robot.Constants.CANBUS_DRIVETRAIN;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
-import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MkModuleConfiguration;
-
+import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MotorType;
-
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -47,13 +46,11 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -121,6 +118,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SwerveModule m_frontRightModule;
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
+  // Slew rate limiters to make joystick inputs more gentle.
+  // A value of .1 will requier 10 seconds to get from 0 to 1. It is calculated as 1/rateLimitPerSecond to go from 0 to 1
+  private final SlewRateLimiter xLimiter = new SlewRateLimiter(3);
+  private final SlewRateLimiter yLimiter = new SlewRateLimiter(3);
+  private final SlewRateLimiter turnLimiter = new SlewRateLimiter(3);
 
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -298,7 +300,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             System.out.println("I'm not driving");
         }
 
-         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-RobotContainer.modifyAxis(y)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(x)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(0)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
+         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-RobotContainer.modifyAxis(y,yLimiter)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(x, xLimiter)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(0, turnLimiter)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
     }else if(RobotContainer.getInstance().getDriveController().getBButton()){
         forwardController.setP(.03);
         turnController.setP(0.16);
@@ -315,9 +317,9 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             x = -x;
         }
         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        -RobotContainer.modifyAxis(-x)*MAX_VELOCITY_METERS_PER_SECOND, 
-        -RobotContainer.modifyAxis(0)*MAX_VELOCITY_METERS_PER_SECOND, 
-        -RobotContainer.modifyAxis(0)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 
+        -RobotContainer.modifyAxis(-x,xLimiter)*MAX_VELOCITY_METERS_PER_SECOND, 
+        -RobotContainer.modifyAxis(0, yLimiter)*MAX_VELOCITY_METERS_PER_SECOND, 
+        -RobotContainer.modifyAxis(0, turnLimiter)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 
         getGyroscopeRotation());
     }else {
         m_chassisSpeeds = chassisSpeeds;
@@ -416,5 +418,17 @@ private double getPitch() {
 
 private double getRoll() {
     return m_pigeon.getRoll() - rollOffset;
+}
+
+public SlewRateLimiter getXLimiter() {
+    return xLimiter;
+}
+
+public SlewRateLimiter getYLimiter() {
+    return yLimiter;
+}
+
+public SlewRateLimiter getTurnLimiter() {
+    return turnLimiter;
 }
 }
