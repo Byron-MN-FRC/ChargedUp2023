@@ -132,8 +132,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 // Constants such as camera and target height stored. Change per robot and goal!
 
-    final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(23.5);
-    final double TARGET_HEIGHT_METERS = Units.inchesToMeters(15.13);
+    final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(14);
+    final double TARGET_HEIGHT_METERS = Units.inchesToMeters(14.9);
     // Angle between horizontal and the camera.
     final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
 
@@ -310,9 +310,9 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             }
 
             m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    -RobotContainer.modifyAxis(y) * MAX_VELOCITY_METERS_PER_SECOND,
-                    -RobotContainer.modifyAxis(x) * MAX_VELOCITY_METERS_PER_SECOND,
-                    -RobotContainer.modifyAxis(0) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
+                    -RobotContainer.modifyAxis(y, yLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+                    -RobotContainer.modifyAxis(x, xLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+                    -RobotContainer.modifyAxis(0, turnLimiter) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
         } else if (RobotContainer.getInstance().getDriveController().getBButton()) {
             forwardController.setP(.03);
             turnController.setP(0.16);
@@ -329,56 +329,55 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
                 x = -x;
             }
             m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    -RobotContainer.modifyAxis(-x) * MAX_VELOCITY_METERS_PER_SECOND,
-                    -RobotContainer.modifyAxis(0) * MAX_VELOCITY_METERS_PER_SECOND,
-                    -RobotContainer.modifyAxis(0) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                    -RobotContainer.modifyAxis(-x, xLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+                    -RobotContainer.modifyAxis(0, yLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+                    -RobotContainer.modifyAxis(0, turnLimiter) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
                     getGyroscopeRotation());
         } else {
             m_chassisSpeeds = chassisSpeeds;
+            
         }
 
 
-    //}
+    }
 
-    //@Override
-    //public void 
-    //() {
-      //  SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-        //setModuleStates(states);
-
-    //}
+    @Override
+    public void periodic() {
+       SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+        setModuleStates(states);
+    }
 
     /**
      * Returns the currently-estimated pose of the robot.
      *
      * @return The pose.
      */
-    //public Pose2d getPose() {
-      //  return m_odometry.getPoseMeters();
-    //}
+    public Pose2d getPose() {
+       return m_odometry.getPoseMeters();
+    }
 
-    //public void setModuleStates(SwerveModuleState[] desiredStates) {
-      //  SwerveDriveKinematics.desaturateWheelSpeeds(
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
+       SwerveDriveKinematics.desaturateWheelSpeeds(
                 desiredStates, MAX_VELOCITY_METERS_PER_SECOND);
-      //  m_frontLeftModule.set(desiredStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+       m_frontLeftModule.set(desiredStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 desiredStates[0].angle.getRadians());
-      //  m_frontRightModule.set(desiredStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+       m_frontRightModule.set(desiredStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 desiredStates[1].angle.getRadians());
-      //  m_backLeftModule.set(desiredStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+       m_backLeftModule.set(desiredStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 desiredStates[2].angle.getRadians());
-      //  m_backRightModule.set(desiredStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+       m_backRightModule.set(desiredStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 desiredStates[3].angle.getRadians());
-      //  m_odometry.update(
-      //          m_pigeon.getRotation2d(),
-        //        new SwerveModulePosition[] {
-          //              m_frontLeftModule.getPosition(),
-            //            m_frontRightModule.getPosition(),
-              //          m_backLeftModule.getPosition(),
-                //        m_backRightModule.getPosition()
-                //});
-    //}
+       m_odometry.update(
+               m_pigeon.getRotation2d(),
+               new SwerveModulePosition[] {
+                       m_frontLeftModule.getPosition(),
+                       m_frontRightModule.getPosition(),
+                       m_backLeftModule.getPosition(),
+                       m_backRightModule.getPosition()
+                });
+    }
 
-    /*public void resetOdometry(Pose2d pose) {
+    public void resetOdometry(Pose2d pose) {
         m_odometry.resetPosition(
                 m_pigeon.getRotation2d(),
                 new SwerveModulePosition[] {
@@ -405,12 +404,6 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
     public void autoBalanceDrive() {
         forwardController.setP(.06);
-        */
-
-         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-RobotContainer.modifyAxis(y,yLimiter)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(x, xLimiter)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(0, turnLimiter)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
-    }else if(RobotContainer.getInstance().getDriveController().getBButton()){
-        forwardController.setP(.03);
-
         turnController.setP(0.16);
         double y;
         double z;
@@ -424,18 +417,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         z = turnController.calculate(roll, 0);
 
         SmartDashboard.putNumber("z = ", z*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-        SmartDashboard.putNumber("x = ", x*MAX_VELOCITY_METERS_PER_SECOND);
-        if (m_pigeon.getYaw()>90 && m_pigeon.getYaw()<270) {
-            x = -x;
-        }
-        m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        -RobotContainer.modifyAxis(-x,xLimiter)*MAX_VELOCITY_METERS_PER_SECOND, 
-        -RobotContainer.modifyAxis(0, yLimiter)*MAX_VELOCITY_METERS_PER_SECOND, 
-        -RobotContainer.modifyAxis(0, turnLimiter)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 
-        getGyroscopeRotation());
-    }else {
-        m_chassisSpeeds = chassisSpeeds;
-
+        SmartDashboard.putNumber("x = ", y*MAX_VELOCITY_METERS_PER_SECOND);
     }
 
     private double getPitch() {
@@ -453,11 +435,6 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         leftAprilTag = 6;
         rightAprilTag = 8;
     }
-
-
-private double getRoll() {
-    return m_pigeon.getRoll() - rollOffset;
-}
 
 public SlewRateLimiter getXLimiter() {
     return xLimiter;
