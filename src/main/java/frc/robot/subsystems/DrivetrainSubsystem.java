@@ -12,6 +12,7 @@ import static frc.robot.Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_ENCODER;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_MOTOR;
 import static frc.robot.Constants.BACK_RIGHT_MODULE_STEER_OFFSET;
+import static frc.robot.Constants.CANBUS_DRIVETRAIN;
 import static frc.robot.Constants.DRIVETRAIN_PIGEON_ID;
 import static frc.robot.Constants.DRIVETRAIN_TRACKWIDTH_METERS;
 import static frc.robot.Constants.DRIVETRAIN_WHEELBASE_METERS;
@@ -23,21 +24,19 @@ import static frc.robot.Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_ENCODER;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_MOTOR;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_OFFSET;
-import static frc.robot.Constants.CANBUS_DRIVETRAIN;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
-import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MkModuleConfiguration;
-
+import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MotorType;
-
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -47,88 +46,92 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
-    /**
-     * The maximum voltage that will be delivered to the drive motors.
-     * <p>
-     * This can be reduced to cap the robot's maximum speed. Typically, this is
-     * useful during initial testing of the robot.
-     */
-    public static final double MAX_VOLTAGE = 12.0;
-    // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
-    // The formula for calculating the theoretical maximum velocity is:
-    // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
-    // pi
-    // By default this value is setup for a Mk3 standard module using Falcon500s to
-    // drive.
-    // An example of this constant for a Mk4 L2 module with NEOs to drive is:
-    // 5880.0 / 60.0 / SdsModuleConfigurations.MK4_L2.getDriveReduction() *
-    // SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI
-    /**
-     * The maximum velocity of the robot in meters per second.
-     * <p>
-     * This is a measure of how fast the robot should be able to drive in a straight
-     * line.
-     */
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
-            SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
-            SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
+  /**
+   * The maximum voltage that will be delivered to the drive motors.
+   * <p>
+   * This can be reduced to cap the robot's maximum speed. Typically, this is
+   * useful during initial testing of the robot.
+   */
+  public static final double MAX_VOLTAGE = 12.0;
+  // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
+  // The formula for calculating the theoretical maximum velocity is:
+  // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
+  // pi
+  // By default this value is setup for a Mk3 standard module using Falcon500s to
+  // drive.
+  // An example of this constant for a Mk4 L2 module with NEOs to drive is:
+  // 5880.0 / 60.0 / SdsModuleConfigurations.MK4_L2.getDriveReduction() *
+  // SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI
+  /**
+   * The maximum velocity of the robot in meters per second.
+   * <p>
+   * This is a measure of how fast the robot should be able to drive in a straight
+   * line.
+   */
+  public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
+      SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
+      SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
 
-    /**
-     * The maximum angular velocity of the robot in radians per second.
-     * <p>
-     * This is a measure of how fast the robot can rotate in place.
-     */
-    // Here we calculate the theoretical maximum angular velocity. You can also
-    // replace this with a measured amount.
-    public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
-            Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
+  /**
+   * The maximum angular velocity of the robot in radians per second.
+   * <p>
+   * This is a measure of how fast the robot can rotate in place.
+   */
+  // Here we calculate the theoretical maximum angular velocity. You can also
+  // replace this with a measured amount.
+  public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
+      Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
-    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
-            // Front left
-            new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
-            // Front right
-            new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0),
-            // Back left
-            new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
-            // Back right
-            new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0));
+  private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+      // Front left
+      new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
+      // Front right
+      new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0),
+      // Back left
+      new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
+      // Back right
+      new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
-    // By default we use a Pigeon for our gyroscope. But if you use another
-    // gyroscope, like a NavX, you can change this.
-    // The important thing about how you configure your gyroscope is that rotating
-    // the robot counter-clockwise should
-    // cause the angle reading to increase until it wraps back over to zero.
-    // FIXME Remove if you are using a Pigeon
-    private final WPI_Pigeon2 m_pigeon = new WPI_Pigeon2(DRIVETRAIN_PIGEON_ID, CANBUS_DRIVETRAIN);
-    // FIXME Uncomment if you are using a NavX
-    // private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX
-    // connected over MXP
+  // By default we use a Pigeon for our gyroscope. But if you use another
+  // gyroscope, like a NavX, you can change this.
+  // The important thing about how you configure your gyroscope is that rotating
+  // the robot counter-clockwise should
+  // cause the angle reading to increase until it wraps back over to zero.
+  // FIXME Remove if you are using a Pigeon
+  private final WPI_Pigeon2 m_pigeon = new WPI_Pigeon2(DRIVETRAIN_PIGEON_ID, CANBUS_DRIVETRAIN);
+  // FIXME Uncomment if you are using a NavX
+  // private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX
+  // connected over MXP
 
-    private SwerveDriveOdometry m_odometry;
+  private SwerveDriveOdometry m_odometry;
 
-    // These are our modules. We initialize them in the constructor.
-    private final SwerveModule m_frontLeftModule;
-    private final SwerveModule m_frontRightModule;
-    private final SwerveModule m_backLeftModule;
-    private final SwerveModule m_backRightModule;
+  // These are our modules. We initialize them in the constructor.
+  private final SwerveModule m_frontLeftModule;
+  private final SwerveModule m_frontRightModule;
+  private final SwerveModule m_backLeftModule;
+  private final SwerveModule m_backRightModule;
+  // Slew rate limiters to make joystick inputs more gentle.
+  // A value of .1 will requier 10 seconds to get from 0 to 1. It is calculated as 1/rateLimitPerSecond to go from 0 to 1
+  private final SlewRateLimiter xLimiter = new SlewRateLimiter(3);
+  private final SlewRateLimiter yLimiter = new SlewRateLimiter(3);
+  private final SlewRateLimiter turnLimiter = new SlewRateLimiter(3);
 
-    private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+  private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-    // private final DifferentialDriveOdometry odometry;
+  // private final DifferentialDriveOdometry odometry;
 
-    // photon vision
-    ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-    // Constants such as camera and target height stored. Change per robot and goal!
+// photon vision
+ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+// Constants such as camera and target height stored. Change per robot and goal!
+
     final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(23.5);
     final double TARGET_HEIGHT_METERS = Units.inchesToMeters(15.13);
     // Angle between horizontal and the camera.
@@ -334,46 +337,48 @@ public class DrivetrainSubsystem extends SubsystemBase {
             m_chassisSpeeds = chassisSpeeds;
         }
 
-    }
 
-    @Override
-    public void periodic() {
-        SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-        setModuleStates(states);
+    //}
 
-    }
+    //@Override
+    //public void 
+    //() {
+      //  SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+        //setModuleStates(states);
+
+    //}
 
     /**
      * Returns the currently-estimated pose of the robot.
      *
      * @return The pose.
      */
-    public Pose2d getPose() {
-        return m_odometry.getPoseMeters();
-    }
+    //public Pose2d getPose() {
+      //  return m_odometry.getPoseMeters();
+    //}
 
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(
+    //public void setModuleStates(SwerveModuleState[] desiredStates) {
+      //  SwerveDriveKinematics.desaturateWheelSpeeds(
                 desiredStates, MAX_VELOCITY_METERS_PER_SECOND);
-        m_frontLeftModule.set(desiredStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+      //  m_frontLeftModule.set(desiredStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 desiredStates[0].angle.getRadians());
-        m_frontRightModule.set(desiredStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+      //  m_frontRightModule.set(desiredStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 desiredStates[1].angle.getRadians());
-        m_backLeftModule.set(desiredStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+      //  m_backLeftModule.set(desiredStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 desiredStates[2].angle.getRadians());
-        m_backRightModule.set(desiredStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+      //  m_backRightModule.set(desiredStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 desiredStates[3].angle.getRadians());
-        m_odometry.update(
-                m_pigeon.getRotation2d(),
-                new SwerveModulePosition[] {
-                        m_frontLeftModule.getPosition(),
-                        m_frontRightModule.getPosition(),
-                        m_backLeftModule.getPosition(),
-                        m_backRightModule.getPosition()
-                });
-    }
+      //  m_odometry.update(
+      //          m_pigeon.getRotation2d(),
+        //        new SwerveModulePosition[] {
+          //              m_frontLeftModule.getPosition(),
+            //            m_frontRightModule.getPosition(),
+              //          m_backLeftModule.getPosition(),
+                //        m_backRightModule.getPosition()
+                //});
+    //}
 
-    public void resetOdometry(Pose2d pose) {
+    /*public void resetOdometry(Pose2d pose) {
         m_odometry.resetPosition(
                 m_pigeon.getRotation2d(),
                 new SwerveModulePosition[] {
@@ -400,6 +405,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void autoBalanceDrive() {
         forwardController.setP(.06);
+        */
+
+         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-RobotContainer.modifyAxis(y,yLimiter)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(x, xLimiter)*MAX_VELOCITY_METERS_PER_SECOND, -RobotContainer.modifyAxis(0, turnLimiter)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
+    }else if(RobotContainer.getInstance().getDriveController().getBButton()){
+        forwardController.setP(.03);
+
         turnController.setP(0.16);
         double y;
         double z;
@@ -411,14 +422,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
         y = forwardController.calculate(pitch, 0);
         // pitch is current value and setpoint is desired value
         z = turnController.calculate(roll, 0);
-        SmartDashboard.putNumber("z = ", z);
-        SmartDashboard.putNumber("y = ", y);
 
-        // if (pitch > 0) {
-        // differentialDrive.arcadeDrive(y, z);
-        // } else {
-        // differentialDrive.arcadeDrive(y, -z);
-        // }
+        SmartDashboard.putNumber("z = ", z*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+        SmartDashboard.putNumber("x = ", x*MAX_VELOCITY_METERS_PER_SECOND);
+        if (m_pigeon.getYaw()>90 && m_pigeon.getYaw()<270) {
+            x = -x;
+        }
+        m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        -RobotContainer.modifyAxis(-x,xLimiter)*MAX_VELOCITY_METERS_PER_SECOND, 
+        -RobotContainer.modifyAxis(0, yLimiter)*MAX_VELOCITY_METERS_PER_SECOND, 
+        -RobotContainer.modifyAxis(0, turnLimiter)*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 
+        getGyroscopeRotation());
+    }else {
+        m_chassisSpeeds = chassisSpeeds;
+
     }
 
     private double getPitch() {
@@ -437,4 +454,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightAprilTag = 8;
     }
 
+
+private double getRoll() {
+    return m_pigeon.getRoll() - rollOffset;
+}
+
+public SlewRateLimiter getXLimiter() {
+    return xLimiter;
+}
+
+public SlewRateLimiter getYLimiter() {
+    return yLimiter;
+}
+
+public SlewRateLimiter getTurnLimiter() {
+    return turnLimiter;
+}
 }
