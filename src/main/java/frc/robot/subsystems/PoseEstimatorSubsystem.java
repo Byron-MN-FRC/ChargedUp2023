@@ -86,6 +86,10 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update pose estimator with the best visible target
+    poseEstimator.update(
+        drivetrainSubsystem.getGyroscopeRotation(),
+        drivetrainSubsystem.getSwerveModulePosition());
+        
     var pipelineResult = photonCamera.getLatestResult();
     var resultTimestamp = pipelineResult.getTimestampSeconds();
     if (resultTimestamp != previousPipelineTimestamp && pipelineResult.hasTargets()) {

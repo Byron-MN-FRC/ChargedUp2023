@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
@@ -36,7 +37,7 @@ public final class Constants {
      * Should be measured from center to center.
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = .5715; // FIXME Measure and set wheelbase
-
+    public static final String CANBUS_DRIVETRAIN = "CANivore1";
     public static final int DRIVETRAIN_PIGEON_ID = 8; // FIXME Set Pigeon ID
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
@@ -112,11 +113,10 @@ public final class Constants {
           public static class VisionConstants {
 
             /**
-             * ";lkjhgfda"
              * Physical location of the camera on the robot, relative to the center of the robot.
              */
             public static final Transform3d CAMERA_TO_ROBOT =
-                new Transform3d(new Translation3d(.09525, .0985, .5969), new Rotation3d());
+                new Transform3d(new Translation3d(Units.inchesToMeters(-5.75), 0, Units.inchesToMeters(14)), new Rotation3d(0,0,180));
             public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();
           }
         
