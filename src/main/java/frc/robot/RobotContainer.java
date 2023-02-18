@@ -175,7 +175,7 @@ public class RobotContainer {
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf));
     final JoystickButton btnChaseTag = new JoystickButton(driveController, XboxController.Button.kBack.value);
     btnChaseTag
-        .whileTrue(new ChaseTagCommand(photonCamera, m_drivetrainSubsystem, m_PoseEstimatorSubsystem::getCurrentPose, attachmentController)
+        .whileTrue(new ChaseTagCommand(photonCamera, m_drivetrainSubsystem, m_PoseEstimatorSubsystem::getCurrentPose)
             .withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     final JoystickButton startPlaceCargo = new JoystickButton(driveController, XboxController.Button.kStart.value);
     startPlaceCargo.onTrue(new PlaceCargo(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
