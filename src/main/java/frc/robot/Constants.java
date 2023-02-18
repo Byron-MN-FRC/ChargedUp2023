@@ -116,7 +116,7 @@ public final class Constants {
              * Physical location of the camera on the robot, relative to the center of the robot.
              */
             public static final Transform3d CAMERA_TO_ROBOT =
-                new Transform3d(new Translation3d(Units.inchesToMeters(-5.75), 0, Units.inchesToMeters(14)), new Rotation3d(0,0,180));
+                new Transform3d(new Translation3d(Units.inchesToMeters(-10), 0, Units.inchesToMeters(14)), new Rotation3d(0,0,Math.PI));
             public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();
           }
         

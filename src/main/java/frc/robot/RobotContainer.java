@@ -156,7 +156,7 @@ rBretract.onTrue(new RetractArm( m_liftSubsystem ).withInterruptBehavior(Interru
             final JoystickButton xboxButton1 = new JoystickButton(driveController, XboxController.Button.kX.value);        
             xboxButton1.onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
             final JoystickButton btnChaseTag = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
-            btnChaseTag.whileTrue(new ChaseTagCommand(photonCamera, m_drivetrainSubsystem, m_PoseEstimatorSubsystem::getCurrentPose, controller2).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+            btnChaseTag.whileTrue(new ChaseTagCommand(photonCamera, m_drivetrainSubsystem, m_PoseEstimatorSubsystem::getCurrentPose).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
             
           // Command resetGyroCommand = new InstantCommand(m_drivetrainSubsystem::zeroGyroscope);
           
