@@ -80,15 +80,16 @@ public class ChaseTagCommand extends CommandBase {
       TAG_TO_CHASE = 4;
     }
 
-    if (RobotContainer.getInstance().getAttachmentController().getXButton()){
+    if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.RightBottom){
       offset = 1;
-    }
-    else if (RobotContainer.getInstance().getAttachmentController().getBButton()){
+    } else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.LeftBottom){
       offset = -1;
-    }
-    else{
+    } else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.MiddleBottom){
       offset = 0;
+    } else {
+      offset = -8;
     }
+
     SmartDashboard.putNumber("Tag to chase", TAG_TO_CHASE);
     TAG_TO_GOAL=
     new Transform3d(

@@ -92,12 +92,12 @@ public class ShufBoard extends SubsystemBase {
 
     private void addPositions(int x, int y) {
         // DriverTab.add("Position01",Position1);
-        addPosition("Left Top", Position1, x, y);
-        addPosition("Left Bot", Position2, x, y + 1);
-        addPosition("Mid Top", Position3, x + 1, y);
-        addPosition("Mid Bot", Position4, x + 1, y + 1);
-        addPosition("Right Top", Position5, x + 2, y);
-        addPosition("Right Bot", Position6, x + 2, y + 1);
+        addPosition("Left Tag", Position1, x, y);
+        addPosition("Left Offset", Position2, x, y + 1);
+        addPosition("Mid Tag", Position3, x + 1, y);
+        addPosition("Mid Offset", Position4, x + 1, y + 1);
+        addPosition("Right Tag", Position5, x + 2, y);
+        addPosition("Right Offset", Position6, x + 2, y + 1);
     }
 
     private void addPosition(String title, boolean value, Integer xpos, Integer ypos) {
@@ -108,12 +108,12 @@ public class ShufBoard extends SubsystemBase {
         NetworkTableInstance tblInst = NetworkTableInstance.getDefault();
         NetworkTable tblShuffleBoard = tblInst.getTable("Shuffleboard");
 
-        boolean p1 = tblShuffleBoard.getEntry("Driver Tab/Left Top").getBoolean(false);
-        boolean p2 = tblShuffleBoard.getEntry("Driver Tab/Left Bot").getBoolean(false);
-        boolean p3 = tblShuffleBoard.getEntry("Driver Tab/Mid Top").getBoolean(false);
-        boolean p4 = tblShuffleBoard.getEntry("Driver Tab/Mid Bot").getBoolean(false);
-        boolean p5 = tblShuffleBoard.getEntry("Driver Tab/Right Top").getBoolean(false);
-        boolean p6 = tblShuffleBoard.getEntry("Driver Tab/Right Bot").getBoolean(false);
+        boolean p1 = tblShuffleBoard.getEntry("Driver Tab/Left Tag").getBoolean(false);
+        boolean p2 = tblShuffleBoard.getEntry("Driver Tab/Left Offset").getBoolean(false);
+        boolean p3 = tblShuffleBoard.getEntry("Driver Tab/Mid Tag").getBoolean(false);
+        boolean p4 = tblShuffleBoard.getEntry("Driver Tab/Mid Offset").getBoolean(false);
+        boolean p5 = tblShuffleBoard.getEntry("Driver Tab/Right Tag").getBoolean(false);
+        boolean p6 = tblShuffleBoard.getEntry("Driver Tab/Right Offset").getBoolean(false);
 
         if (p1)
             SelectedPosition = Position.LeftTop;
