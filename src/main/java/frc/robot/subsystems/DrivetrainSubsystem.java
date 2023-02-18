@@ -51,6 +51,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -275,8 +276,8 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
-
         if (RobotContainer.getInstance().getDriveController().getBButton()) {
+
             forwardController.setP(.03);
             turnController.setP(0.16);
             double x;

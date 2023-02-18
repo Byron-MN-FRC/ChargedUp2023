@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 import java.util.function.DoubleSupplier;
@@ -35,12 +36,23 @@ public class DefaultDriveCommand extends CommandBase {
         // (square(m_translationYSupplier.getAsDouble(),2)),
         // (square(m_rotationSupplier.getAsDouble(),3)),
         // m_drivetrainSubsystem.getGyroscopeRotation()));
-        m_drivetrainSubsystem.drive(
+        if (RobotContainer.getInstance().m_liftSubsystem.isArmExtended()){
+            m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                        (m_translationXSupplier.getAsDouble() * .5),
-                        (m_translationYSupplier.getAsDouble() * .5),
-                        (m_rotationSupplier.getAsDouble() * .5),
+                        (m_translationXSupplier.getAsDouble() * .2),
+                        (m_translationYSupplier.getAsDouble() * .2),
+                        (m_rotationSupplier.getAsDouble() * .2),
                         m_drivetrainSubsystem.getGyroscopeRotation()));
+        }
+        else{
+            m_drivetrainSubsystem.drive(
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                        (m_translationXSupplier.getAsDouble()),
+                        (m_translationYSupplier.getAsDouble()),
+                        (m_rotationSupplier.getAsDouble()),
+                        m_drivetrainSubsystem.getGyroscopeRotation()));
+        }
+        
         // new ChassisSpeeds(
         // m_translationXSupplier.getAsDouble(),
         // m_translationYSupplier.getAsDouble(),
@@ -49,6 +61,7 @@ public class DefaultDriveCommand extends CommandBase {
 
     }
 
+    
     private double square(double x, double divisor) {
         x = x / divisor;
         if (x < 0)
