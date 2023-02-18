@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ShufBoard;
+import frc.robot.subsystems.ShufBoard.Position;
 
 public class ChaseTagCommand extends CommandBase {
   
@@ -47,9 +49,11 @@ public class ChaseTagCommand extends CommandBase {
         PhotonCamera photonCamera, 
         DrivetrainSubsystem drivetrainSubsystem,
         Supplier<Pose2d> poseProvider) {
+        ShufBoard shufBoard;
     this.photonCamera = photonCamera;
     this.drivetrainSubsystem = drivetrainSubsystem;
     this.poseProvider = poseProvider;
+    
 
     xController.setTolerance(0.2);
     yController.setTolerance(0.2);
@@ -66,12 +70,14 @@ public class ChaseTagCommand extends CommandBase {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
-    if (RobotContainer.getInstance().getAttachmentController().getLeftBumper()) {
+    if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.LeftTop) {
       TAG_TO_CHASE = 1;
-    } else if (RobotContainer.getInstance().getAttachmentController().getRightBumper()) {
+    } else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.RightTop) {
       TAG_TO_CHASE = 3;
-    } else {
+    } else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.MiddleTop) {
       TAG_TO_CHASE = 2;
+    } else {
+      TAG_TO_CHASE = 4;
     }
 
     if (RobotContainer.getInstance().getAttachmentController().getXButton()){
