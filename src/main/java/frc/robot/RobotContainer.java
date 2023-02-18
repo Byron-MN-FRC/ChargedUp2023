@@ -173,7 +173,7 @@ public class RobotContainer {
     final JoystickButton xboxButton1 = new JoystickButton(driveController, XboxController.Button.kX.value);
     xboxButton1.onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope)
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-    final JoystickButton btnChaseTag = new JoystickButton(driveController, XboxController.Button.kBack.value);
+    final JoystickButton btnChaseTag = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
     btnChaseTag
         .whileTrue(new ChaseTagCommand(photonCamera, m_drivetrainSubsystem, m_PoseEstimatorSubsystem::getCurrentPose)
             .withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
