@@ -126,6 +126,13 @@ public final class Constants {
         /**
          * 
          */
+        //Current limit values
+         public static final boolean kEnableCurrentLimiting_BS = true;
+        public static final double currentLimit = 6;
+        public static final double thresholdLimit = 9;
+        public static final double thresholdTime = .1;
+
+        //Arm values
         public static final double highPos = 50000;
         public static final double storedPos = 0;
         public static final double lowPos = 10000;
