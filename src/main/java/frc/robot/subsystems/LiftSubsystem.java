@@ -248,5 +248,8 @@ public class LiftSubsystem extends SubsystemBase {
         leftLifter.set(ControlMode.Disabled, 0);
         rightLifter.set(ControlMode.Disabled, 0);
     }
+    public boolean isArmExtended(){
+        return (armExtender.get()==Value.kForward);
+    }
 
 }
