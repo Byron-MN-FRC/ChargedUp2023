@@ -276,44 +276,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
     public void drive(ChassisSpeeds chassisSpeeds) {
 
-        if (RobotContainer.getInstance().getDriveController().getBackButton()) {
-            // Vision-alignment mode][poiuytr]
-            // Query the latest result from PhotonVision
-            var result = camera.getLatestResult();
-            double y;
-            double x;
-            if (result.hasTargets()) {
-                // First calculate range
-                double range = PhotonUtils.calculateDistanceToTargetMeters(
-                        CAMERA_HEIGHT_METERS,
-                        TARGET_HEIGHT_METERS,
-                        CAMERA_PITCH_RADIANS,
-                        Units.degreesToRadians(result.getBestTarget().getPitch()));
-                SmartDashboard.putNumber("range=", range);
-
-                // Use this range as the measurement we give to the PID controller.
-                // -1.0 required to ensure positive PID controller effort _increases_ range
-                y = -forwardController.calculate(range, GOAL_RANGE_METERS);
-                SmartDashboard.putNumber("y = ", y);
-                // Also calculate angular power
-                // -1.0 required to ensure positive PID controller effort _increases_ yaw
-                x = turnController.calculate(result.getBestTarget().getYaw(), 0);
-                SmartDashboard.putNumber("yaw = ", result.getBestTarget().getYaw());
-                SmartDashboard.putNumber("x = ", x);
-                // y=0;
-                System.out.println("I'm driving towards the target");
-            } else {
-                // If we have no targets, stay still.
-                y = 0;
-                x = 0;
-                System.out.println("I'm not driving");
-            }
-
-            m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    -RobotContainer.modifyAxis(y, yLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
-                    -RobotContainer.modifyAxis(x, xLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
-                    -RobotContainer.modifyAxis(0, turnLimiter) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, getGyroscopeRotation());
-        } else if (RobotContainer.getInstance().getDriveController().getBButton()) {
+        if (RobotContainer.getInstance().getDriveController().getBButton()) {
             forwardController.setP(.03);
             turnController.setP(0.16);
             double x;
