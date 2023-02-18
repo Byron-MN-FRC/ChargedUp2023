@@ -16,7 +16,9 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class ChaseTagCommand extends CommandBase {
@@ -25,12 +27,12 @@ public class ChaseTagCommand extends CommandBase {
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 2);
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =   new TrapezoidProfile.Constraints(8, 8);
   
-  private static final int TAG_TO_CHASE = 2;
-  private static final Transform3d TAG_TO_GOAL = 
+  private int TAG_TO_CHASE = 2;
+  private Transform3d TAG_TO_GOAL = 
       new Transform3d(
           new Translation3d(1, 0.0, 0.0),
           new Rotation3d(0.0, 0.0, 0));
-
+  double offset;
   private final PhotonCamera photonCamera;
   private final DrivetrainSubsystem drivetrainSubsystem;
   private final Supplier<Pose2d> poseProvider;
@@ -64,6 +66,29 @@ public class ChaseTagCommand extends CommandBase {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
+    if (RobotContainer.getInstance().getController2().getLeftBumper()) {
+      TAG_TO_CHASE = 1;
+    } else if (RobotContainer.getInstance().getController2().getRightBumper()) {
+      TAG_TO_CHASE = 3;
+    } else {
+      TAG_TO_CHASE = 2;
+    }
+
+    if (RobotContainer.getInstance().getController2().getXButton()){
+      offset = 1;
+    }
+    else if (RobotContainer.getInstance().getController2().getBButton()){
+      offset = -1;
+    }
+    else{
+      offset = 0;
+    }
+    SmartDashboard.putNumber("Tag to chase", TAG_TO_CHASE);
+    TAG_TO_GOAL=
+    new Transform3d(
+      new Translation3d(1, offset, 0.0),
+      new Rotation3d(0.0,0.0, 0)
+    );
   }
 
   @Override
