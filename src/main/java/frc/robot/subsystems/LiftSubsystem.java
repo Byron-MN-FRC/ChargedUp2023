@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LifterConstants;
+import frc.robot.commands.DriveToEncoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
@@ -267,5 +268,15 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 2, 3);
     public boolean isArmExtended(){
         return (armExtender.get()==Value.kForward);
     }
+
+    public void zeroLift() {
+        leftLifter.setSelectedSensorPosition(0, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+        rightLifter.setSelectedSensorPosition(0, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+    }
+
+    public void startLift(double speed) {
+        leftLifter.set(speed);
+    }
+
 
 }
