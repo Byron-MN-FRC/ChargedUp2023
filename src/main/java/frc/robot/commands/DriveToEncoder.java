@@ -79,7 +79,7 @@ public class DriveToEncoder extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         // m_liftSubsystem.stopLift();
-        m_targetEncoders = 0;
+        // m_targetEncoders = 0;
     }
 
     // Returns true when the command should end.

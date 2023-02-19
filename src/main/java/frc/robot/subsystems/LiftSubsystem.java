@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LifterConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 /**
  *
@@ -63,7 +64,7 @@ bodySwitch = new DigitalInput(0);
  addChild("bodySwitch", bodySwitch);
  
 
-outerSwitch = new DigitalInput(1);
+outerSwitch = new DigitalInput(10);
  addChild("outerSwitch", outerSwitch);
  
 
@@ -75,7 +76,7 @@ rightLifter = new WPI_TalonFX(14);
  
  
 
-armExtender = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 2, 3);
+armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
  addChild("armExtender", armExtender);
  
 
@@ -88,6 +89,8 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 2, 3);
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("isBodyTriggered", isBodyTriggered());
+        SmartDashboard.putBoolean("isOuterTriggered", isOuterTriggered());
+        SmartDashboard.putNumber("EncoderUnits", leftLifter.getSelectedSensorPosition());
 
         // This method will be called once per scheduler run
 
@@ -232,6 +235,8 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 2, 3);
         leftLifter.setSelectedSensorPosition(0, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
         rightLifter.setSelectedSensorPosition(0, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
         leftLifter.configStatorCurrentLimit(currentLimiting);
+
+        rightLifter.setInverted(true);
     }
 
     public Boolean targetEncoder(double target) {
@@ -245,10 +250,23 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 2, 3);
         return false;
     }
 
-    public void setLiftPos(double pos) {
-        rightLifter.set(TalonFXControlMode.MotionMagic, pos);
+     public void setLiftPos(double pos) {
+        if (isBodyTriggered()) {
+            leftLifter.setSelectedSensorPosition(LifterConstants.storedPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+            rightLifter.setSelectedSensorPosition(LifterConstants.storedPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+            stopLift();
+        }
+        else if (isOuterTriggered()) {
+            leftLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+            rightLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+            stopLift();
+        }else{
+        // rightLifter.set(TalonFXControlMode.MotionMagic, pos);
+        leftLifter.set(TalonFXControlMode.MotionMagic, pos);
+        rightLifter.follow(leftLifter);
+        }
         // if (leftLifter.getSelectedSensorPosition() >= 5000)
-        leftLifter.set(ControlMode.Disabled, 0);
+        // leftLifter.set(ControlMode.Disabled, 0);
         // else
         // leftLifter.set(TalonFXControlMode.MotionMagic, pos);
 
@@ -262,7 +280,7 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 2, 3);
 
     public void stopLift() {
         leftLifter.set(ControlMode.Disabled, 0);
-        rightLifter.set(ControlMode.Disabled, 0);
+       // rightLifter.set(ControlMode.Disabled, 0);
     }
 
 }

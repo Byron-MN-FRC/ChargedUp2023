@@ -24,7 +24,7 @@ public class Path1 extends SequentialCommandGroup {
         new ExtendArm(false, liftSubsystem),
         new ToggleClaw(clawSubsystem),
         new RetractArm(liftSubsystem),
-        new DriveToEncoder(LifterConstants.lowPos, liftSubsystem),
+        new DriveToEncoder(LifterConstants.storedPos, liftSubsystem),
         new DriveToPoint());
   }
 }
