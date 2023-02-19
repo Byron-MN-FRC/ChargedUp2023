@@ -148,7 +148,7 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
 
     public boolean isBodyTriggered() {
         if (bodySwitch.get()) {
-            return false;
+            return true;
         } else {
             return false;
         }
@@ -229,7 +229,7 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
 
                 
         /* Set acceleration and vcruise velocity - see documentation */
-        leftLifter.configMotionCruiseVelocity(15000, LifterConstants.kTimeoutMs);
+        leftLifter.configMotionCruiseVelocity(18000, LifterConstants.kTimeoutMs);
         leftLifter.configMotionAcceleration(6000, LifterConstants.kTimeoutMs);
         rightLifter.configMotionCruiseVelocity(15000, LifterConstants.kTimeoutMs);
         rightLifter.configMotionAcceleration(6000, LifterConstants.kTimeoutMs);
@@ -255,9 +255,9 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
 
      public void setLiftPos(double pos) {
         if (isBodyTriggered()) {
-            // leftLifter.setSelectedSensorPosition(LifterConstants.storedPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
-            // rightLifter.setSelectedSensorPosition(LifterConstants.storedPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
-            // stopLift();
+            leftLifter.setSelectedSensorPosition(LifterConstants.storedPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+            rightLifter.setSelectedSensorPosition(LifterConstants.storedPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+            stopLift();
         }
         else if (isOuterTriggered()) {
             // leftLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);

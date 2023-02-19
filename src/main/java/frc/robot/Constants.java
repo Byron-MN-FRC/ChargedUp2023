@@ -135,7 +135,7 @@ public final class Constants {
         //Arm values
         public static final double highPos = 50000;
         public static final double storedPos = 0;
-        public static final double lowPos = 10000;
+        public static final double lowPos = 218000.000000;
 
         /**
          * Which PID slot to pull gains from. Starting 2018, you can choose from
