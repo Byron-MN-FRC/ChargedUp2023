@@ -128,8 +128,8 @@ public final class Constants {
          */
         //Current limit values
          public static final boolean kEnableCurrentLimiting_BS = true;
-        public static final double currentLimit = 6;
-        public static final double thresholdLimit = 9;
+        public static final double currentLimit = 12;
+        public static final double thresholdLimit = 18;
         public static final double thresholdTime = .1;
 
         //Arm values
