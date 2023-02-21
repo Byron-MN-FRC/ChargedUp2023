@@ -78,14 +78,21 @@ public class DriveToEncoder extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        // m_liftSubsystem.stopLift();
+        if (m_liftSubsystem.isOuterTriggered()){
+            m_liftSubsystem.stopLift();
+            m_liftSubsystem.setHighLift();;
+        }else if(m_liftSubsystem.isBodyTriggered()){
+            m_liftSubsystem.stopLift();
+            m_liftSubsystem.zeroLift();
+        }
+
         // m_targetEncoders = 0;
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return m_liftSubsystem.targetEncoder(m_targetEncoders);
+        return m_liftSubsystem.targetEncoder(m_targetEncoders)||m_liftSubsystem.isOuterTriggered()||m_liftSubsystem.isBodyTriggered();
     }
 
     @Override

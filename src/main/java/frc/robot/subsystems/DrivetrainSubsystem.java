@@ -158,6 +158,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     public int rightAprilTag = 3;
     public int leftAprilTag = 1;
 
+    public double driveSpeed = 1;
     public DrivetrainSubsystem() {
 
         // There are 4 methods you can call to create your swerve modules.
@@ -411,4 +412,5 @@ public SlewRateLimiter getYLimiter() {
 public SlewRateLimiter getTurnLimiter() {
     return turnLimiter;
 }
+
 }

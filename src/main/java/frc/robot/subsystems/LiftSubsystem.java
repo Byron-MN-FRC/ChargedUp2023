@@ -65,7 +65,7 @@ bodySwitch = new DigitalInput(0);
  addChild("bodySwitch", bodySwitch);
  
 
-outerSwitch = new DigitalInput(10);
+outerSwitch = new DigitalInput(1);
  addChild("outerSwitch", outerSwitch);
  
 
@@ -77,7 +77,7 @@ rightLifter = new WPI_TalonFX(14);
  
  
 
-armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
+armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
  addChild("armExtender", armExtender);
  
 
@@ -109,25 +109,12 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
         double target = LifterConstants.storedPos;
         double speed = controller2.getLeftX();
         // negitive values are isOuterTriggered, and postive values are isBodyTriggered.
-        if (isBodyTriggered() && speed > 0) {
+        if (isBodyTriggered() && speed < 0) {
             speed = 0;
-        } else if (isOuterTriggered() && speed < 0) {
+        } else if (isOuterTriggered() && speed > 0) {
             speed = 0;
-        } else {
-
-            // rightLifter.set(speed);
-            leftLifter.set(speed*.7);
-            // SmartDashboard.putNumber("speed", speed);
-
-            // if (controller2.getPOV() == -1) {
-            // target = LifterConstants.middleDrop;
-            // }else if (controller2.getPOV() <= 45 || controller2.getPOV() >= 315){
-            // target = LifterConstants.highDrop;
-            // }else if (controller2.getPOV() <= 225 || controller2.getPOV() >= 135){
-            // target = LifterConstants.lowDrop;
-            // }
-            // SmartDashboard.putNumber("Target", target);
         }
+        leftLifter.set(speed*.3);
 
     }
 
@@ -157,7 +144,7 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
 
     public boolean isOuterTriggered() {
         if (outerSwitch.get()) {
-            return false;
+            return true;
         } else {
             return false;
         }
@@ -255,36 +242,14 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
     }
 
      public void setLiftPos(double pos) {
-        if (isBodyTriggered()) {
-            leftLifter.setSelectedSensorPosition(LifterConstants.storedPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
-            rightLifter.setSelectedSensorPosition(LifterConstants.storedPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
-            stopLift();
-        }
-        else if (isOuterTriggered()) {
-            // leftLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
-            // rightLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
-            // stopLift();
-        }else{
-        // rightLifter.set(TalonFXControlMode.MotionMagic, pos);
-
-        }
+       
         leftLifter.set(TalonFXControlMode.MotionMagic, pos);
         rightLifter.follow(leftLifter);
-        // if (leftLifter.getSelectedSensorPosition() >= 5000)
-        // leftLifter.set(ControlMode.Disabled, 0);
-        // else
-        // leftLifter.set(TalonFXControlMode.MotionMagic, pos);
-
-        // rightLifter.follow(leftLifter);
-        // rightMaster.set(ControlMode.MotionMagic, target_sensorUnits,
-        // DemandType.AuxPID, 0);
-        // leftMaster.follow(rightMaster, FollowerType.AuxOutput1);
-        SmartDashboard.putNumber("leftEncoder", leftLifter.getSelectedSensorPosition());
-        SmartDashboard.putNumber("rightEncoderHi", rightLifter.getSelectedSensorPosition());
-    }
+   }
 
     public void stopLift() {
         leftLifter.set(ControlMode.Disabled, 0);
+        rightLifter.follow(leftLifter);
        // rightLifter.set(ControlMode.Disabled, 0);
     }
     public boolean isArmExtended(){
@@ -299,6 +264,9 @@ armExtender = new DoubleSolenoid(10, PneumaticsModuleType.CTREPCM, 2, 3);
     public void startLift(double speed) {
         leftLifter.set(speed);
     }
-
+    public void setHighLift(){
+        leftLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+        rightLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
+    }
 
 }

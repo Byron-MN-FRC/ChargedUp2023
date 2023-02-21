@@ -36,7 +36,11 @@ public class PlaceCargo extends SequentialCommandGroup {
                 new ExtendArm(true, liftSubsystem),
                 new ClawRelease(clawSubsystem),
                 new RetractArm(liftSubsystem),
-                new DriveToEncoder(LifterConstants.storedPos, liftSubsystem)
+                new DriveToEncoder(LifterConstants.lowPos, liftSubsystem),
+                new ClawGrab(clawSubsystem),
+                new DriveToEncoder(LifterConstants.storedPos, liftSubsystem),
+                new ClawRelease(clawSubsystem)
+
         // Add Commands here:
         // Also add parallel commands using the
         //

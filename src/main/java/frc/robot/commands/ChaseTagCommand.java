@@ -86,7 +86,7 @@ public class ChaseTagCommand extends CommandBase {
     SmartDashboard.putNumber("Tag to chase", TAG_TO_CHASE);
     TAG_TO_GOAL=
     new Transform3d(
-      new Translation3d(1, offset, 0.0),
+      new Translation3d(.8, offset, 0.0),
       new Rotation3d(0.0,0.0, 0)
     );
   }

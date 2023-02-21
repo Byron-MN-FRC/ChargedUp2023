@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -36,6 +37,8 @@ public class DefaultDriveCommand extends CommandBase {
         // (square(m_translationYSupplier.getAsDouble(),2)),
         // (square(m_rotationSupplier.getAsDouble(),3)),
         // m_drivetrainSubsystem.getGyroscopeRotation()));
+
+        double driveSpeed = 1-(RobotContainer.getInstance().getDriveController().getLeftTriggerAxis()*.5);
         if (RobotContainer.getInstance().m_liftSubsystem.isArmExtended()){
             m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -47,11 +50,12 @@ public class DefaultDriveCommand extends CommandBase {
         else{
             m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                        (m_translationXSupplier.getAsDouble()),
-                        (m_translationYSupplier.getAsDouble()),
-                        (m_rotationSupplier.getAsDouble()),
+                        (m_translationXSupplier.getAsDouble())*driveSpeed,
+                        (m_translationYSupplier.getAsDouble())*driveSpeed,
+                        (m_rotationSupplier.getAsDouble())*driveSpeed,
                         m_drivetrainSubsystem.getGyroscopeRotation()));
         }
+        SmartDashboard.putNumber("driveSpeed", driveSpeed);
         
         // new ChassisSpeeds(
         // m_translationXSupplier.getAsDouble(),

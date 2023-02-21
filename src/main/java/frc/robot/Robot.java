@@ -14,6 +14,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,7 +46,7 @@ public class Robot extends TimedRobot {
         m_robotContainer = RobotContainer.getInstance();
         // m_robotContainer = new RobotContainer();
 
-        // CameraServer.startAutomaticCapture("forward", 0);
+        CameraServer.startAutomaticCapture("forward", 0);
         SmartDashboard.putString("Color", DriverStation.getAlliance().name());
         if (DriverStation.getAlliance() == Alliance.Blue)
             m_robotContainer.m_drivetrainSubsystem.switchColor();
@@ -72,6 +73,7 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        
     }
 
     /**
@@ -115,7 +117,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-    }
+        }
 
     /**
      * This function is called periodically during operator control.
