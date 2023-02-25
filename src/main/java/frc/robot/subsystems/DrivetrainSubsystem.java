@@ -124,6 +124,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SlewRateLimiter xLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter yLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter turnLimiter = new SlewRateLimiter(3);
+  private final SlewRateLimiter balanceXLimiter = new SlewRateLimiter(1);
 
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -284,17 +285,15 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             double x;
             double z;
             double pitch = getPitch();
-            double roll = getRoll();
             x = forwardController.calculate(pitch, 0);
             // pitch is current value and setpoint is desired value
-            z = turnController.calculate(roll, 0);
-            SmartDashboard.putNumber("z = ", z * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
             SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
+            SmartDashboard.putNumber("Pigeon Pitch", pitch);
             if (m_pigeon.getYaw() > 90 && m_pigeon.getYaw() < 270) {
                 x = -x;
             }
             m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    -RobotContainer.modifyAxis(-x, xLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+                    -RobotContainer.modifyAxis(-x, balanceXLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
                     -RobotContainer.modifyAxis(0, yLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
                     -RobotContainer.modifyAxis(0, turnLimiter) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
                     getGyroscopeRotation());
