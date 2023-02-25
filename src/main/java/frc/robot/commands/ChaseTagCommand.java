@@ -67,11 +67,11 @@ public class ChaseTagCommand extends CommandBase {
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
     if (RobotContainer.getInstance().getAttachmentController().getLeftBumper()) {
-      TAG_TO_CHASE = 1;
+      TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.leftAprilTag;
     } else if (RobotContainer.getInstance().getAttachmentController().getRightBumper()) {
-      TAG_TO_CHASE = 3;
+      TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.rightAprilTag;
     } else {
-      TAG_TO_CHASE = 2;
+      TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.middleAprilTag;
     }
 
     if (RobotContainer.getInstance().getAttachmentController().getXButton()){
