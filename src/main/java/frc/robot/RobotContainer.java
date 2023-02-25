@@ -45,6 +45,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveLift;
 import frc.robot.commands.DriveToEncoder;
 import frc.robot.commands.DropAndRelease;
+import frc.robot.commands.EnableLift;
 import frc.robot.commands.ExtendArm;
 import frc.robot.commands.GrabAndRaise;
 import frc.robot.commands.Path1;
@@ -193,6 +194,10 @@ lbRetract.onTrue(new RetractArm( m_liftSubsystem ).withInterruptBehavior(Interru
 
     final JoystickButton rbZeroLift = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
     rbZeroLift.onTrue(new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    
+    final JoystickButton lsLiftEnable = new JoystickButton(attachmentController, XboxController.Button.kLeftStick.value);
+    lsLiftEnable.onTrue(new EnableLift(m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    
     // Command resetGyroCommand = new
     // InstantCommand(m_drivetrainSubsystem::zeroGyroscope);
     // final JoystickButton upShift = new Joystickbutton(driveController, XboxController.k)
