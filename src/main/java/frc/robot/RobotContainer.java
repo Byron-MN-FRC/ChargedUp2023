@@ -259,9 +259,32 @@ public XboxController getAttachmentController() {
          // Pass config
          config);
 
+         Trajectory pathThreeTrajectory =
+         TrajectoryGenerator.generateTrajectory(
+             new Pose2d(0, 0, new Rotation2d(0)),
+            // starting point
+            List.of(new Translation2d(0, -.6096 )),
+             // middle point
+             new Pose2d(4.6484, -.6096, new Rotation2d(0)),
+            //end point (untestedlast coords, should be right tho)
+             config);
+
     SwerveControllerCommand pathOnePartOne =
     new SwerveControllerCommand(
     exampleTrajectory,
+    m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
+    DriveConstants.kDriveKinematics,
+
+    // Position controllers
+    new PIDController(AutoConstants.kPXController, 0, 0),
+    new PIDController(AutoConstants.kPYController, 0, 0),
+    thetaController,
+    m_drivetrainSubsystem::setModuleStates,
+    m_drivetrainSubsystem);
+    
+    SwerveControllerCommand pathThreePartOne =
+    new SwerveControllerCommand(
+    pathThreeTrajectory,
     m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
     DriveConstants.kDriveKinematics,
 
@@ -293,11 +316,15 @@ public XboxController getAttachmentController() {
     }
     if (m_chooser.getSelected().getName() == "Path3"){
       return new SequentialCommandGroup(
-        new DriveToEncoder(Constants.LifterConstants.highPos, m_liftSubsystem),
-        new ClawRelease(m_clawSubsystem),
-        new DriveToEncoder(Constants.LifterConstants.storedPos, m_liftSubsystem)
+        // new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
+        // new ClawGrab(m_clawSubsystem),
+        // new DriveToEncoder(Constants.LifterConstants.highPos, m_liftSubsystem),
+        // new ClawRelease(m_clawSubsystem),
+        // new DriveToEncoder(Constants.LifterConstants.storedPos, m_liftSubsystem),
+        pathThreePartOne
       );
     }
+
     else {
       return new ClawGrab(m_clawSubsystem);
     }
