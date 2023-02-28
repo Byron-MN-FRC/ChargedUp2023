@@ -17,5 +17,12 @@
       "/Shuffleboard/Vision/Field": "Field2d",
       "/SmartDashboard/Auto Mode": "String Chooser"
     }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "open": true
+      }
+    }
   }
 }

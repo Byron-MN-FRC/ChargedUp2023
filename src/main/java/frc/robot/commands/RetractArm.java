@@ -11,6 +11,7 @@
 // ROBOTBUILDER TYPE: Command.
 
 package frc.robot.commands;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 
@@ -55,7 +56,10 @@ public class RetractArm extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
+
     public void execute() {
+        System.out.println("Retract arm");
+
     }
 
     // Called once the command ends or is interrupted.

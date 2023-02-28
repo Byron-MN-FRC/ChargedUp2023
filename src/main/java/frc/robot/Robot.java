@@ -13,7 +13,11 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -21,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
  * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in 
+ * creating this project, you must also update the build.properties file in
  * the project.
  */
 public class Robot extends TimedRobot {
@@ -36,35 +40,45 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+        // Instantiate our RobotContainer. This will perform all our button bindings,
+        // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
-    // m_robotContainer = new RobotContainer();
+        // m_robotContainer = new RobotContainer();
 
-    // CameraServer.startAutomaticCapture("forward", 0);
-    
+        CameraServer.startAutomaticCapture("forward", 0);
+        SmartDashboard.putString("Color", DriverStation.getAlliance().name());
+        if (DriverStation.getAlliance() == Alliance.Blue)
+            m_robotContainer.m_drivetrainSubsystem.switchColor();
+        SmartDashboard.putNumber("Auto Delay", 0);
     }
 
     /**
-    * This function is called every robot packet, no matter the mode. Use this for items like
-    * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-    *
-    * <p>This runs after the mode specific periodic functions, but before
-    * LiveWindow and SmartDashboard integrated updating.
-    */
+     * This function is called every robot packet, no matter the mode. Use this for
+     * items like
+     * diagnostics that you want ran during disabled, autonomous, teleoperated and
+     * test.
+     *
+     * <p>
+     * This runs after the mode specific periodic functions, but before
+     * LiveWindow and SmartDashboard integrated updating.
+     */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
+        // Runs the Scheduler. This is responsible for polling buttons, adding
+        // newly-scheduled
+        // commands, running already-scheduled commands, removing finished or
+        // interrupted commands,
+        // and running subsystem periodic() methods. This must be called from the
+        // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        
     }
 
-
     /**
-    * This function is called once each time the robot enters Disabled mode.
-    */
+     * This function is called once each time the robot enters Disabled mode.
+     */
     @Override
     public void disabledInit() {
     }
@@ -74,8 +88,9 @@ public class Robot extends TimedRobot {
     }
 
     /**
-    * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
-    */
+     * This autonomous runs the autonomous command selected by your
+     * {@link RobotContainer} class.
+     */
     @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -87,8 +102,8 @@ public class Robot extends TimedRobot {
     }
 
     /**
-    * This function is called periodically during autonomous.
-    */
+     * This function is called periodically during autonomous.
+     */
     @Override
     public void autonomousPeriodic() {
     }
@@ -102,7 +117,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-    }
+        }
 
     /**
      * This function is called periodically during operator control.
@@ -118,8 +133,8 @@ public class Robot extends TimedRobot {
     }
 
     /**
-    * This function is called periodically during test mode.
-    */
+     * This function is called periodically during test mode.
+     */
     @Override
     public void testPeriodic() {
     }
