@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("Color", DriverStation.getAlliance().name());
         if (DriverStation.getAlliance() == Alliance.Blue)
             m_robotContainer.m_drivetrainSubsystem.switchColor();
-
+        SmartDashboard.putNumber("Auto Delay", 0);
     }
 
     /**

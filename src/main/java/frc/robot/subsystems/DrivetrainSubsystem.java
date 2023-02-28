@@ -144,7 +144,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     // Change this to match the name of your camera
     PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
     // PID constants should be tuned per robot
-    final double LINEAR_P = 0.5;
+    final double LINEAR_P = 0.4;
     final double LINEAR_D = 0.0;
     PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
@@ -152,7 +152,6 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     final double ANGULAR_D = 0.0;
     PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
 
-    private double pitchOffset;
     private double rollOffset;
     // april tag red field position
     public int middleAprilTag = 2;
@@ -249,7 +248,6 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
                         m_backRightModule.getPosition()
                 });
         rollOffset = m_pigeon.getRoll();
-        pitchOffset = m_pigeon.getPitch();
     }
 
     public boolean zeroGyroscope() {
@@ -292,6 +290,8 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             if (m_pigeon.getYaw() > 90 && m_pigeon.getYaw() < 270) {
                 x = -x;
             }
+
+            
             m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                     -RobotContainer.modifyAxis(-x, balanceXLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
                     -RobotContainer.modifyAxis(0, yLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
