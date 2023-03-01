@@ -42,6 +42,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.AutonBalance;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.ChaseTagCommand;
 import frc.robot.commands.ClawGrab;
@@ -251,6 +252,15 @@ public XboxController getAttachmentController() {
          .setKinematics(DriveConstants.kDriveKinematics);
          // Apply the voltage constraint
 
+    TrajectoryConfig configSlow =
+    new TrajectoryConfig
+    (
+             1.6,
+             AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+         // Add kinematics to ensure max speed is actually obeyed
+         .setKinematics(DriveConstants.kDriveKinematics);
+         // Apply the voltage constraint
+
   // An example trajectory to follow.  All units in meters.
   Trajectory pathOneTrajectoryOne =
      TrajectoryGenerator.generateTrajectory(
@@ -266,59 +276,80 @@ public XboxController getAttachmentController() {
          config);
     
          Trajectory pathThreeTrajectoryOne =
-         TrajectoryGenerator.generateTrajectory(
-             new Pose2d(0, 0, new Rotation2d(0)),
-            // starting point
-            List.of(new Translation2d(0, Units.inchesToMeters(-24)),
-            new Translation2d(Units.inchesToMeters(220.404), Units.inchesToMeters(-24)*negate),
-            new Translation2d(Units.inchesToMeters(220.404), Units.inchesToMeters(-8)*negate)),
-             // middle point
-             new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
-            //end point (untestedlast coords, should be right tho)
-             config);
+    TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // starting point
+      List.of(new Translation2d(0, Units.inchesToMeters(-24)*negate),
+      new Translation2d(Units.inchesToMeters(220.404), Units.inchesToMeters(-24)*negate),
+      new Translation2d(Units.inchesToMeters(220.404), Units.inchesToMeters(-8)*negate)),
+        // middle point
+        new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
+      //end point (untestedlast coords, should be right tho)
+        config);
+
+    Trajectory pathMiddleTrajectory =
+        TrajectoryGenerator.generateTrajectory(
+        new Pose2d(Units.feetToMeters(0), Units.feetToMeters(0), new Rotation2d(0)),
+        List.of(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(2.5)*negate),
+        new Translation2d(Units.feetToMeters(16), Units.feetToMeters(2.5)*negate)
+        ),
+        new Pose2d(Units.feetToMeters(8), Units.feetToMeters(2.5)*negate, new Rotation2d(0)),
+        configSlow);
+             
     Trajectory pathThreeTrajectoryTwo = 
-    TrajectoryGenerator.generateTrajectory(new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
-    List.of(new Translation2d(Units.inchesToMeters(14), Units.inchesToMeters(-8)*negate)),
-     new Pose2d(Units.inchesToMeters(12), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
-     config);
+        TrajectoryGenerator.generateTrajectory(new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
+        List.of(new Translation2d(Units.inchesToMeters(14), Units.inchesToMeters(-8)*negate)),
+        new Pose2d(Units.inchesToMeters(12), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
+        config);
 
 
     SwerveControllerCommand pathOnePartOne =
-    new SwerveControllerCommand(
-    pathOneTrajectoryOne,
-    m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
-    DriveConstants.kDriveKinematics,
+        new SwerveControllerCommand(
+        pathOneTrajectoryOne,
+        m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
+        DriveConstants.kDriveKinematics,
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        thetaController,
+        m_drivetrainSubsystem::setModuleStates,
+        m_drivetrainSubsystem);
 
-    // Position controllers
-    new PIDController(AutoConstants.kPXController, 0, 0),
-    new PIDController(AutoConstants.kPYController, 0, 0),
-    thetaController,
-    m_drivetrainSubsystem::setModuleStates,
-    m_drivetrainSubsystem);
+    SwerveControllerCommand pathMiddlePartOne =
+        new SwerveControllerCommand(
+        pathMiddleTrajectory,
+        m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
+        DriveConstants.kDriveKinematics,
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        thetaController,
+        m_drivetrainSubsystem::setModuleStates,
+        m_drivetrainSubsystem);
     
     SwerveControllerCommand pathThreePartOne =
-    new SwerveControllerCommand(
-    pathThreeTrajectoryOne,
-    m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
-    DriveConstants.kDriveKinematics,
+        new SwerveControllerCommand(
+        pathThreeTrajectoryOne,
+        m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
+        DriveConstants.kDriveKinematics,
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        thetaController,
+        m_drivetrainSubsystem::setModuleStates,
+        m_drivetrainSubsystem);
 
-    // Position controllers
-    new PIDController(AutoConstants.kPXController, 0, 0),
-    new PIDController(AutoConstants.kPYController, 0, 0),
-    thetaController,
-    m_drivetrainSubsystem::setModuleStates,
-    m_drivetrainSubsystem);
-SwerveControllerCommand pathThreePartTwo =
-    new SwerveControllerCommand(
-    pathThreeTrajectoryTwo,
-    m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
-    DriveConstants.kDriveKinematics,
-    // Position controllers
-    new PIDController(AutoConstants.kPXController, 0, 0),
-    new PIDController(AutoConstants.kPYController, 0, 0),
-    thetaController,
-    m_drivetrainSubsystem::setModuleStates,
-    m_drivetrainSubsystem);
+    SwerveControllerCommand pathThreePartTwo =
+        new SwerveControllerCommand(
+        pathThreeTrajectoryTwo,
+        m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
+        DriveConstants.kDriveKinematics,
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        thetaController,
+        m_drivetrainSubsystem::setModuleStates,
+        m_drivetrainSubsystem);
     // // Reset odometry to the starting pose of the trajectory.
     // m_drivetrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
@@ -327,6 +358,7 @@ SwerveControllerCommand pathThreePartTwo =
     // ChassisSpeeds(0, 0, 0)));
     
     m_drivetrainSubsystem.resetOdometry(pathOneTrajectoryOne.getInitialPose());
+
     if (m_chooser.getSelected().getName() =="Left"){
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
@@ -343,7 +375,9 @@ SwerveControllerCommand pathThreePartTwo =
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new GrabAndRaise(m_liftSubsystem, m_clawSubsystem),
-        new PlaceCargo(m_clawSubsystem, m_liftSubsystem)
+        new PlaceCargo(m_clawSubsystem, m_liftSubsystem),
+        pathMiddlePartOne,
+        new AutonBalance(m_drivetrainSubsystem)
       );
     }
     if (m_chooser.getSelected().getName() == "Right"){

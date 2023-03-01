@@ -52,7 +52,7 @@ public class DefaultDriveCommand extends CommandBase {
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                         (m_translationXSupplier.getAsDouble())*driveSpeed,
                         (m_translationYSupplier.getAsDouble())*driveSpeed,
-                        (m_rotationSupplier.getAsDouble())*driveSpeed,
+                        (m_rotationSupplier.getAsDouble())*driveSpeed * .6,
                         m_drivetrainSubsystem.getGyroscopeRotation()));
         }
         SmartDashboard.putNumber("driveSpeed", driveSpeed);
