@@ -91,6 +91,8 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
     public void periodic() {
         SmartDashboard.putBoolean("isBodyTriggered", isBodyTriggered());
         SmartDashboard.putBoolean("isOuterTriggered", isOuterTriggered());
+        SmartDashboard.putNumber("leftLimitSwitch", leftLifter.isFwdLimitSwitchClosed());
+        SmartDashboard.putNumber("rightLimitSwitch", leftLifter.isRevLimitSwitchClosed());
         SmartDashboard.putNumber("EncoderUnits", leftLifter.getSelectedSensorPosition());
 
         // This method will be called once per scheduler run
@@ -106,15 +108,16 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
     // Put methods for controlling this subsystem
 
     public void liftWithJoystick(XboxController controller2) {
+
         if (LiftEnabled) {
         double target = LifterConstants.storedPos;
         double speed = controller2.getLeftX();
         // negitive values are isOuterTriggered, and postive values are isBodyTriggered.
-        if (isBodyTriggered() && speed < 0) {
-            speed = 0;
-        } else if (isOuterTriggered() && speed > 0) {
-            speed = 0;
-        }
+        // if (isBodyTriggered() && speed < 0) {
+        //     speed = 0;
+        // } else if (isOuterTriggered() && speed > 0) {
+        //     speed = 0;
+        // }
         leftLifter.set(speed*.3);
         }
     }
