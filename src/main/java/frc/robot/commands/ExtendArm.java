@@ -58,7 +58,6 @@ public class ExtendArm extends CommandBase {
             } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
                     || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
                 m_liftSubsystem.extendArm();
-
             }
         } else {
             m_liftSubsystem.extendArm();

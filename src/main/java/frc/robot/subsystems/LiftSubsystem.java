@@ -107,15 +107,15 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
 
     public void liftWithJoystick(XboxController controller2) {
         if (LiftEnabled) {
-        double target = LifterConstants.storedPos;
-        double speed = controller2.getLeftX();
-        // negitive values are isOuterTriggered, and postive values are isBodyTriggered.
+            double target = LifterConstants.storedPos;
+            double speed = controller2.getLeftX();
+            // negitive values are isOuterTriggered, and postive values are isBodyTriggered.
         if (isBodyTriggered() && speed < 0) {
             speed = 0;
         } else if (isOuterTriggered() && speed > 0) {
             speed = 0;
         }
-        leftLifter.set(speed*.3);
+            leftLifter.set(speed*.3);
         }
     }
 
@@ -218,8 +218,8 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
 
                 
         /* Set acceleration and vcruise velocity - see documentation */
-        leftLifter.configMotionCruiseVelocity(18000, LifterConstants.kTimeoutMs);
-        leftLifter.configMotionAcceleration(6000, LifterConstants.kTimeoutMs);
+        leftLifter.configMotionCruiseVelocity(48000, LifterConstants.kTimeoutMs);
+        leftLifter.configMotionAcceleration(20000, LifterConstants.kTimeoutMs);
         rightLifter.configMotionCruiseVelocity(15000, LifterConstants.kTimeoutMs);
         rightLifter.configMotionAcceleration(6000, LifterConstants.kTimeoutMs);
 
@@ -243,7 +243,6 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
     }
 
      public void setLiftPos(double pos) {
-       
         leftLifter.set(TalonFXControlMode.MotionMagic, pos);
         rightLifter.follow(leftLifter);
    }
