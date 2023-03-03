@@ -213,8 +213,8 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
 
                 
         /* Set acceleration and vcruise velocity - see documentation */
-        leftLifter.configMotionCruiseVelocity(18000, LifterConstants.kTimeoutMs);
-        leftLifter.configMotionAcceleration(6000, LifterConstants.kTimeoutMs);
+        leftLifter.configMotionCruiseVelocity(20000, LifterConstants.kTimeoutMs);
+        leftLifter.configMotionAcceleration(24000, LifterConstants.kTimeoutMs);
         rightLifter.configMotionCruiseVelocity(15000, LifterConstants.kTimeoutMs);
         rightLifter.configMotionAcceleration(6000, LifterConstants.kTimeoutMs);
 
