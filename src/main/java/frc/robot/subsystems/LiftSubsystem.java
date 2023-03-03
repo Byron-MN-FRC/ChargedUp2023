@@ -139,19 +139,11 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
     }
 
     public boolean isBodyTriggered() {
-        if (bodySwitch.get()) {
-            return true;
-        } else {
-            return false;
-        }
+        return (leftLifter.isRevLimitSwitchClosed() != 0);
     }
 
     public boolean isOuterTriggered() {
-        if (outerSwitch.get()) {
-            return true;
-        } else {
-            return false;
-        }
+        return (leftLifter.isFwdLimitSwitchClosed() != 0);
     }
 
     public void liftMotorConfig() {
@@ -272,5 +264,8 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
         leftLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
         rightLifter.setSelectedSensorPosition(LifterConstants.highPos, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
     }
-
+    public double liftVelocity(){
+        return leftLifter.getSelectedSensorVelocity();
+    }
+    
 }
