@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -292,10 +293,11 @@ public XboxController getAttachmentController() {
     Trajectory pathMiddleTrajectory =
         TrajectoryGenerator.generateTrajectory(
         new Pose2d(Units.feetToMeters(0), Units.feetToMeters(0), new Rotation2d(0)),
-        List.of(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(2.5)*negate),
-        new Translation2d(Units.feetToMeters(16), Units.feetToMeters(2.5)*negate)
+        List.of(
+          new Translation2d(Units.feetToMeters(3),Units.feetToMeters(.2)),
+          new Translation2d(Units.feetToMeters(16), Units.feetToMeters(0)*negate)
         ),
-        new Pose2d(Units.feetToMeters(8), Units.feetToMeters(2.5)*negate, new Rotation2d(0)),
+        new Pose2d(Units.feetToMeters(8), Units.feetToMeters(0)*negate, new Rotation2d(0)),
         configSlow);
              
     Trajectory pathThreeTrajectoryTwo = 
@@ -385,9 +387,16 @@ public XboxController getAttachmentController() {
     if (m_chooser.getSelected().getName() =="Middle"){
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
-        new GrabAndRaise(m_liftSubsystem, m_clawSubsystem),
-        new PlaceCargo(m_clawSubsystem, m_liftSubsystem),
-        pathMiddlePartOne,
+        new ClawGrab(m_clawSubsystem),
+        // new PlaceCargo(m_clawSubsystem, m_liftSubsystem),
+        new DriveToEncoder(Constants.LifterConstants.highPos, m_liftSubsystem),
+        new ClawRelease(m_clawSubsystem),
+
+        new ParallelCommandGroup(
+          new DriveToEncoder(Constants.LifterConstants.storedPos, m_liftSubsystem),
+          pathMiddlePartOne
+
+        ),
         new AutonBalance(m_drivetrainSubsystem)
       );
     }
