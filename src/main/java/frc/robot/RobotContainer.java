@@ -27,12 +27,11 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -66,6 +65,7 @@ import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.PoseEstimatorSubsystem;
+import frc.robot.subsystems.Shufboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -84,6 +84,7 @@ public class RobotContainer {
 // The robot's subsystems
     public final ClawSubsystem m_clawSubsystem = new ClawSubsystem();
     public final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
+    public final Shufboard m_shufBoard = new Shufboard();
 
 // Joysticks
 private final XboxController attachmentController = new XboxController(1);
