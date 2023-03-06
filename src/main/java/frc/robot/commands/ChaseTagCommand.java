@@ -75,10 +75,10 @@ public class ChaseTagCommand extends CommandBase {
     }
 
     if (RobotContainer.getInstance().getAttachmentController().getXButton()){
-      offset = 1;
+      offset = Units.inchesToMeters(25);
     }
     else if (RobotContainer.getInstance().getAttachmentController().getBButton()){
-      offset = -1;
+      offset = Units.inchesToMeters(-20);
     }
     else{
       offset = 0;
