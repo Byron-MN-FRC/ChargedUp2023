@@ -19,12 +19,12 @@ public class Path1 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new DriveToEncoder(LifterConstants.highPos, liftSubsystem),
+        new DriveToEncoder(liftSubsystem.highPos, liftSubsystem),
         // new ArmToDropPosition(liftSubsystem),
         new ExtendArm(false, liftSubsystem),
         new ToggleClaw(clawSubsystem),
         new RetractArm(liftSubsystem),
-        new DriveToEncoder(LifterConstants.storedPos, liftSubsystem),
+        new DriveToEncoder(liftSubsystem.storedPos, liftSubsystem),
         new DriveToPoint());
   }
 }

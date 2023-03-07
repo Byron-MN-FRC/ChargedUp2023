@@ -20,7 +20,7 @@ public class ZeroLiftSequential extends SequentialCommandGroup {
     addCommands(
       new ClawGrab(m_ClawSubsystem),
       new ZeroLift(m_LiftSubsystem),
-      new DriveToEncoderSansSafety(LifterConstants.storedPos, m_LiftSubsystem)
+      new DriveToEncoderSansSafety(m_LiftSubsystem.storedPos, m_LiftSubsystem)
     );
   }
 }

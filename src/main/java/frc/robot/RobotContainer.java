@@ -376,9 +376,9 @@ public XboxController getAttachmentController() {
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
-        new DriveToEncoder(Constants.LifterConstants.highPos, m_liftSubsystem),
+        new DriveToEncoder(m_liftSubsystem.highPos, m_liftSubsystem),
         new ClawRelease(m_clawSubsystem),
-        new DriveToEncoder(Constants.LifterConstants.storedPos, m_liftSubsystem),
+        new DriveToEncoder(m_liftSubsystem.storedPos, m_liftSubsystem),
         new WaitCommand(autoDelay),
         pathOnePartOne
         // new ClawGrab(m_clawSubsystem)
@@ -389,14 +389,15 @@ public XboxController getAttachmentController() {
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
         // new PlaceCargo(m_clawSubsystem, m_liftSubsystem),
-        new DriveToEncoder(Constants.LifterConstants.highPos, m_liftSubsystem),
+        new DriveToEncoder(m_liftSubsystem.highPos, m_liftSubsystem),
         new ClawRelease(m_clawSubsystem),
 
         new ParallelCommandGroup(
-          new DriveToEncoder(Constants.LifterConstants.storedPos, m_liftSubsystem),
+          new DriveToEncoder(m_liftSubsystem.storedPos, m_liftSubsystem),
           pathMiddlePartOne
 
         ),
+        
         new AutonBalance(m_drivetrainSubsystem)
       );
     }
@@ -404,9 +405,9 @@ public XboxController getAttachmentController() {
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
-        new DriveToEncoder(Constants.LifterConstants.highPos, m_liftSubsystem),
+        new DriveToEncoder(m_liftSubsystem.highPos, m_liftSubsystem),
         new ClawRelease(m_clawSubsystem),
-        new DriveToEncoder(Constants.LifterConstants.storedPos, m_liftSubsystem),
+        new DriveToEncoder(m_liftSubsystem.storedPos, m_liftSubsystem),
         new WaitCommand(autoDelay),
         pathThreePartOne,
         new GrabAndRaise(m_liftSubsystem, m_clawSubsystem),
