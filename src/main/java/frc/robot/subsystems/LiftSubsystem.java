@@ -160,6 +160,7 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
 
     public boolean isOuterTriggered() {
         return (rightLifter.isFwdLimitSwitchClosed() == 0);
+
     }
 
     public void liftMotorConfig() {
@@ -296,5 +297,8 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
     public double getLeftLifterVelocity(){
         return rightLifter.getSelectedSensorVelocity();
     }
-
+    public double liftVelocity(){
+        return leftLifter.getSelectedSensorVelocity();
+    }
+    
 }

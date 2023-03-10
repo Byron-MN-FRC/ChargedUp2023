@@ -268,10 +268,10 @@ public XboxController getAttachmentController() {
   Trajectory pathOneTrajectoryOne =
      TrajectoryGenerator.generateTrajectory(
          // Start at the origin facing the +X direction
-         new Pose2d(0, 0, new Rotation2d(0)),
+         new Pose2d(Units.inchesToMeters(54), Units.inchesToMeters(41), new Rotation2d(0)),
          // Pass through these two interior waypoints, making an 's' curve path
         //  List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        List.of(new Translation2d(1, .5*negate)),
+        List.of(new Translation2d(55, 41.5*negate)),
          // End 3 meters straight ahead of where we started, facing forward
          new Pose2d(5.2+.1778, .65*negate, new Rotation2d(0)),
         // new Pose2d(3, 0, new Rotation2d(0)),
@@ -280,7 +280,7 @@ public XboxController getAttachmentController() {
     
          Trajectory pathThreeTrajectoryOne =
     TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
+      new Pose2d(Units.inchesToMeters(648), Units.inchesToMeters(612), new Rotation2d(0)),
       // starting point
       List.of(new Translation2d(0, Units.inchesToMeters(-24)*negate),
       new Translation2d(Units.inchesToMeters(220.404), Units.inchesToMeters(-24)*negate),
@@ -292,18 +292,18 @@ public XboxController getAttachmentController() {
 
     Trajectory pathMiddleTrajectory =
         TrajectoryGenerator.generateTrajectory(
-        new Pose2d(Units.feetToMeters(0), Units.feetToMeters(0), new Rotation2d(0)),
+        new Pose2d(Units.inchesToMeters(54), Units.inchesToMeters(46), new Rotation2d(0)),
         List.of(
-          new Translation2d(Units.feetToMeters(3),Units.feetToMeters(.2)),
-          new Translation2d(Units.feetToMeters(16), Units.feetToMeters(0)*negate)
+          new Translation2d(Units.inchesToMeters(36),Units.inchesToMeters(2.4)),
+          new Translation2d(Units.inchesToMeters(192), Units.inchesToMeters(0)*negate)
         ),
-        new Pose2d(Units.feetToMeters(8), Units.feetToMeters(0)*negate, new Rotation2d(0)),
+        new Pose2d(Units.inchesToMeters(96), Units.inchesToMeters(0)*negate, new Rotation2d(0)),
         configSlow);
              
     Trajectory pathThreeTrajectoryTwo = 
-        TrajectoryGenerator.generateTrajectory(new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
-        List.of(new Translation2d(Units.inchesToMeters(14), Units.inchesToMeters(-8)*negate)),
-        new Pose2d(Units.inchesToMeters(12), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
+        TrajectoryGenerator.generateTrajectory(new Pose2d(Units.inchesToMeters(2884.848), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
+        List.of(new Translation2d(Units.inchesToMeters(168), Units.inchesToMeters(-8)*negate)),
+        new Pose2d(Units.inchesToMeters(144), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
         config);
 
 
