@@ -54,9 +54,9 @@ private DoubleSolenoid armExtender;
         LifterConstants.thresholdLimit,LifterConstants.thresholdTime
     );
 public double offset = 0;
-public double highPos = 218000.000000;
+public double highPos = 205645.000000;
 public double storedPos = 1000;
-public double lowPos = 22000;
+public double lowPos = 18212.000000;
 
     /**
     *
@@ -239,7 +239,7 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
         /* Zero the sensor once on robot boot up */
         leftLifter.setSelectedSensorPosition(0, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
         rightLifter.setSelectedSensorPosition(0, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
-        // leftLifter.configStatorCurrentLimit(currentLimiting);
+        leftLifter.configStatorCurrentLimit(currentLimiting);
 
         // Set default for limit switches to closed so don't move motors unless detected
         rightLifter.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed,LifterConstants.kTimeoutMs);
