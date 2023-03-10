@@ -64,6 +64,7 @@ import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.PoseEstimatorSubsystem;
+import frc.robot.subsystems.Shufboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -82,6 +83,7 @@ public class RobotContainer {
 // The robot's subsystems
     public final ClawSubsystem m_clawSubsystem = new ClawSubsystem();
     public final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
+    public final Shufboard m_shufBoard = new Shufboard();
 
 // Joysticks
 private final XboxController attachmentController = new XboxController(1);
