@@ -56,13 +56,13 @@ public class DriveToEncoder extends CommandBase {
     public void initialize() {
         if (m_targetEncoders == -1) {
             if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
-                m_targetEncoders = LifterConstants.storedPos;
+                m_targetEncoders = m_liftSubsystem.storedPos;
             } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
                     || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
-                m_targetEncoders = LifterConstants.highPos;
+                m_targetEncoders = m_liftSubsystem.highPos;
             } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 225
                     || RobotContainer.getInstance().getAttachmentController().getPOV() >= 135) {
-                m_targetEncoders = LifterConstants.lowPos;
+                m_targetEncoders = m_liftSubsystem.lowPos;
             }
         }
     }
@@ -79,10 +79,10 @@ public class DriveToEncoder extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         if (m_liftSubsystem.isOuterTriggered()){
-            m_liftSubsystem.stopLift();
+            // m_liftSubsystem.stopLift();
             m_liftSubsystem.setHighLift();;
         }else if(m_liftSubsystem.isBodyTriggered()){
-            m_liftSubsystem.stopLift();
+            // m_liftSubsystem.stopLift();
             m_liftSubsystem.zeroLift();
         }
 
@@ -92,7 +92,14 @@ public class DriveToEncoder extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return m_liftSubsystem.targetEncoder(m_targetEncoders)||m_liftSubsystem.isOuterTriggered()||m_liftSubsystem.isBodyTriggered();
+        // return m_liftSubsystem.targetEncoder(m_targetEncoders);
+        // velocity is zero as motors are stopped by limit switch
+        if (m_liftSubsystem.getLeftLifterVelocity()>0) {
+            return m_liftSubsystem.targetEncoder(m_targetEncoders)||m_liftSubsystem.isOuterTriggered();
+        }
+        else {
+            return m_liftSubsystem.targetEncoder(m_targetEncoders)||m_liftSubsystem.isBodyTriggered();
+        }
     }
 
     @Override

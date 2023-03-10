@@ -133,10 +133,6 @@ public final class Constants {
         public static final double thresholdTime = .1;
 
         //Arm values
-        public static final double highPos = 218000.000000;
-        public static final double storedPos = 8200;
-        public static final double lowPos = 22000;
-
         /**
          * Which PID slot to pull gains from. Starting 2018, you can choose from
          * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
