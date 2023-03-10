@@ -36,7 +36,7 @@ public class PlaceCargo extends SequentialCommandGroup {
                 new DriveToEncoderOuter(liftSubsystem.highPos, liftSubsystem),
                 
                new ExtendArm(false, liftSubsystem),
-               new WaitCommand(5),
+               new WaitCommand(2),
                new ClawRelease(clawSubsystem),
                new RetractArm(liftSubsystem)
                 // new DriveToEncoderBody(liftSubsystem.storedPos, liftSubsystem)
