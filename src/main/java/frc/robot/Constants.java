@@ -118,7 +118,7 @@ public final class Constants {
          * robot.
          */
         public static final Transform3d CAMERA_TO_ROBOT =
-        new Transform3d(new Translation3d(Units.inchesToMeters(-10), 0, Units.inchesToMeters(14)), new Rotation3d(0,0,Math.PI));
+        new Transform3d(new Translation3d(Units.inchesToMeters(-27/2), 0, Units.inchesToMeters(15)), new Rotation3d(0,0,Math.PI));
     public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();
     }
 
@@ -128,7 +128,7 @@ public final class Constants {
          */
         //Current limit values
          public static final boolean kEnableCurrentLimiting_BS = true;
-        public static final double currentLimit = 12;
+        public static final double currentLimit = 60;
         public static final double thresholdLimit = 18;
         public static final double thresholdTime = .1;
 
@@ -156,7 +156,7 @@ public final class Constants {
          * Gains used in Motion Magic, to be adjusted accordingly
          * Gains(kp, ki, kd, kf, izone, peak output);
          */
-        public static final Gains kGains_lifterMotor = new Gains(0.6, 0.0, 0.0, 0.2, 0, 1.0);
+        public static final Gains kGains_lifterMotor = new Gains(0.5, 0.0, 0.0, 0.2, 0, 1.0);
     }
 
 }

@@ -83,8 +83,9 @@ public class ChaseTagCommand extends CommandBase {
     if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.LeftBottom){
       offset = Units.inchesToMeters(25);
     }
-    else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.RightBottom){
-      offset = Units.inchesToMeters(-20);
+    else if (RobotContainer.getInstance().getAttachmentController().getBButton()){
+      offset = Units.inchesToMeters(-22);
+
     }
     else{
       offset = 0;
