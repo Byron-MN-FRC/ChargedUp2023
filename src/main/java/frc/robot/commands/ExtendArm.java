@@ -61,7 +61,6 @@ public class ExtendArm extends CommandBase {
 
         //     }
         // } else {
-            m_liftSubsystem.extendArm();
 
     }
 
@@ -70,6 +69,8 @@ public class ExtendArm extends CommandBase {
 
     public void execute() {
         System.out.println("Extend Arm");
+        m_liftSubsystem.extendArm();
+
 
     }
 
@@ -81,7 +82,7 @@ public class ExtendArm extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return m_liftSubsystem.isArmExtended();
     }
 
     @Override

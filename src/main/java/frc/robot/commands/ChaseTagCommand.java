@@ -78,7 +78,7 @@ public class ChaseTagCommand extends CommandBase {
       offset = Units.inchesToMeters(25);
     }
     else if (RobotContainer.getInstance().getAttachmentController().getBButton()){
-      offset = Units.inchesToMeters(-20);
+      offset = Units.inchesToMeters(-22);
     }
     else{
       offset = 0;

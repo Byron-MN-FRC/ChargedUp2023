@@ -35,7 +35,7 @@ public class GrabAndRaise extends SequentialCommandGroup {
         addCommands(
                 new ClawGrab(clawSubsystem),
                 new WaitCommand(.5        ),
-                new DriveToEncoderOuter(liftSubsystem.lowPos, liftSubsystem)
+                new DriveToEncoderOuter(liftSubsystem.lowPos, liftSubsystem, false)
         // Add Commands here:
         // Also add parallel commands using the
         //
