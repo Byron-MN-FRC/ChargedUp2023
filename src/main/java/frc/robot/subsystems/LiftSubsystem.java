@@ -131,6 +131,7 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
         // }
         rightLifter.set(speed*.3);
         leftLifter.follow(rightLifter);
+
         }
     }
 
@@ -239,6 +240,7 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
         // rightLifter.configMotionAcceleration(10000, LifterConstants.kTimeoutMs);
         rightLifter.configMotionAcceleration(22000, LifterConstants.kTimeoutMs);
 
+
         /* Zero the sensor once on robot boot up */
         leftLifter.setSelectedSensorPosition(0, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
         rightLifter.setSelectedSensorPosition(0, LifterConstants.kPIDLoopIdx, LifterConstants.kTimeoutMs);
@@ -267,10 +269,10 @@ armExtender = new DoubleSolenoid(21, PneumaticsModuleType.REVPH, 2, 3);
         return false;
     }
 
-     public void setLiftPos(double pos) {
-       
+     public void setLiftPos(double pos) {       
         rightLifter.set(TalonFXControlMode.MotionMagic, pos);
         leftLifter.follow(rightLifter);
+
    }
 
     public void stopLift() {
