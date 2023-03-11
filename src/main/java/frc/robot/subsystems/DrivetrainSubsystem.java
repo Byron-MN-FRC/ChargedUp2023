@@ -278,10 +278,8 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     public void drive(ChassisSpeeds chassisSpeeds) {
         if (RobotContainer.getInstance().getDriveController().getBButton()) {
 
-            forwardController.setP(.03);
-            turnController.setP(0.16);
+            forwardController.setP(.028);
             double x;
-            double z;
             double pitch = getPitch();
             x = forwardController.calculate(pitch, 0);
             // pitch is current value and setpoint is desired value
@@ -367,31 +365,30 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     }
 
     public void autoBalanceDrive() {
-        forwardController.setP(.06);
-        turnController.setP(0.16);
-        double y;
-        double z;
-        // double y = driveJoystick.getY();
-        // double twist = driveJoystick.getZ();
-
-        double pitch = getRoll();
-        double roll = getPitch();
-        y = forwardController.calculate(pitch, 0);
-        // pitch is current value and setpoint is desired value
-        z = turnController.calculate(roll, 0);
-
-        SmartDashboard.putNumber("z = ", z*MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-        SmartDashboard.putNumber("x = ", y*MAX_VELOCITY_METERS_PER_SECOND);
+        forwardController.setP(.028);
+            double x;
+            double pitch = getPitch();
+            x = forwardController.calculate(pitch, 0);
+            // pitch is current value and setpoint is desired value
+            SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
+            SmartDashboard.putNumber("Pigeon Pitch", pitch);
+            if (m_pigeon.getYaw() > 90 && m_pigeon.getYaw() < 270) {
+                x = -x;
+            }
+            
+            m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                -RobotContainer.modifyAxis(-x, balanceXLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+                -RobotContainer.modifyAxis(0, yLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+                -RobotContainer.modifyAxis(0, turnLimiter) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                getGyroscopeRotation());
+            SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+            setModuleStates(states);
     }
 
     private double getPitch() {
         // return m_pigeon.getPitch() - pitchOffset;
         return m_pigeon.getPitch();
 
-    }
-
-    private double getRoll() {
-        return m_pigeon.getRoll() - rollOffset;
     }
 
     public void switchColor() {

@@ -56,13 +56,13 @@ public class DriveToEncoderSansSafety extends CommandBase {
     public void initialize() {
         if (m_targetEncoders == -1) {
             if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
-                m_targetEncoders = LifterConstants.storedPos;
+                m_targetEncoders = m_liftSubsystem.storedPos;
             } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
                     || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
-                m_targetEncoders = LifterConstants.highPos;
+                m_targetEncoders = m_liftSubsystem.highPos;
             } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 225
                     || RobotContainer.getInstance().getAttachmentController().getPOV() >= 135) {
-                m_targetEncoders = LifterConstants.lowPos;
+                m_targetEncoders = m_liftSubsystem.lowPos;
             }
         }
     }

@@ -52,16 +52,16 @@ public class ExtendArm extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (m_overrideable) {
-            if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
-                // no override
-            } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
-                    || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
-                m_liftSubsystem.extendArm();
-            }
-        } else {
-            m_liftSubsystem.extendArm();
-        }
+        // if (m_overrideable) {
+        //     if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
+        //         // no override
+        //     } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
+        //             || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
+        //         m_liftSubsystem.extendArm();
+
+        //     }
+        // } else {
+
 
     }
 
@@ -70,6 +70,8 @@ public class ExtendArm extends CommandBase {
 
     public void execute() {
         System.out.println("Extend Arm");
+        m_liftSubsystem.extendArm();
+
 
     }
 
@@ -81,7 +83,7 @@ public class ExtendArm extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return m_liftSubsystem.isArmExtended();
     }
 
     @Override

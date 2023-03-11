@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Shufboard;
+import frc.robot.subsystems.Shufboard.Position;
 
 public class ChaseTagCommand extends CommandBase {
   
@@ -37,6 +39,7 @@ public class ChaseTagCommand extends CommandBase {
   private final DrivetrainSubsystem drivetrainSubsystem;
   private final Supplier<Pose2d> poseProvider;
 
+
   private final ProfiledPIDController xController = new ProfiledPIDController(3, 0, 0, X_CONSTRAINTS);
   private final ProfiledPIDController yController = new ProfiledPIDController(3, 0, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController = new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
@@ -47,6 +50,7 @@ public class ChaseTagCommand extends CommandBase {
         PhotonCamera photonCamera, 
         DrivetrainSubsystem drivetrainSubsystem,
         Supplier<Pose2d> poseProvider) {
+        Shufboard shufBoard;
     this.photonCamera = photonCamera;
     this.drivetrainSubsystem = drivetrainSubsystem;
     this.poseProvider = poseProvider;
@@ -66,19 +70,22 @@ public class ChaseTagCommand extends CommandBase {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
-    if (RobotContainer.getInstance().getAttachmentController().getLeftBumper()) {
-      TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.leftAprilTag;
-    } else if (RobotContainer.getInstance().getAttachmentController().getRightBumper()) {
-      TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.rightAprilTag;
+    if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.LeftTop) {
+      TAG_TO_CHASE = drivetrainSubsystem.leftAprilTag;
+    } else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.RightTop) {
+      TAG_TO_CHASE = drivetrainSubsystem.rightAprilTag;
+    } else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.MiddleTop) {
+      TAG_TO_CHASE = drivetrainSubsystem.middleAprilTag;
     } else {
-      TAG_TO_CHASE = RobotContainer.getInstance().m_drivetrainSubsystem.middleAprilTag;
+      TAG_TO_CHASE = drivetrainSubsystem.middleAprilTag;
     }
 
-    if (RobotContainer.getInstance().getAttachmentController().getXButton()){
-      offset = 1;
+    if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.LeftBottom){
+      offset = Units.inchesToMeters(25);
     }
     else if (RobotContainer.getInstance().getAttachmentController().getBButton()){
-      offset = -1;
+      offset = Units.inchesToMeters(-22);
+
     }
     else{
       offset = 0;
