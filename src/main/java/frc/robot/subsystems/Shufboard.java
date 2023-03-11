@@ -62,10 +62,10 @@ public class Shufboard extends SubsystemBase {
         // This is the constructor for our ShufBoard Class
 
         // This is where we will call routines to define screen(s)
-        driverTab = Shuffleboard.getTab(this.driverTabName);
+        // driverTab = Shuffleboard.getTab(this.driverTabName);
 
-        Shuffleboard.selectTab(this.driverTabName);
-        addPositions(0, 0);
+        // Shuffleboard.selectTab(this.driverTabName);
+        // addPositions(0, 0);
 
     }
 
