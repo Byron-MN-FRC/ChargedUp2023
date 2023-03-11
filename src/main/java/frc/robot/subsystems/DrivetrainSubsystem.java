@@ -142,7 +142,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     // How far from the target we want to be
     final double GOAL_RANGE_METERS = Units.feetToMeters(1);
     // Change this to match the name of your camera
-    PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+    PhotonCamera camera = new PhotonCamera("4859-rear-cam");
     // PID constants should be tuned per robot
     final double LINEAR_P = 0.4;
     final double LINEAR_D = 0.0;
