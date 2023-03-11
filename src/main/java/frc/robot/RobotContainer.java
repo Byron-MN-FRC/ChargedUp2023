@@ -52,6 +52,7 @@ import frc.robot.commands.DriveLift;
 import frc.robot.commands.DriveToEncoder;
 import frc.robot.commands.DropAndRelease;
 import frc.robot.commands.EnableLift;
+import frc.robot.commands.ExtendArm;
 import frc.robot.commands.GrabAndRaise;
 import frc.robot.commands.Path1;
 import frc.robot.commands.Path2;
