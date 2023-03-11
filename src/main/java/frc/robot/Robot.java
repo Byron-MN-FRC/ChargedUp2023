@@ -31,6 +31,7 @@ import frc.robot.Constants.AutoConstants;
 public class Robot extends TimedRobot {
 
     private Command m_autonomousCommand;
+    
 
     private RobotContainer m_robotContainer;
 
@@ -76,6 +77,7 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        SmartDashboard.putString("Selected Position", RobotContainer.getInstance().m_shufBoard.SelectedPosition.name());
         
     }
 

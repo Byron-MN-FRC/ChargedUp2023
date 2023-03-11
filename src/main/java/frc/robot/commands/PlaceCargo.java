@@ -41,8 +41,6 @@ public class PlaceCargo extends SequentialCommandGroup {
 
                 // new ExtendArm(false, liftSubsystem)
 
-            
-                
 
           //      new ClawRelease(clawSubsystem)
 
