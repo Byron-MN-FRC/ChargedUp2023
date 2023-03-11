@@ -54,8 +54,8 @@ private DoubleSolenoid armExtender;
         LifterConstants.thresholdLimit,LifterConstants.thresholdTime
     );
 public double offset = 0;
-public double highPos = 218000.000000;
-public double storedPos = 1000;
+public double highPos = 195500.000000;
+public double storedPos = 500;
 public double lowPos = 22000;
 
     /**

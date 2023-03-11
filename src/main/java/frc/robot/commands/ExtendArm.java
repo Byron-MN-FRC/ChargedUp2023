@@ -52,17 +52,16 @@ public class ExtendArm extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (m_overrideable) {
-            if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
-                // no override
-            } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
-                    || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
-                m_liftSubsystem.extendArm();
+        // if (m_overrideable) {
+        //     if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
+        //         // no override
+        //     } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
+        //             || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
+        //         m_liftSubsystem.extendArm();
 
-            }
-        } else {
+        //     }
+        // } else {
             m_liftSubsystem.extendArm();
-        }
 
     }
 
