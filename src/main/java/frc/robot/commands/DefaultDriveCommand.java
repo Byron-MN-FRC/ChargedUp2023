@@ -38,7 +38,7 @@ public class DefaultDriveCommand extends CommandBase {
         // (square(m_rotationSupplier.getAsDouble(),3)),
         // m_drivetrainSubsystem.getGyroscopeRotation()));
 
-        double driveSpeed = 1-(RobotContainer.getInstance().getDriveController().getLeftTriggerAxis()*.5);
+        double driveSpeed = 1+(RobotContainer.getInstance().getDriveController().getLeftTriggerAxis()*.5);
         if (RobotContainer.getInstance().m_liftSubsystem.isArmExtended()){
             m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
