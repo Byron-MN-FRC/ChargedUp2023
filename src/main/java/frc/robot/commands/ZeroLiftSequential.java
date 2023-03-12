@@ -18,6 +18,7 @@ public class ZeroLiftSequential extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new RetractArm(m_LiftSubsystem),
       new ClawRelease(m_ClawSubsystem),
       new ZeroLift(m_LiftSubsystem),
       new DriveToEncoderSansSafety(m_LiftSubsystem.storedPos, m_LiftSubsystem)

@@ -13,8 +13,11 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,6 +33,9 @@ import frc.robot.Constants.AutoConstants;
  */
 public class Robot extends TimedRobot {
 
+    public PneumaticHub ph = new PneumaticHub(21);
+    // Compressor compressor = ph.makeCompressor();
+    Compressor compressor = new Compressor(21, PneumaticsModuleType.REVPH);
     private Command m_autonomousCommand;
     
 
@@ -56,6 +62,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Meters per second =", AutoConstants.kMaxSpeedMetersPerSecond);
         SmartDashboard.putNumber("Auto Delay", 0);
         SmartDashboard.putBoolean("High goal", false);
+    ph.enableCompressorAnalog(100, 120);
+
     }
 
     /**
@@ -105,6 +113,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
+        ph.enableCompressorAnalog(100, 120);
     }
 
     /**
@@ -123,6 +132,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        ph.enableCompressorAnalog(100, 120);
+
         }
 
     /**
