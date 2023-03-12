@@ -49,9 +49,6 @@ import frc.robot.commands.ClawGrab;
 import frc.robot.commands.ClawRelease;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveLift;
-
-import frc.robot.commands.DriveToEncoder;
-
 import frc.robot.commands.DriveToEncoderBody;
 import frc.robot.commands.DriveToEncoderOuter;
 import frc.robot.commands.DropAndRelease;
