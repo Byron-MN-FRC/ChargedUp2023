@@ -54,7 +54,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Auto Delay", 0);
         // SmartDashboard.putNumber("monkey monkey", RobotContainer.getInstance().m_liftSubsystem.highPos);
         SmartDashboard.putNumber("Meters per second =", AutoConstants.kMaxSpeedMetersPerSecond);
-        
+        SmartDashboard.putNumber("Auto Delay", 0);
+        SmartDashboard.putBoolean("High goal", false);
     }
 
     /**
@@ -77,7 +78,7 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        SmartDashboard.putString("Selected Position", RobotContainer.getInstance().m_shufBoard.SelectedPosition.name());
+        // SmartDashboard.putString("Selected Position", RobotContainer.getInstance().m_shufBoard.SelectedPosition.name());
         
     }
 

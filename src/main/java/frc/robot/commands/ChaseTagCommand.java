@@ -20,8 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Shufboard;
-import frc.robot.subsystems.Shufboard.Position;
 
 public class ChaseTagCommand extends CommandBase {
   
@@ -50,7 +48,6 @@ public class ChaseTagCommand extends CommandBase {
         PhotonCamera photonCamera, 
         DrivetrainSubsystem drivetrainSubsystem,
         Supplier<Pose2d> poseProvider) {
-        Shufboard shufBoard;
     this.photonCamera = photonCamera;
     this.drivetrainSubsystem = drivetrainSubsystem;
     this.poseProvider = poseProvider;
@@ -70,22 +67,19 @@ public class ChaseTagCommand extends CommandBase {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
-    if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.LeftTop) {
-      TAG_TO_CHASE = drivetrainSubsystem.leftAprilTag;
-    } else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.RightTop) {
-      TAG_TO_CHASE = drivetrainSubsystem.rightAprilTag;
-    } else if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.MiddleTop) {
-      TAG_TO_CHASE = drivetrainSubsystem.middleAprilTag;
+    if (RobotContainer.getInstance().getAttachmentController().getLeftBumper()) {
+      TAG_TO_CHASE = 1;
+    } else if (RobotContainer.getInstance().getAttachmentController().getRightBumper()) {
+      TAG_TO_CHASE = 3;
     } else {
-      TAG_TO_CHASE = drivetrainSubsystem.middleAprilTag;
+      TAG_TO_CHASE = 2;
     }
 
-    if (RobotContainer.getInstance().m_shufBoard.SelectedPosition==Position.LeftBottom){
-      offset = Units.inchesToMeters(25);
+    if (RobotContainer.getInstance().getAttachmentController().getXButton()){
+      offset = 1;
     }
     else if (RobotContainer.getInstance().getAttachmentController().getBButton()){
-      offset = Units.inchesToMeters(-22);
-
+      offset = -1;
     }
     else{
       offset = 0;
