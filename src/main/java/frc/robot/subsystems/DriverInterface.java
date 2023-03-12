@@ -48,7 +48,7 @@ public class DriverInterface extends SubsystemBase {
     private LateralPosition _aprilTagPosition = LateralPosition.None;
     private LateralPosition _aprilTagOffset = LateralPosition.None;
     private VerticalPosition _targetSelection = VerticalPosition.None;
-    private VerticalPosition _gripSelection = VerticalPosition.Middle;
+    public VerticalPosition _gripSelection = VerticalPosition.Middle;
 
     private double AutonStartDelay = 0.0;
     private boolean LimitSwitchLowTested = false;
