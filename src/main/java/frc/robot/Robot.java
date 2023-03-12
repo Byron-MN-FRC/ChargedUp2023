@@ -56,7 +56,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Meters per second =", AutoConstants.kMaxSpeedMetersPerSecond);
         SmartDashboard.putNumber("Auto Delay", 0);
         SmartDashboard.putBoolean("High goal", false);
-
     }
 
     /**
