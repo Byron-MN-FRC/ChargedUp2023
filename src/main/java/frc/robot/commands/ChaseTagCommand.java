@@ -20,8 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Shufboard;
-import frc.robot.subsystems.Shufboard.Position;
 
 public class ChaseTagCommand extends CommandBase {
   
@@ -50,7 +48,6 @@ public class ChaseTagCommand extends CommandBase {
         PhotonCamera photonCamera, 
         DrivetrainSubsystem drivetrainSubsystem,
         Supplier<Pose2d> poseProvider) {
-        Shufboard shufBoard;
     this.photonCamera = photonCamera;
     this.drivetrainSubsystem = drivetrainSubsystem;
     this.poseProvider = poseProvider;
