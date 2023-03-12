@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Auto Delay", 0);
         // SmartDashboard.putNumber("monkey monkey", RobotContainer.getInstance().m_liftSubsystem.highPos);
         SmartDashboard.putNumber("Meters per second =", AutoConstants.kMaxSpeedMetersPerSecond);
-
+        
     }
 
     /**

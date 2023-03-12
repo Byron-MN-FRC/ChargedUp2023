@@ -25,8 +25,11 @@ import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_ENCODER;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_MOTOR;
 import static frc.robot.Constants.FRONT_RIGHT_MODULE_STEER_OFFSET;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.swervedrivespecialties.swervelib.MkModuleConfiguration;
@@ -35,6 +38,9 @@ import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,12 +52,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -142,7 +149,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     // How far from the target we want to be
     final double GOAL_RANGE_METERS = Units.feetToMeters(1);
     // Change this to match the name of your camera
-    PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+    PhotonCamera camera = new PhotonCamera("4859-rear-cam");
     // PID constants should be tuned per robot
     final double LINEAR_P = 0.4;
     final double LINEAR_D = 0.0;
@@ -159,33 +166,56 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     public int leftAprilTag = 1;
 
     public double driveSpeed = 1;
+
+    public final Map<String, double[]> position2Start = new HashMap<String, double[]>();
+    public double AprilTagOffset = 1;
+
+
     public DrivetrainSubsystem() {
+        
+        AprilTagFieldLayout layout;
+        try {
+            layout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+            var alliance = DriverStation.getAlliance();
+            layout.setOrigin(Alliance.Blue == alliance ? 
+                OriginPosition.kBlueAllianceWallRightSide : OriginPosition.kRedAllianceWallRightSide);
+            if (Alliance.Blue == alliance) switchColor();
+        } catch(IOException e){
+            DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
+            layout = null;
+        }
+        // LEFT
+        position2Start.put("LL", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), AprilTagOffset, leftAprilTag});
+        position2Start.put("LM", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), 0, leftAprilTag});
+        position2Start.put("LR", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), -AprilTagOffset, leftAprilTag});
+        // MIDDLE
+        position2Start.put("ML", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), AprilTagOffset, middleAprilTag});
+        position2Start.put("MM", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), 0, middleAprilTag});
+        position2Start.put("MR", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), -AprilTagOffset, middleAprilTag});
+        // RIGHT
+        position2Start.put("RL", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), AprilTagOffset, rightAprilTag});
+        position2Start.put("RL", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), 0, rightAprilTag});
+        position2Start.put("RL", new double[] {
+            layout.getTagPose(leftAprilTag).get().getX(),
+            layout.getTagPose(leftAprilTag).get().getY(), -AprilTagOffset, rightAprilTag});
 
-        // There are 4 methods you can call to create your swerve modules.
-        // The method you use depends on what motors you are using.
-        //
-        // Mk3SwerveModuleHelper.createFalcon500(...)
-        // Your module has two Falcon 500s on it. One for steering and one for driving.
-        //
-        // Mk3SwerveModuleHelper.createNeo(...)
-        // Your module has two NEOs on it. One for steering and one for driving.
-        //
-        // Mk3SwerveModuleHelper.createFalcon500Neo(...)
-        // Your module has a Falcon 500 and a NEO on it. The Falcon 500 is for driving
-        // and the NEO is for steering.
-        //
-        // Mk3SwerveModuleHelper.createNeoFalcon500(...)
-        // Your module has a NEO and a Falcon 500 on it. The NEO is for driving and the
-        // Falcon 500 is for steering.
-        //
-        // Similar helpers also exist for Mk4 modules using the Mk4SwerveModuleHelper
-        // class.
-
-        // By default we will use Falcon 500s in standard configuration. But if you use
-        // a different configuration or motors
-        // you MUST change it. If you do not, your code will crash on startup.
-        // FIXME Setup motor configuration
-
+        
         MkModuleConfiguration moduleConfig = MkModuleConfiguration.getDefaultSteerFalcon500();
         m_frontLeftModule = new MkSwerveModuleBuilder(moduleConfig)
                 // .withLayout(getSMLayout(tab.getLayout("Front Left Module",
