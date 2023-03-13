@@ -213,4 +213,8 @@ public class DriverInterface extends SubsystemBase {
             retVal = VerticalPosition.None; 
         return retVal;
     }
+
+    public double AutonStartDelay(){
+        return SmartDashboard.getNumber("Auton Delay",0);
+    }
 }
