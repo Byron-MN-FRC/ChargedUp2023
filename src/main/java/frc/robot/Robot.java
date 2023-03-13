@@ -45,16 +45,12 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
-        // m_robotContainer = new RobotContainer();
 
         CameraServer.startAutomaticCapture("forward", 0);
         SmartDashboard.putString("Color", DriverStation.getAlliance().name());
         if (DriverStation.getAlliance() == Alliance.Blue)
             m_robotContainer.m_drivetrainSubsystem.switchColor();
-        SmartDashboard.putNumber("Auto Delay", 0);
-        // SmartDashboard.putNumber("monkey monkey", RobotContainer.getInstance().m_liftSubsystem.highPos);
         SmartDashboard.putNumber("Meters per second =", AutoConstants.kMaxSpeedMetersPerSecond);
-        SmartDashboard.putNumber("Auto Delay", 0);
         SmartDashboard.putBoolean("High goal", false);
     }
 
