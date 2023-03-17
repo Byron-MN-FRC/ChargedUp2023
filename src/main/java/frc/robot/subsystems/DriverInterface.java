@@ -50,10 +50,11 @@ public class DriverInterface extends SubsystemBase {
     private VerticalPosition _targetSelection = VerticalPosition.None;
     public VerticalPosition _gripSelection = VerticalPosition.Middle;
 
-    private double AutonStartDelay = 0.0;
     private boolean LimitSwitchLowTested = false;
     private boolean LimitSwitchHighTested = false;
     private boolean AprilTagTested = false;
+
+    private long start_time = 0;
 
 
 
@@ -96,8 +97,6 @@ public class DriverInterface extends SubsystemBase {
     }
 
 
-    private long start_time = 0;
-
     @Override
     public void periodic() {
         if (System.currentTimeMillis() - start_time > 333) {
@@ -129,30 +128,62 @@ public class DriverInterface extends SubsystemBase {
 
     }
 
+    
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+
+    /** 
+     * Return the driver selected april tag.   This is intended to be used for auton
+     * and for drive to tag.
+     * @return LateralPosition
+     */
     public LateralPosition AprilTagPosition(){
         _aprilTagPosition = SetButtons("rpL","rpM","rpR", _aprilTagPosition);
         return _aprilTagPosition;
     }
 
+    
+    /** 
+     * This returns the offset from the AprilTagPosition()  It is used to tell the robot 
+     * to align left, center or right in relation to the selected AprilTagPosition.
+     * @return LateralPosition
+     */
     public LateralPosition AprilTagOffset(){
         _aprilTagOffset = SetButtons("roL","roM","roR", _aprilTagOffset);
         return _aprilTagOffset;
     };
 
+    
+    /** 
+     * This returns the the driver selected target position.  Low - floor, Middle - middle target
+     * and High for the highest backmost target.
+     * @return VerticalPosition
+     */
     public VerticalPosition TargetSelection(){
         _targetSelection = SetButtons("toL", "toM", "toH", _targetSelection);
         return _targetSelection;
     };
 
+    
+    /** 
+     * Returns the user selected grip position.   
+     * @return VerticalPosition
+     */
     public VerticalPosition GripSelection(){
         _gripSelection = SetButtons("gripL", "gripM", "gripH", _gripSelection);
         return _gripSelection;
     };
 
 
+    
+    /** 
+     * @param a
+     * @param b
+     * @param c
+     * @param p
+     * @return LateralPosition
+     */
     private LateralPosition SetButtons(String a, String b, String c, LateralPosition p){
         LateralPosition retVal = LateralPosition.Error;
 
@@ -184,6 +215,14 @@ public class DriverInterface extends SubsystemBase {
     }
 
 
+    
+    /** 
+     * @param a
+     * @param b
+     * @param c
+     * @param p
+     * @return VerticalPosition
+     */
     private VerticalPosition SetButtons(String a, String b, String c, VerticalPosition p){
         VerticalPosition retVal = VerticalPosition.Error;
 
@@ -212,5 +251,16 @@ public class DriverInterface extends SubsystemBase {
         } else
             retVal = VerticalPosition.None; 
         return retVal;
+    }
+
+    
+    
+    
+    /**
+     * Reads the value of the Auton Delay from the driver dashboard and returns the value. 
+     * @return double
+     */
+    public double AutonStartDelay(){
+        return SmartDashboard.getNumber("Auton Delay",0);
     }
 }
