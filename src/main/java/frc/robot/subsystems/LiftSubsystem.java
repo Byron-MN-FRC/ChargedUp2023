@@ -113,6 +113,9 @@ public LiftSubsystem() {
         // storedPos = GrabPosition.get(RobotContainer.getInstance().m_driverInterface._gripSelection);
         SmartDashboard.putNumber("StoredPosition", storedPos);
 
+        // put arm positions to the dashboard
+        reportArmPose();
+
     }
 
     @Override
@@ -306,4 +309,9 @@ public LiftSubsystem() {
     public double getLifttEncoder(){
         return rightLifter.getSelectedSensorPosition();
     }   
+
+    private void reportArmPose(){
+        final double currentEncoderUnits = leftLifter.getSelectedSensorPosition(0);
+        SmartDashboard.putNumber("arm position", currentEncoderUnits);
+    } 
 }
