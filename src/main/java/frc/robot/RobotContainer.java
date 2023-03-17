@@ -257,7 +257,8 @@ public XboxController getAttachmentController() {
     // String autoMode = m_chooser.getSelected().getName();
     String autoMode = "LL";
 
-    double autoDelay = SmartDashboard.getNumber("Auto Delay", 0);
+    // double autoDelay = SmartDashboard.getNumber("Auto Delay", 0);
+    double autoDelay = m_driverInterface.AutonStartDelay();
     double startX = m_drivetrainSubsystem.position2Start.get(autoMode)[0];
     double startY = m_drivetrainSubsystem.position2Start.get(autoMode)[1];
     double oofset = m_drivetrainSubsystem.position2Start.get(autoMode)[2];
