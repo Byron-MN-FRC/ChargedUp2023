@@ -144,7 +144,9 @@ public class DriverInterface extends SubsystemBase {
             var photonRes = RobotContainer.getInstance().photonCamera.getLatestResult();
             AprilTagTested = photonRes.hasTargets();
             
-            AutonSelected = (RobotContainer.getInstance().m_chooser.getSelected().getName() !="Default");
+            if (RobotContainer.getInstance().m_chooser.getSelected() != null) {
+                AutonSelected = (RobotContainer.getInstance().m_chooser.getSelected().getName() !="Default");
+            }
 
             ReadyForMatch = LimitSwitchHighTested &&
                 LimitSwitchLowTested &&

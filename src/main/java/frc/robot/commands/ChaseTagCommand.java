@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.DriverInterface.LateralPosition;
 
 public class ChaseTagCommand extends CommandBase {
   
@@ -67,13 +68,23 @@ public class ChaseTagCommand extends CommandBase {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
-    if (RobotContainer.getInstance().getAttachmentController().getLeftBumper()) {
-      TAG_TO_CHASE = 6;
-    } else if (RobotContainer.getInstance().getAttachmentController().getRightBumper()) {
-      TAG_TO_CHASE = 8;
-    } else {
-      TAG_TO_CHASE = 7;
+    
+    // assigning shuffboard screen to bumpers on controllers
+    //controllerToScreenAprilTag();
+
+    // look at dashboard for current april tag selection
+    LateralPosition aprilPosition= RobotContainer.getInstance().m_driverInterface.AprilTagPosition();
+    switch (aprilPosition) {
+      case Right: TAG_TO_CHASE = 8;
+        break;
+      case Left: TAG_TO_CHASE  = 6;
+        break;
+      default: TAG_TO_CHASE = 7;
+
     }
+
+
+   
 
     if (RobotContainer.getInstance().getAttachmentController().getXButton()){
       offset = Units.inchesToMeters(25.5);
@@ -91,6 +102,10 @@ public class ChaseTagCommand extends CommandBase {
       new Rotation3d(0.0,0.0, 0)
     );
   }
+
+
+
+
 
   @Override
   public void execute() {
