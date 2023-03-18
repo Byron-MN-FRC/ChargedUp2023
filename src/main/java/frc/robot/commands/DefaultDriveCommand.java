@@ -37,8 +37,11 @@ public class DefaultDriveCommand extends CommandBase {
         // (square(m_translationYSupplier.getAsDouble(),2)),
         // (square(m_rotationSupplier.getAsDouble(),3)),
         // m_drivetrainSubsystem.getGyroscopeRotation()));
-
+        double driveSpeedTwo = 1;
         double driveSpeed = .5+(RobotContainer.getInstance().getDriveController().getLeftTriggerAxis()*.5);
+        if (RobotContainer.getInstance().m_liftSubsystem.getLifttEncoder() >= 99000){driveSpeedTwo = .5;}
+        else{driveSpeedTwo=1;}
+
         if (RobotContainer.getInstance().m_liftSubsystem.isArmExtended()){
             m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -50,12 +53,14 @@ public class DefaultDriveCommand extends CommandBase {
         else{
             m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                        (m_translationXSupplier.getAsDouble())*driveSpeed,
-                        (m_translationYSupplier.getAsDouble())*driveSpeed,
-                        (m_rotationSupplier.getAsDouble())*driveSpeed,
+                        (m_translationXSupplier.getAsDouble())*driveSpeed*driveSpeedTwo,
+                        (m_translationYSupplier.getAsDouble())*driveSpeed*driveSpeedTwo,
+                        (m_rotationSupplier.getAsDouble())*driveSpeed*driveSpeedTwo,
                         m_drivetrainSubsystem.getGyroscopeRotation()));
         }
         SmartDashboard.putNumber("driveSpeed", driveSpeed);
+
+
         
         // new ChassisSpeeds(
         // m_translationXSupplier.getAsDouble(),
