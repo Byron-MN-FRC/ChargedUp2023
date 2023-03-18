@@ -13,6 +13,7 @@
 package frc.robot.subsystems;
 
 
+import frc.robot.RobotContainer;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -128,6 +129,12 @@ public class DriverInterface extends SubsystemBase {
 
     }
 
+    private void PreMatchTestCompletion(){
+        boolean ready = SmartDashboard.getBoolean("Ready for Match?", false);
+        if (!ready){
+            //boolean limitLow = RobotContainer.getInstance().m_liftSubsystem.
+        }
+    }
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
