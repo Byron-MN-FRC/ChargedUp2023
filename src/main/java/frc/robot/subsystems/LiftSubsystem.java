@@ -113,6 +113,11 @@ public LiftSubsystem() {
         SmartDashboard.putNumber("LeftLifterVelocity", leftLifter.getSelectedSensorVelocity());
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("StoredPosition", storedPos);
+
+
+        // put arm positions to the dashboard
+        reportArmPose();
+
     }
 
     @Override
@@ -306,4 +311,9 @@ public LiftSubsystem() {
     public double getLifttEncoder(){
         return rightLifter.getSelectedSensorPosition();
     }   
+
+    private void reportArmPose(){
+        final double currentEncoderUnits = leftLifter.getSelectedSensorPosition(0);
+        SmartDashboard.putNumber("arm position", currentEncoderUnits);
+    } 
 }

@@ -352,6 +352,144 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "16,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Color",
+              "_title": "Color",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "17,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Meters per second \u003d",
+              "_title": "Meters per second \u003d",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "16,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/High goal",
+              "_title": "High goal",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "2,4": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/isBodyTriggered",
+              "_title": "isBodyTriggered",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "4,4": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/isOuterTriggered",
+              "_title": "isOuterTriggered",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "0,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/EncoderUnits",
+              "_title": "EncoderUnits",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "1,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftLifterVelocity",
+              "_title": "LeftLifterVelocity",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/StoredPosition",
+              "_title": "StoredPosition",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/arm position",
+              "_title": "arm position",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "19,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Auton Selected?",
+              "_title": "Auton Selected?",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
           }
         }
       }
@@ -456,7 +594,7 @@
               }
             }
           },
-          "3,1": {
+          "12,1": {
             "size": [
               2,
               1
@@ -469,7 +607,7 @@
               "_showGlyph": false
             }
           },
-          "3,0": {
+          "12,0": {
             "size": [
               2,
               1
@@ -482,7 +620,7 @@
               "_showGlyph": false
             }
           },
-          "3,2": {
+          "12,2": {
             "size": [
               2,
               1
@@ -592,7 +730,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "0,5": {
+          "3,1": {
             "size": [
               2,
               2
@@ -605,7 +743,7 @@
               "_showGlyph": false,
               "Slider Settings/Min": 0.0,
               "Slider Settings/Max": 15.0,
-              "Slider Settings/Block increment": 0.0625,
+              "Slider Settings/Block increment": 0.5,
               "Visuals/Display value": true
             }
           },
@@ -647,7 +785,7 @@
               }
             }
           },
-          "3,3": {
+          "12,3": {
             "size": [
               2,
               1
@@ -659,15 +797,44 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "3,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Simple Dial",
+              "_source0": "network_table:///SmartDashboard/arm position",
+              "_title": "SmartDashboard/arm position",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Range/Min": 0.0,
+              "Range/Max": 198000.0,
+              "Visuals/Show value": true
+            }
+          },
+          "3,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Mode",
+              "_title": "/SmartDashboard/Auto Mode",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": -1287.3333740234375,
-    "y": -7.333333492279053,
-    "width": 1320.6666259765625,
-    "height": 776.0
+    "x": -5.599999904632568,
+    "y": 0.4000000059604645,
+    "width": 1547.199951171875,
+    "height": 807.2000122070312
   }
 }
