@@ -38,9 +38,9 @@ public class ChaseTagCommand extends CommandBase {
   private final Supplier<Pose2d> poseProvider;
 
 
-  private final ProfiledPIDController xController = new ProfiledPIDController(3, 0, 0, X_CONSTRAINTS);
+  private final ProfiledPIDController xController = new ProfiledPIDController(2, 0, 0, X_CONSTRAINTS);
   private final ProfiledPIDController yController = new ProfiledPIDController(3, 0, 0, Y_CONSTRAINTS);
-  private final ProfiledPIDController omegaController = new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
+  private final ProfiledPIDController omegaController = new ProfiledPIDController(3, 0, .1, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lastTarget;
 
@@ -68,18 +68,18 @@ public class ChaseTagCommand extends CommandBase {
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
     if (RobotContainer.getInstance().getAttachmentController().getLeftBumper()) {
-      TAG_TO_CHASE = 1;
+      TAG_TO_CHASE = 6;
     } else if (RobotContainer.getInstance().getAttachmentController().getRightBumper()) {
-      TAG_TO_CHASE = 3;
+      TAG_TO_CHASE = 8;
     } else {
-      TAG_TO_CHASE = 2;
+      TAG_TO_CHASE = 7;
     }
 
     if (RobotContainer.getInstance().getAttachmentController().getXButton()){
-      offset = 1;
+      offset = Units.inchesToMeters(25.5);
     }
     else if (RobotContainer.getInstance().getAttachmentController().getBButton()){
-      offset = -1;
+      offset = -Units.inchesToMeters(25.5);
     }
     else{
       offset = 0;
