@@ -54,17 +54,17 @@ public class DriveToEncoderBody extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (m_targetEncoders == -1) {
-            if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
-                m_targetEncoders = m_liftSubsystem.storedPos;
-            } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
-                    || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
-                m_targetEncoders = m_liftSubsystem.highPos;
-            } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 225
-                    || RobotContainer.getInstance().getAttachmentController().getPOV() >= 135) {
-                m_targetEncoders = m_liftSubsystem.lowPos;
-            }
-        }
+        // if (m_targetEncoders == -1) {
+        //     if (RobotContainer.getInstance().getAttachmentController().getPOV() == -1) {
+        //         m_targetEncoders = m_liftSubsystem.storedPos;
+        //     } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 45
+        //             || RobotContainer.getInstance().getAttachmentController().getPOV() >= 315) {
+        //         m_targetEncoders = m_liftSubsystem.highPos;
+        //     } else if (RobotContainer.getInstance().getAttachmentController().getPOV() <= 225
+        //             || RobotContainer.getInstance().getAttachmentController().getPOV() >= 135) {
+        //         m_targetEncoders = m_liftSubsystem.lowPos;
+        //     }
+        // }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
