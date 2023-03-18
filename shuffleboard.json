@@ -475,6 +475,21 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "19,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Auton Selected?",
+              "_title": "Auton Selected?",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
           }
         }
       }
@@ -579,7 +594,7 @@
               }
             }
           },
-          "3,1": {
+          "12,1": {
             "size": [
               2,
               1
@@ -592,7 +607,7 @@
               "_showGlyph": false
             }
           },
-          "3,0": {
+          "12,0": {
             "size": [
               2,
               1
@@ -605,7 +620,7 @@
               "_showGlyph": false
             }
           },
-          "3,2": {
+          "12,2": {
             "size": [
               2,
               1
@@ -715,7 +730,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "0,5": {
+          "3,1": {
             "size": [
               2,
               2
@@ -728,7 +743,7 @@
               "_showGlyph": false,
               "Slider Settings/Min": 0.0,
               "Slider Settings/Max": 15.0,
-              "Slider Settings/Block increment": 0.0625,
+              "Slider Settings/Block increment": 0.5,
               "Visuals/Display value": true
             }
           },
@@ -770,7 +785,7 @@
               }
             }
           },
-          "3,3": {
+          "12,3": {
             "size": [
               2,
               1
@@ -783,7 +798,7 @@
               "_showGlyph": false
             }
           },
-          "3,4": {
+          "3,3": {
             "size": [
               2,
               2
@@ -798,15 +813,28 @@
               "Range/Max": 198000.0,
               "Visuals/Show value": true
             }
+          },
+          "3,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Mode",
+              "_title": "/SmartDashboard/Auto Mode",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": -7.333333492279053,
-    "y": -7.333333492279053,
-    "width": 1294.6666259765625,
-    "height": 694.6666870117188
+    "x": -5.599999904632568,
+    "y": 0.4000000059604645,
+    "width": 1547.199951171875,
+    "height": 807.2000122070312
   }
 }
