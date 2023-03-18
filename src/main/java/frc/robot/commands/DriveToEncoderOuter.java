@@ -76,11 +76,11 @@ public class DriveToEncoderOuter extends CommandBase {
         double POV = RobotContainer.getInstance().getAttachmentController().getPOV();
         if ((POV <= 45 || POV >= 315) && POV != -1)  {
                 m_armExtender = true;
-            }
-            if (m_armExtender && (m_liftSubsystem.getLifttEncoder()>=(m_liftSubsystem.highPos*2/3))){
-                m_liftSubsystem.extendArm();
-            }
-            SmartDashboard.putNumber("POV", POV);
+        }
+        if (m_armExtender && (m_liftSubsystem.getLifttEncoder()>=(m_liftSubsystem.highPos*2/3))){
+            m_liftSubsystem.extendArm();
+        }
+        SmartDashboard.putNumber("POV", POV);
     }
 
     // Called once the command ends or is interrupted.

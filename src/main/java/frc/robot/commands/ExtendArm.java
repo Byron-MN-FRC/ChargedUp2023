@@ -70,7 +70,9 @@ public class ExtendArm extends CommandBase {
 
     public void execute() {
         System.out.println("Extend Arm");
-        m_liftSubsystem.extendArm();
+        if (m_liftSubsystem.getLifttEncoder()<(m_liftSubsystem.highPos/2)){
+            m_liftSubsystem.extendArm();
+        }
 
 
     }
