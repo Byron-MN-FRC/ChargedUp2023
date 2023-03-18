@@ -182,8 +182,8 @@ yClawGrab.onTrue(new ClawGrab( m_clawSubsystem ).withInterruptBehavior(Interrupt
 final JoystickButton aClawRelease = new JoystickButton(driveController, XboxController.Button.kA.value);        
 aClawRelease.onTrue(new ClawRelease( m_clawSubsystem ).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
                         
-final JoystickButton rbRetract = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);        
-rbRetract.onTrue(new RetractArm( m_liftSubsystem ).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+// final JoystickButton lbRetract = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);        
+// lbRetract.onTrue(new RetractArm( m_liftSubsystem ).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
       
 
 
@@ -255,7 +255,7 @@ public XboxController getAttachmentController() {
       negate = 1;
     }
     // String autoMode = m_chooser.getSelected().getName();
-    String autoMode = "LL";
+    String autoMode = "MM";
 
     // double autoDelay = SmartDashboard.getNumber("Auto Delay", 0);
     double autoDelay = m_driverInterface.AutonStartDelay();
@@ -425,8 +425,8 @@ public XboxController getAttachmentController() {
         new ClawRelease(m_clawSubsystem),
 
         new ParallelCommandGroup(
-         new DriveToEncoderBody(autoDelay, m_liftSubsystem)
-
+         new DriveToEncoderBody(autoDelay, m_liftSubsystem),
+        pathMiddlePartOne
         ),
         
         new AutonBalance(m_drivetrainSubsystem)
