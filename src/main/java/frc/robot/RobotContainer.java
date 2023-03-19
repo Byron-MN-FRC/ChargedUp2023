@@ -270,6 +270,9 @@ public XboxController getAttachmentController() {
     else{
       negate = 1;
     }
+
+    boolean autoLift = SmartDashboard.getBoolean("Auto Lift?", false);
+
     double autoDelay = SmartDashboard.getNumber("Auto Delay", 0);
     var thetaController =
     new ProfiledPIDController(
@@ -394,24 +397,28 @@ public XboxController getAttachmentController() {
     // return swerveControllerCommand.andThen(() -> m_drivetrainSubsystem.drive(new
     // ChassisSpeeds(0, 0, 0)));
     
+
+
+    
     m_drivetrainSubsystem.resetOdometry(bumpPathTrajectoryOne.getInitialPose());
 
     if (m_chooser.getSelected().getName() =="Default"){
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
-        new DriveToEncoderOuter(autoDelay, m_liftSubsystem, true),
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
         new WaitCommand(.1),
+
         new ClawRelease(m_clawSubsystem),
         new RetractArm(m_liftSubsystem),
-        new DriveToEncoderBody(autoDelay, m_liftSubsystem)
+        new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem)
       );
     }
     if (m_chooser.getSelected().getName() =="Bump"){
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
-        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, true),
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
         new ClawRelease(m_clawSubsystem),
         new WaitCommand(.1),
         new RetractArm(m_liftSubsystem),
@@ -426,7 +433,7 @@ public XboxController getAttachmentController() {
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
         // new PlaceCargo(m_clawSubsystem, m_liftSubsystem),
-        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, true),
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
         new ClawRelease(m_clawSubsystem),
         new WaitCommand(.1),
         new RetractArm(m_liftSubsystem),
@@ -441,7 +448,7 @@ public XboxController getAttachmentController() {
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
-        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, true),
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
         new ClawRelease(m_clawSubsystem),
         new WaitCommand(.1),
         new RetractArm(m_liftSubsystem),

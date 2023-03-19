@@ -179,7 +179,6 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             var alliance = DriverStation.getAlliance();
             layout.setOrigin(Alliance.Blue == alliance ? 
                 OriginPosition.kBlueAllianceWallRightSide : OriginPosition.kRedAllianceWallRightSide);
-            if (Alliance.Blue == alliance) switchColor();
         } catch(IOException e){
             DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
             layout = null;
@@ -421,10 +420,17 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
     }
 
-    public void switchColor() {
-        middleAprilTag = 7;
-        leftAprilTag = 6;
-        rightAprilTag = 8;
+    public void setColor() {
+        if (DriverStation.getAlliance()==Alliance.Blue){
+            middleAprilTag = 7;
+            leftAprilTag = 6;
+            rightAprilTag = 8;
+        }
+        if (DriverStation.getAlliance()==Alliance.Red){
+            middleAprilTag = 2;
+            leftAprilTag = 1;
+            rightAprilTag = 3;
+        }
     }
 
 public SlewRateLimiter getXLimiter() {
