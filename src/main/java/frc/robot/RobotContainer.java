@@ -420,8 +420,7 @@ public XboxController getAttachmentController() {
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
         new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
-        new WaitCommand(.1),
-
+        new WaitCommand(.5),
         new ClawRelease(m_clawSubsystem),
         new RetractArm(m_liftSubsystem),
         new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem)
@@ -430,10 +429,11 @@ public XboxController getAttachmentController() {
     if (m_chooser.getSelected().getName() =="Bump"){
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
+        // new SetEncoderUnits(m_liftSubsystem),
         new ClawGrab(m_clawSubsystem),
         new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
         new ClawRelease(m_clawSubsystem),
-        new WaitCommand(.1),
+        new WaitCommand(.5),
         new RetractArm(m_liftSubsystem),
         new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem),
         new WaitCommand(autoDelay),
@@ -448,7 +448,7 @@ public XboxController getAttachmentController() {
         // new PlaceCargo(m_clawSubsystem, m_liftSubsystem),
         new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
         new ClawRelease(m_clawSubsystem),
-        new WaitCommand(.1),
+        new WaitCommand(.5),
         new RetractArm(m_liftSubsystem),
         new ParallelCommandGroup(
           new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem),
@@ -463,7 +463,7 @@ public XboxController getAttachmentController() {
         new ClawGrab(m_clawSubsystem),
         new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
         new ClawRelease(m_clawSubsystem),
-        new WaitCommand(.1),
+        new WaitCommand(.5),
         new RetractArm(m_liftSubsystem),
         new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem),
         new WaitCommand(autoDelay),
