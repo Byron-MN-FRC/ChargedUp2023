@@ -103,7 +103,7 @@ public LiftSubsystem() {
         VerticalPosition storedVerticalPosition = RobotContainer.getInstance().m_driverInterface._gripSelection;
         if (storedVerticalPosition == VerticalPosition.Low){storedPos = 100;}
         if (storedVerticalPosition == VerticalPosition.Middle){storedPos = 5000;}
-        if (storedVerticalPosition == VerticalPosition.High){storedPos = 10000;}
+        if (storedVerticalPosition == VerticalPosition.High){storedPos = 100000;}
         
         SmartDashboard.putBoolean("isBodyTriggered", isBodyTriggered());
         SmartDashboard.putBoolean("isOuterTriggered", isOuterTriggered());
@@ -112,7 +112,7 @@ public LiftSubsystem() {
         SmartDashboard.putNumber("EncoderUnits", leftLifter.getSelectedSensorPosition());
         SmartDashboard.putNumber("LeftLifterVelocity", leftLifter.getSelectedSensorVelocity());
         // This method will be called once per scheduler run
-        SmartDashboard.putNumber("StoredPosition", storedPos);
+        SmartDashboard.putNumber("StoredPositionNew", getStoredPosition());
 
 
         // put arm positions to the dashboard
@@ -259,7 +259,7 @@ public LiftSubsystem() {
     }
 
     public Boolean targetEncoder(double target) {
-        final double currentEncoderUnits = leftLifter.getSelectedSensorPosition(0);
+        final double currentEncoderUnits = rightLifter.getSelectedSensorPosition(0);
         if (Math.abs(currentEncoderUnits - target) < 190) {
             SmartDashboard.putBoolean("done", true);
             return true;
@@ -316,4 +316,7 @@ public LiftSubsystem() {
         final double currentEncoderUnits = leftLifter.getSelectedSensorPosition(0);
         SmartDashboard.putNumber("arm position", currentEncoderUnits);
     } 
+    public double getStoredPosition(){
+        return storedPos;
+    }
 }

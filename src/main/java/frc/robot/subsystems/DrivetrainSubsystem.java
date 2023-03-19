@@ -406,13 +406,13 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
                 x = -x;
             }
             
-            m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                -RobotContainer.modifyAxis(-x, balanceXLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
-                -RobotContainer.modifyAxis(0, yLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
-                -RobotContainer.modifyAxis(0, turnLimiter) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                getGyroscopeRotation());
-            SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-            setModuleStates(states);
+        m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            -RobotContainer.modifyAxis(-x, balanceXLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+            -RobotContainer.modifyAxis(0, yLimiter) * MAX_VELOCITY_METERS_PER_SECOND,
+            -RobotContainer.modifyAxis(0, turnLimiter) * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+            getGyroscopeRotation());
+        SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+        setModuleStates(states);
     }
 
     private double getPitch() {
