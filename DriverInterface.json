@@ -622,6 +622,19 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "15,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/April Tags Viewed",
+              "_title": "April Tags Viewed",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -776,7 +789,7 @@
               "_showGlyph": false,
               "Layout/Number of columns": 2,
               "Layout/Number of rows": 3,
-              "Layout/Label position": "BOTTOM",
+              "Layout/Label position": "TOP",
               "_children": {
                 "0,0": {
                   "_type": "Boolean Box",
@@ -804,6 +817,13 @@
                   "_showGlyph": false,
                   "Colors/Color when true": "#7CFC00FF",
                   "Colors/Color when false": "#8B0000FF"
+                },
+                "0,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/April Tags Viewed",
+                  "_title": "April Tags Viewed",
+                  "_glyph": 148,
+                  "_showGlyph": false
                 }
               }
             }
@@ -842,7 +862,7 @@
           },
           "11,0": {
             "size": [
-              1,
+              2,
               2
             ],
             "content": {
@@ -946,9 +966,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -1032.0,
-    "y": -8.0,
-    "width": 1040.0,
-    "height": 744.0
+    "x": -6.400000095367432,
+    "y": -6.400000095367432,
+    "width": 1548.800048828125,
+    "height": 814.7999877929688
   }
 }
