@@ -45,6 +45,9 @@ public class ChaseTagCommand extends CommandBase {
 
   private PhotonTrackedTarget lastTarget;
 
+  LateralPosition aprilPosition;
+  LateralPosition aprilOffset;
+
   public ChaseTagCommand(
         PhotonCamera photonCamera, 
         DrivetrainSubsystem drivetrainSubsystem,
@@ -73,24 +76,25 @@ public class ChaseTagCommand extends CommandBase {
     //controllerToScreenAprilTag();
 
     // look at dashboard for current april tag selection
-    LateralPosition aprilPosition= RobotContainer.getInstance().m_driverInterface.AprilTagPosition();
-    LateralPosition aprilOffset = RobotContainer.getInstance().m_driverInterface.AprilTagOffset();
+    aprilPosition= RobotContainer.getInstance().m_driverInterface.AprilTagPosition();
+    aprilOffset = RobotContainer.getInstance().m_driverInterface.AprilTagOffset();
     switch (aprilPosition) {
       case Right: TAG_TO_CHASE = 8;
         break;
       case Left: TAG_TO_CHASE  = 6;
         break;
       default: TAG_TO_CHASE = 7;
+
     }
+   
     switch (aprilOffset) {
-      case Left:offset = Units.inchesToMeters(25.5);
+      case Left : offset = Units.inchesToMeters(25.5);
         break;
-      case Right:offset = -Units.inchesToMeters(25.5);
+      case Right : offset = -Units.inchesToMeters(25.5);
         break;
-      default: offset = 0;
+      default : offset = 0;
     }
 
-    SmartDashboard.putNumber("Tag to chase", TAG_TO_CHASE);
     TAG_TO_GOAL=
     new Transform3d(
       new Translation3d(.8, offset, 0.0),

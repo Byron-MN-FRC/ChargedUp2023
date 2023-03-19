@@ -42,8 +42,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.AccessoryBButton;
 import frc.robot.commands.AccessoryLeftBumper;
 import frc.robot.commands.AccessoryRightBumper;
+import frc.robot.commands.AccessoryXButton;
 import frc.robot.commands.AutonBalance;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.ChaseTagCommand;
@@ -222,6 +224,12 @@ aClawRelease.onTrue(new ClawRelease( m_clawSubsystem ).withInterruptBehavior(Int
 
     final JoystickButton RightBumpSetAprilTarget = new JoystickButton(attachmentController, XboxController.Button.kRightBumper.value);
     RightBumpSetAprilTarget.onTrue(new AccessoryRightBumper().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+    
+    final JoystickButton AccessoryBButton = new JoystickButton(attachmentController, XboxController.Button.kB.value);
+    AccessoryBButton.onTrue(new AccessoryBButton().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+    
+    final JoystickButton AccessoryXButton = new JoystickButton(attachmentController, XboxController.Button.kX.value);
+    AccessoryXButton.onTrue(new AccessoryXButton().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     
     // Command resetGyroCommand = new
     // InstantCommand(m_drivetrainSubsystem::zeroGyroscope);
