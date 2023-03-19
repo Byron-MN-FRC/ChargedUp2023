@@ -79,11 +79,11 @@ public class ChaseTagCommand extends CommandBase {
     aprilPosition= RobotContainer.getInstance().m_driverInterface.AprilTagPosition();
     aprilOffset = RobotContainer.getInstance().m_driverInterface.AprilTagOffset();
     switch (aprilPosition) {
-      case Right: TAG_TO_CHASE = 8;
+      case Right: TAG_TO_CHASE = drivetrainSubsystem.rightAprilTag;
         break;
-      case Left: TAG_TO_CHASE  = 6;
+      case Left: TAG_TO_CHASE  = drivetrainSubsystem.leftAprilTag;
         break;
-      default: TAG_TO_CHASE = 7;
+      default: TAG_TO_CHASE = drivetrainSubsystem.middleAprilTag;
 
     }
    
