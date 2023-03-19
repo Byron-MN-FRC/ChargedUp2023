@@ -138,8 +138,8 @@ public class DriverInterface extends SubsystemBase {
     private void PreMatchTestCompletion(){
         boolean ready = SmartDashboard.getBoolean("Ready for Match?", false);
         if (!ready){
-            if (!LimitSwitchLowTested) LimitSwitchLowTested = !RobotContainer.getInstance().m_liftSubsystem.isBodyTriggered();
-            if (!LimitSwitchHighTested) LimitSwitchHighTested = !RobotContainer.getInstance().m_liftSubsystem.isOuterTriggered();
+            if (!LimitSwitchLowTested) LimitSwitchLowTested = RobotContainer.getInstance().m_liftSubsystem.isBodyTriggered();
+            if (!LimitSwitchHighTested) LimitSwitchHighTested = RobotContainer.getInstance().m_liftSubsystem.isOuterTriggered();
             
             var photonRes = RobotContainer.getInstance().photonCamera.getLatestResult();
             AprilTagTested = photonRes.hasTargets();
