@@ -16,7 +16,7 @@ public class ShakeLift extends SequentialCommandGroup {
   public ShakeLift(LiftSubsystem m_liftSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    if (RobotContainer.getInstance().getDriveController().getBackButton()){
+    // if (RobotContainer.getInstance().getDriveController().getBackButton()){
       addCommands(
         new DriveToEncoderBody(m_liftSubsystem.highPos-5000, m_liftSubsystem),
         new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, false)
@@ -24,4 +24,4 @@ public class ShakeLift extends SequentialCommandGroup {
 
     }
   }
-}
+// }

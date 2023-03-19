@@ -34,7 +34,7 @@ public class DropAndRelease extends SequentialCommandGroup {
         addCommands(
                 new RetractArm(m_liftSubsystem),
                 new ClawRelease(m_clawSubsystem),
-                new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem)
+                new DriveToEncoderBody(m_liftSubsystem.getStoredPosition(), m_liftSubsystem)
         // Add Commands here:
         // Also add parallel commands using the
         //

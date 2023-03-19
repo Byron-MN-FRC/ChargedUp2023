@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
         // SmartDashboard.putString("Selected Position", RobotContainer.getInstance().m_shufBoard.SelectedPosition.name());
-        
+        SmartDashboard.putData(CommandScheduler.getInstance());
     }
 
     /**
