@@ -68,10 +68,12 @@ public class DriveToEncoderBody extends CommandBase {
     }
 
     // Called every time the scheduler runs while the command is scheduled.
-    @Override
+     @Override
     public void execute() {
-        m_liftSubsystem.setLiftPos(m_targetEncoders);
-        System.out.println("lift to drop position" + m_targetEncoders);
+        // if (m_liftSubsystem.isArmExtended()){
+            m_liftSubsystem.setLiftPos(m_targetEncoders);
+            System.out.println("lift to drop position" + m_targetEncoders);
+        // }
 
     }
 
