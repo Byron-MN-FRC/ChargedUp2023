@@ -58,7 +58,6 @@ import frc.robot.commands.DriveToEncoderOuter;
 import frc.robot.commands.DropAndRelease;
 import frc.robot.commands.EnableLift;
 import frc.robot.commands.GrabAndRaise;
-import frc.robot.commands.PlaceCargo;
 import frc.robot.commands.PlaceCargoPrt2;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.ShakeLift;
@@ -208,13 +207,14 @@ aClawRelease.onTrue(new ClawRelease( m_clawSubsystem ).withInterruptBehavior(Int
     // final JoystickButton finishPlaceCargo = new JoystickButton(driveController, XboxController.Button.kStart.value);
     // finishPlaceCargo.onFalse(new PlaceCargoPrt2(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-    final JoystickButton startPlaceCargoAt = new JoystickButton(attachmentController, XboxController.Button.kStart.value);
-    startPlaceCargoAt.whileTrue(new PlaceCargo(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    final JoystickButton startPlaceCargoAt = new JoystickButton(attachmentController, XboxController.Button.kRightBumper.value);
+    startPlaceCargoAt.whileTrue(new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, false).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
     
-    final JoystickButton finishPlaceCargoAt = new JoystickButton(attachmentController, XboxController.Button.kStart.value);
+    final JoystickButton finishPlaceCargoAt = new JoystickButton(attachmentController, XboxController.Button.kRightBumper.value);
     finishPlaceCargoAt.onFalse(new PlaceCargoPrt2(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
 
+    
     final JoystickButton armShake = new JoystickButton(driveController, XboxController.Button.kBack.value);
     armShake.onTrue(new ShakeLift(m_liftSubsystem));
 
@@ -282,8 +282,8 @@ public XboxController getAttachmentController() {
       default: autoOffset = 0;
     }
 
-    SmartDashboard.putNumber("autoOffset", autoOffset);
-    boolean autoLift = SmartDashboard.getBoolean("Auto Lift?", false);
+    SmartDashboard.putNumber("Auto Extend?", autoOffset);
+    boolean autoExtend = SmartDashboard.getBoolean("Auto Extend?", false);
 
     double autoDelay = SmartDashboard.getNumber("Auto Delay", 0);
     var thetaController =
@@ -351,7 +351,7 @@ public XboxController getAttachmentController() {
     Trajectory pathThreeTrajectoryTwo = 
         TrajectoryGenerator.generateTrajectory(
         new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
-        List.of(new Translation2d(Units.inchesToMeters(14), Units.inchesToMeters(-8)*negate)),
+        List.of(new Translation2d(Units.inchesToMeters(14), Units.inchesToMeters(-8.1)*negate)),
         new Pose2d(Units.inchesToMeters(12), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
         config);
 
@@ -419,10 +419,9 @@ public XboxController getAttachmentController() {
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
-        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
-        new WaitCommand(.1),
-
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
         new ClawRelease(m_clawSubsystem),
+        new WaitCommand(.5),
         new RetractArm(m_liftSubsystem),
         new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem)
       );
@@ -431,9 +430,9 @@ public XboxController getAttachmentController() {
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
-        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
         new ClawRelease(m_clawSubsystem),
-        new WaitCommand(.1),
+        new WaitCommand(.5),
         new RetractArm(m_liftSubsystem),
         new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem),
         new WaitCommand(autoDelay),
@@ -446,9 +445,9 @@ public XboxController getAttachmentController() {
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
         // new PlaceCargo(m_clawSubsystem, m_liftSubsystem),
-        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
         new ClawRelease(m_clawSubsystem),
-        new WaitCommand(.1),
+        new WaitCommand(.5),
         new RetractArm(m_liftSubsystem),
         new ParallelCommandGroup(
           new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem),
@@ -461,7 +460,7 @@ public XboxController getAttachmentController() {
       return new SequentialCommandGroup(
         new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
-        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoLift),
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
         new ClawRelease(m_clawSubsystem),
         new WaitCommand(.1),
         new RetractArm(m_liftSubsystem),

@@ -56,7 +56,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.RobotContainer;
@@ -312,8 +311,8 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             double pitch = getPitch();
             x = forwardController.calculate(pitch, 0);
             // pitch is current value and setpoint is desired value
-            SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
-            SmartDashboard.putNumber("Pigeon Pitch", pitch);
+            // SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
+            // SmartDashboard.putNumber("Pigeon Pitch", pitch);
             if (m_pigeon.getYaw() > 90 && m_pigeon.getYaw() < 270) {
                 x = -x;
             }
@@ -399,8 +398,8 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             double pitch = getPitch();
             x = forwardController.calculate(pitch, 0);
             // pitch is current value and setpoint is desired value
-            SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
-            SmartDashboard.putNumber("Pigeon Pitch", pitch);
+            // SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
+            // SmartDashboard.putNumber("Pigeon Pitch", pitch);
             if (m_pigeon.getYaw() > 90 && m_pigeon.getYaw() < 270) {
                 x = -x;
             }

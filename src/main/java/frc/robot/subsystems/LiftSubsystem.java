@@ -12,9 +12,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
@@ -62,7 +59,10 @@ private DoubleSolenoid armExtender;
 public double highPos = 198000.000000;
 public double storedPos = 500;
 public double lowPos = 22000;
-
+public double zeroPos = 500;
+public enum LiftPosition{
+    Stored, High, Low
+}
     /**
     *
     
@@ -100,10 +100,8 @@ public LiftSubsystem() {
 
     @Override
     public void periodic() {
-        VerticalPosition storedVerticalPosition = RobotContainer.getInstance().m_driverInterface._gripSelection;
-        if (storedVerticalPosition == VerticalPosition.Low){storedPos = 100;}
-        if (storedVerticalPosition == VerticalPosition.Middle){storedPos = 5000;}
-        if (storedVerticalPosition == VerticalPosition.High){storedPos = 100000;}
+        if (RobotContainer.getInstance().getAttachmentController().getPOV() == 270){storedPos = 100;}
+        if (RobotContainer.getInstance().getAttachmentController().getPOV() == 90){storedPos = 12500;}
         
         SmartDashboard.putBoolean("isBodyTriggered", isBodyTriggered());
         SmartDashboard.putBoolean("isOuterTriggered", isOuterTriggered());

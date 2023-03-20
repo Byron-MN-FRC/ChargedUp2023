@@ -12,7 +12,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Constants.LifterConstants;
@@ -72,7 +71,6 @@ public class DriveToEncoderBody extends CommandBase {
     public void execute() {
         // if (m_liftSubsystem.isArmExtended()){
             m_liftSubsystem.setLiftPos(m_targetEncoders);
-            System.out.println("lift to drop position" + m_targetEncoders);
         // }
 
     }

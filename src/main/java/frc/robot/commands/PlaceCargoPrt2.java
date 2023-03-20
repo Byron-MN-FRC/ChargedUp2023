@@ -19,8 +19,8 @@ public class PlaceCargoPrt2 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ClawRelease(clawSubsystem),
+      new WaitCommand(.75),
       new RetractArm(liftSubsystem),
-      new WaitCommand(.5),
       new DriveToEncoderBody(liftSubsystem.getStoredPosition(), liftSubsystem)
     );
   }

@@ -52,7 +52,6 @@ public class ClawGrab extends CommandBase {
     @Override
     public void initialize() {
         m_clawSubsystem.grab();
-        System.out.println("Claw grabbed");
     }
 
     // Called every time the scheduler runs while the command is scheduled.
