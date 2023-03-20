@@ -212,10 +212,8 @@ aClawRelease.onTrue(new ClawRelease( m_clawSubsystem ).withInterruptBehavior(Int
     
     final JoystickButton finishPlaceCargoAt = new JoystickButton(attachmentController, XboxController.Button.kRightBumper.value);
     finishPlaceCargoAt.onFalse(new PlaceCargoPrt2(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-
-
     
-    final JoystickButton armShake = new JoystickButton(driveController, XboxController.Button.kBack.value);
+    final JoystickButton armShake = new JoystickButton(attachmentController, XboxController.Button.kLeftBumper .value);
     armShake.onTrue(new ShakeLift(m_liftSubsystem));
 
     final JoystickButton aDropAndRelease = new JoystickButton(attachmentController, XboxController.Button.kA.value);

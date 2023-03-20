@@ -97,7 +97,7 @@ public class ChaseTagCommand extends CommandBase {
 
     TAG_TO_GOAL=
     new Transform3d(
-      new Translation3d(.8, offset, 0.0),
+      new Translation3d(Units.feetToMeters(.8), offset, 0.0),
       new Rotation3d(0.0,0.0, 0)
     );
   }

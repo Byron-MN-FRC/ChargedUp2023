@@ -12,6 +12,8 @@
 
 package frc.robot.commands;
 
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 
@@ -71,7 +73,7 @@ public class RetractArm extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return !m_liftSubsystem.isArmExtended();
+        return !m_liftSubsystem.isArmExtended()&&SmartDashboard.getNumber("Pressure", 0)>=60;
     }
 
     @Override
