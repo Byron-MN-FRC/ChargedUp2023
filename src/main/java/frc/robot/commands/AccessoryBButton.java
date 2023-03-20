@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriverInterface.LateralPosition;
 
 
 public class AccessoryBButton extends CommandBase {
@@ -18,9 +20,19 @@ public class AccessoryBButton extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putBoolean("roL", false);  // Robot Position Left April Tag;
-    SmartDashboard.putBoolean("roM", false);  // Robot Position Middle April Tag;
-    SmartDashboard.putBoolean("roR", true);  // Robot Position Right April Tag;   
+    LateralPosition pos = RobotContainer.getInstance().m_driverInterface.AprilTagOffset();
+
+    switch (pos) {
+      case Left : 
+        SmartDashboard.putBoolean("roM", true);  // Robot Position Middle April Tag;
+        break;
+      case Center :
+        SmartDashboard.putBoolean("roR", true);  // Robot Position Right April Tag;   
+        break;
+      default : // do nothing
+        SmartDashboard.putBoolean("roR", true);  // Robot Position Right April Tag;   
+        break;
+    }    
   }
 
   // Called every time the scheduler runs while the command is scheduled.

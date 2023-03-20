@@ -6,7 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriverInterface.LateralPosition;
 
 public class AccessoryRightBumper extends CommandBase {
 
@@ -18,9 +19,19 @@ public class AccessoryRightBumper extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putBoolean("rpL", false);  // Robot Position Left April Tag;
-    SmartDashboard.putBoolean("rpM", false);  // Robot Position Middle April Tag;
-    SmartDashboard.putBoolean("rpR", true);  // Robot Position Right April Tag;   
+    LateralPosition pos = RobotContainer.getInstance().m_driverInterface.AprilTagPosition();
+
+    switch (pos) {
+      case Left : 
+        SmartDashboard.putBoolean("rpM", true);  // Robot Position Middle April Tag;
+        break;
+      case Center :
+        SmartDashboard.putBoolean("rpR", true);  // Robot Position Right April Tag;   
+        break;
+      default : // do nothing
+        SmartDashboard.putBoolean("rpR", true);  // Robot Position Right April Tag;   
+        break;
+    }    
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -635,6 +635,34 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "0,5": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Auto Lift?",
+              "_title": "Auto Lift?",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "6,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pressure",
+              "_title": "Pressure",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -875,21 +903,21 @@
               "Layout/Label position": "HIDDEN",
               "_children": {
                 "0,0": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/gripH",
                   "_title": "SmartDashboard/gripH",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 "0,1": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/gripM",
                   "_title": "SmartDashboard/gripM",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 "0,2": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/gripL",
                   "_title": "SmartDashboard/gripL",
                   "_glyph": 148,
@@ -959,6 +987,22 @@
               "_title": "Auton High Goal?",
               "_glyph": 148,
               "_showGlyph": false
+            }
+          },
+          "3,5": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Simple Dial",
+              "_source0": "network_table:///SmartDashboard/Pressure",
+              "_title": "SmartDashboard/Pressure",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Range/Min": 0.0,
+              "Range/Max": 120.0,
+              "Visuals/Show value": true
             }
           }
         }
