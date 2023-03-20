@@ -47,11 +47,6 @@ public class Robot extends TimedRobot {
         m_robotContainer = RobotContainer.getInstance();
 
         CameraServer.startAutomaticCapture("forward", 0);
-        SmartDashboard.putString("Color", DriverStation.getAlliance().name());
-        if (DriverStation.getAlliance() == Alliance.Blue)
-            m_robotContainer.m_drivetrainSubsystem.switchColor();
-        SmartDashboard.putNumber("Meters per second =", AutoConstants.kMaxSpeedMetersPerSecond);
-        SmartDashboard.putBoolean("High goal", false);
     }
 
     /**
@@ -96,11 +91,14 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+        m_robotContainer.m_drivetrainSubsystem.setColor();
+        
+        SmartDashboard.putString("Color", DriverStation.getAlliance().name());
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
+        
     }
 
     /**
@@ -119,7 +117,11 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        }
+        m_robotContainer.m_drivetrainSubsystem.setColor();
+        
+        SmartDashboard.putString("Color", DriverStation.getAlliance().name());
+
+    }
 
     /**
      * This function is called periodically during operator control.

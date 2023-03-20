@@ -95,7 +95,7 @@ public class DriverInterface extends SubsystemBase {
 
         SmartDashboard.putBoolean("Ready for Match?",false);
 
-
+        SmartDashboard.putBoolean("Auto Lift?", false);
         long start_time = System.currentTimeMillis();
 
     }
