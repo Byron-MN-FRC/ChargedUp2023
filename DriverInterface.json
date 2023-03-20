@@ -875,21 +875,21 @@
               "Layout/Label position": "HIDDEN",
               "_children": {
                 "0,0": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/gripH",
                   "_title": "SmartDashboard/gripH",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 "0,1": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/gripM",
                   "_title": "SmartDashboard/gripM",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 "0,2": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/gripL",
                   "_title": "SmartDashboard/gripL",
                   "_glyph": 148,
