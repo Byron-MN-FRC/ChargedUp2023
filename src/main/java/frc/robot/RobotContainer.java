@@ -328,22 +328,23 @@ public XboxController getAttachmentController() {
     TrajectoryGenerator.generateTrajectory(
       new Pose2d(0, autoOffset, new Rotation2d(0)),
       // starting point
-      List.of(new Translation2d(0, Units.inchesToMeters(-24)*negate),
-      new Translation2d(Units.inchesToMeters(220.404), Units.inchesToMeters(-24)*negate),
-      new Translation2d(Units.inchesToMeters(220.404), Units.inchesToMeters(-8)*negate)),
+      List.of(new Translation2d(Units.inchesToMeters(12), Units.inchesToMeters(-15)*negate),
+      new Translation2d(Units.inchesToMeters(175), Units.inchesToMeters(-15)*negate)
+      // new Translation2d(Units.inchesToMeters(220.404), Units.inchesToMeters(-8)*negate)
+      ),
         // middle point
-        new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
+        new Pose2d(Units.inchesToMeters(200), Units.inchesToMeters(-14)*negate, new Rotation2d(0)),
       //end point (untestedlast coords, should be right tho)
         config);
 
     Trajectory pathMiddleTrajectory =
         TrajectoryGenerator.generateTrajectory(
-        new Pose2d(Units.feetToMeters(0), autoOffset, new Rotation2d(0)),
+        new Pose2d(Units.feetToMeters(0), 0, new Rotation2d(0)),
         List.of(
-          new Translation2d(Units.feetToMeters(3),Units.feetToMeters(.1)),
-          new Translation2d(Units.feetToMeters(17), Units.feetToMeters(0)*negate)
+          // new Translation2d(Units.feetToMeters(3),Units.feetToMeters(.1)),
+          new Translation2d(Units.feetToMeters(17), Units.feetToMeters(.1)*negate)
         ),
-        new Pose2d(Units.feetToMeters(9), Units.feetToMeters(0)*negate, new Rotation2d(0)),
+        new Pose2d(Units.feetToMeters(9), Units.feetToMeters(.1)*negate, new Rotation2d(0)),
         configSlow);
              
     Trajectory pathThreeTrajectoryTwo = 
@@ -456,8 +457,8 @@ public XboxController getAttachmentController() {
     }
     if (m_chooser.getSelected().getName() == "Wall"){
       return new SequentialCommandGroup(
-        new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new ClawGrab(m_clawSubsystem),
+        new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
         new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
         new ClawRelease(m_clawSubsystem),
         new WaitCommand(.1),

@@ -73,7 +73,7 @@ public class RetractArm extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return !m_liftSubsystem.isArmExtended()&&SmartDashboard.getNumber("Pressure", 0)>=60;
+        return !m_liftSubsystem.isArmExtended()&&SmartDashboard.getNumber("Pressure", 0)>=40;
     }
 
     @Override

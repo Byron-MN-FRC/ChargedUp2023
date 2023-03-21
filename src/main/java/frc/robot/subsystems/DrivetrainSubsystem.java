@@ -393,7 +393,8 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     }
 
     public void autoBalanceDrive() {
-        forwardController.setP(.028);
+        forwardController.setP(.03);
+        // forwardController.setI(.02);
             double x;
             double pitch = getPitch();
             x = forwardController.calculate(pitch, 0);
