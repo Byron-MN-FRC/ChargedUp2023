@@ -62,7 +62,7 @@ public class RetractArm extends CommandBase {
 
     public void execute() {
         m_liftSubsystem.retractArm();
-
+        System.out.println(SmartDashboard.getNumber("Pressure", 0));
     }
 
     // Called once the command ends or is interrupted.
@@ -73,7 +73,7 @@ public class RetractArm extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return !m_liftSubsystem.isArmExtended()&&SmartDashboard.getNumber("Pressure", 0)>=40;
+        return !m_liftSubsystem.isArmExtended()&&SmartDashboard.getNumber("Pressure", 0)>=55;
     }
 
     @Override

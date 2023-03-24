@@ -342,9 +342,9 @@ public XboxController getAttachmentController() {
         new Pose2d(Units.feetToMeters(0), 0, new Rotation2d(0)),
         List.of(
           // new Translation2d(Units.feetToMeters(3),Units.feetToMeters(.1)),
-          new Translation2d(Units.feetToMeters(18), Units.feetToMeters(.1)*negate)
+          new Translation2d(Units.feetToMeters(5), Units.feetToMeters(-.1)*negate)
         ),
-        new Pose2d(Units.feetToMeters(8), Units.feetToMeters(.1)*negate, new Rotation2d(0)),
+        new Pose2d(Units.feetToMeters(7), Units.feetToMeters(.1)*negate, new Rotation2d(0)),
         configSlow);
              
     Trajectory pathThreeTrajectoryTwo = 
