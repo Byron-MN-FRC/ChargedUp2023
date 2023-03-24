@@ -410,8 +410,17 @@ public XboxController getAttachmentController() {
     // ChassisSpeeds(0, 0, 0)));
     
 
-
-
+if (m_chooser.getSelected()==null){
+  return new SequentialCommandGroup(
+    new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
+    new ClawGrab(m_clawSubsystem),
+    new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
+    new ClawRelease(m_clawSubsystem),
+    new WaitCommand(.5),
+    new RetractArm(m_liftSubsystem),
+    new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem));
+}
+System.out.println("!!!!!Autonomous Selected!!!!! " + m_chooser.getSelected().getName());
     m_drivetrainSubsystem.resetOdometry(bumpPathTrajectoryOne.getInitialPose());
 
     if (m_chooser.getSelected().getName() =="Default"){
@@ -472,7 +481,14 @@ public XboxController getAttachmentController() {
     }
 
     else {
-      return new ClawGrab(m_clawSubsystem);
+      return new SequentialCommandGroup(
+        new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
+        new ClawGrab(m_clawSubsystem),
+        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
+        new ClawRelease(m_clawSubsystem),
+        new WaitCommand(.5),
+        new RetractArm(m_liftSubsystem),
+        new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem));
     }
     // return m_chooser.getSelected();
   }
