@@ -93,6 +93,9 @@ public class DriverInterface extends SubsystemBase {
         SmartDashboard.putBoolean("Ready for Match?",false);
 
         SmartDashboard.putBoolean("Auto Extend?", false);
+
+        SmartDashboard.putNumber("balanceAngle", 15);
+        SmartDashboard.putNumber("balanceSpeed", .35);
         long start_time = System.currentTimeMillis();
 
     }

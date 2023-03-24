@@ -13,10 +13,10 @@ public class RampDriveForward extends CommandBase {
   private DrivetrainSubsystem m_DrivetrainSubsystem;
   private boolean rampUp=false;
   private boolean rampDown=false;
+  private double balanceAngle;
+  private double balanceSpeed;
   /** Creates a new RampDrive. */
-  public 
-  
-  RampDriveForward(DrivetrainSubsystem drivetrainSubsystem) {
+  public RampDriveForward(DrivetrainSubsystem drivetrainSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_DrivetrainSubsystem = drivetrainSubsystem;
   }
@@ -24,14 +24,15 @@ public class RampDriveForward extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    SmartDashboard.getNumber("balanceAngle", 15);
+    SmartDashboard.getNumber("balanceSpeed", .35);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_DrivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds((.3) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, (0), (0),m_DrivetrainSubsystem.getGyroscopeRotation()));
-    if (m_DrivetrainSubsystem.getPitch()>=15||m_DrivetrainSubsystem.getPitch()<=-15){
+    m_DrivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds((balanceSpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, (0), (0),m_DrivetrainSubsystem.getGyroscopeRotation()));
+    if (m_DrivetrainSubsystem.getPitch()>=balanceAngle||m_DrivetrainSubsystem.getPitch()<=-balanceAngle){
       rampUp=true;
     }
     
