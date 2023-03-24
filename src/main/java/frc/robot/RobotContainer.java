@@ -449,9 +449,9 @@ public XboxController getAttachmentController() {
         // new ClawRelease(m_clawSubsystem),
         // new WaitCommand(.5),
         // new RetractArm(m_liftSubsystem),
-        new RampDriveForward(m_drivetrainSubsystem).withTimeout(5),
-        pathMiddlePartOne,
-        new RampDriveBack(m_drivetrainSubsystem),
+        new RampDriveForward(m_drivetrainSubsystem),
+        // pathMiddlePartOne,
+        // new RampDriveBack(m_drivetrainSubsystem),
         new AutonBalance(m_drivetrainSubsystem)
         
       );

@@ -31,7 +31,7 @@ public class RampDriveBack extends CommandBase {
     // if (m_DrivetrainSubsystem.getPitch()>=15){
     //   rampUp=true;
     // }
-    if (m_DrivetrainSubsystem.getPitch()<=15){
+    if (m_DrivetrainSubsystem.getPitch()<=-15){
       rampDown = true;
     }
   }

@@ -15,7 +15,8 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Vision/Field": "Field2d",
-      "/SmartDashboard/Auto Mode": "String Chooser"
+      "/SmartDashboard/Auto Mode": "String Chooser",
+      "/SmartDashboard/Scheduler": "Scheduler"
     }
   },
   "NetworkTables": {

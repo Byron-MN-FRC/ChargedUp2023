@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -13,7 +14,9 @@ public class RampDriveForward extends CommandBase {
   private boolean rampUp=false;
   private boolean rampDown=false;
   /** Creates a new RampDrive. */
-  public RampDriveForward(DrivetrainSubsystem drivetrainSubsystem) {
+  public 
+  
+  RampDriveForward(DrivetrainSubsystem drivetrainSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_DrivetrainSubsystem = drivetrainSubsystem;
   }
@@ -27,17 +30,19 @@ public class RampDriveForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_DrivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds((.4), (0), (0),m_DrivetrainSubsystem.getGyroscopeRotation()));
-    if (m_DrivetrainSubsystem.getPitch()>=15){
+    m_DrivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds((.3) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, (0), (0),m_DrivetrainSubsystem.getGyroscopeRotation()));
+    if (m_DrivetrainSubsystem.getPitch()>=15||m_DrivetrainSubsystem.getPitch()<=-15){
       rampUp=true;
     }
     
-    // Consider < -5 instead of +15
-    // Need Timeout   
-    if (m_DrivetrainSubsystem.getPitch()<=15){
-      // reduce speed here?
-      rampDown = true;
-    }
+    // // Consider < -5 instead of +15
+    // // Need Timeout   
+    // if (m_DrivetrainSubsystem.getPitch()<=-15 && rampUp){
+    //   // reduce speed here?
+    //   rampDown = true;
+    // }
+    SmartDashboard.putBoolean("RampUp", rampUp);
+    SmartDashboard.putBoolean("RampDown", rampDown);
   }
 
   // Called once the command ends or is interrupted.
@@ -49,6 +54,6 @@ public class RampDriveForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return rampUp&&rampDown;
+    return rampUp;
   }
 }
