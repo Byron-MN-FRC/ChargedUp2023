@@ -59,6 +59,8 @@ import frc.robot.commands.DropAndRelease;
 import frc.robot.commands.EnableLift;
 import frc.robot.commands.GrabAndRaise;
 import frc.robot.commands.PlaceCargoPrt2;
+import frc.robot.commands.RampDriveBack;
+import frc.robot.commands.RampDriveForward;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.ShakeLift;
 import frc.robot.commands.ZeroLiftSequential;
@@ -342,9 +344,9 @@ public XboxController getAttachmentController() {
         new Pose2d(Units.feetToMeters(0), 0, new Rotation2d(0)),
         List.of(
           // new Translation2d(Units.feetToMeters(3),Units.feetToMeters(.1)),
-          new Translation2d(Units.feetToMeters(18), Units.feetToMeters(.1)*negate)
+          new Translation2d(Units.feetToMeters(1), Units.feetToMeters(.1)*negate)
         ),
-        new Pose2d(Units.feetToMeters(8), Units.feetToMeters(.1)*negate, new Rotation2d(0)),
+        new Pose2d(Units.feetToMeters(2), Units.feetToMeters(-.1)*negate, new Rotation2d(0)),
         configSlow);
              
     Trajectory pathThreeTrajectoryTwo = 
@@ -441,18 +443,17 @@ public XboxController getAttachmentController() {
     }
     if (m_chooser.getSelected().getName() =="Middle"){
       return new SequentialCommandGroup(
-        new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
-        new ClawGrab(m_clawSubsystem),
-        // new PlaceCargo(m_clawSubsystem, m_liftSubsystem),
-        new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
-        new ClawRelease(m_clawSubsystem),
-        new WaitCommand(.5),
-        new RetractArm(m_liftSubsystem),
-        new ParallelCommandGroup(
-          new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem),
-          pathMiddlePartOne
-        ),
+        // new ZeroLiftSequential(m_liftSubsystem, m_clawSubsystem),
+        // new ClawGrab(m_clawSubsystem),
+        // new DriveToEncoderOuter(m_liftSubsystem.highPos, m_liftSubsystem, autoExtend),
+        // new ClawRelease(m_clawSubsystem),
+        // new WaitCommand(.5),
+        // new RetractArm(m_liftSubsystem),
+        new RampDriveForward(m_drivetrainSubsystem).withTimeout(5),
+        pathMiddlePartOne,
+        new RampDriveBack(m_drivetrainSubsystem),
         new AutonBalance(m_drivetrainSubsystem)
+        
       );
     }
     if (m_chooser.getSelected().getName() == "Wall"){

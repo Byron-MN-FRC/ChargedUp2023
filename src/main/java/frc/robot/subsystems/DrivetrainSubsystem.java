@@ -414,7 +414,7 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         setModuleStates(states);
     }
 
-    private double getPitch() {
+    public double getPitch() {
         // return m_pigeon.getPitch() - pitchOffset;
         return m_pigeon.getPitch();
 
