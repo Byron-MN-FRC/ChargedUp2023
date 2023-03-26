@@ -7,18 +7,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.subsystems.LiftSubsystem.LiftPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class highGrab extends SequentialCommandGroup {
-  /** Creates a new highGrab. */
-  public highGrab(ClawSubsystem clawSubsystem, LiftSubsystem liftSubsystem) {
+public class HighGrabPt2 extends SequentialCommandGroup {
+  /** Creates a new HighGrab. */
+  public HighGrabPt2(LiftSubsystem liftSubsystem, ClawSubsystem clawSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ClawRelease(clawSubsystem),
-      new DriveToEncoderOuter(liftSubsystem.highPos, liftSubsystem, false)
+      new ClawGrab(clawSubsystem),
+      new RetractArm(liftSubsystem),
+      new DriveToEncoderBody(liftSubsystem.lowPos, liftSubsystem)
     );
   }
 }
