@@ -13,6 +13,9 @@
 package frc.robot.subsystems;
 
 
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -110,6 +113,8 @@ public class DriverInterface extends SubsystemBase {
 
         if (!ReadyForMatch) PreMatchTestCompletion();
 
+        PhotonPipelineResult  photonRes = RobotContainer.getInstance().photonCamera.getLatestResult();
+        ShowTagTargets(photonRes);
 
 
         // This method will be called once per scheduler run
@@ -138,7 +143,7 @@ public class DriverInterface extends SubsystemBase {
             if (!LimitSwitchLowTested) LimitSwitchLowTested = RobotContainer.getInstance().m_liftSubsystem.isBodyTriggered();
             if (!LimitSwitchHighTested) LimitSwitchHighTested = RobotContainer.getInstance().m_liftSubsystem.isOuterTriggered();
             
-            var photonRes = RobotContainer.getInstance().photonCamera.getLatestResult();
+            PhotonPipelineResult  photonRes = RobotContainer.getInstance().photonCamera.getLatestResult();
             AprilTagTested = photonRes.hasTargets();
             
             if (RobotContainer.getInstance().m_chooser.getSelected() != null) {
@@ -161,6 +166,17 @@ public class DriverInterface extends SubsystemBase {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+
+
+    private void ShowTagTargets(PhotonPipelineResult p) {
+        String s = "";
+        for(PhotonTrackedTarget target:p.targets){
+            s = s + Integer.toString(target.getFiducialId()) + " ";
+        }
+
+        s = "6 5";
+        SmartDashboard.putString("April Tags Viewed", s);
+    }
 
 
     /** 
