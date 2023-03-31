@@ -52,7 +52,6 @@ public class ClawRelease extends CommandBase {
     @Override
     public void initialize() {
         m_clawSubsystem.release();
-        System.out.println("Claw released");
     }
 
     // Called every time the scheduler runs while the command is scheduled.

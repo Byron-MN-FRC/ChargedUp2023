@@ -5,22 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants.LifterConstants;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ZeroLiftSequential extends SequentialCommandGroup {
-  /** Creates a new ZeroLiftSequential. */
-  public ZeroLiftSequential(LiftSubsystem m_LiftSubsystem, ClawSubsystem m_ClawSubsystem) {
+public class HighGrab extends SequentialCommandGroup {
+  /** Creates a new highGrab. */
+  public HighGrab(ClawSubsystem clawSubsystem, LiftSubsystem liftSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      // new ClawRelease(m_ClawSubsystem),
-      new ZeroLift(m_LiftSubsystem),
-      new DriveToEncoderSansSafety(m_LiftSubsystem.zeroPos, m_LiftSubsystem)
+      new ClawRelease(clawSubsystem),
+      new DriveToEncoderOuter(liftSubsystem.highPos, liftSubsystem, false)
     );
   }
 }

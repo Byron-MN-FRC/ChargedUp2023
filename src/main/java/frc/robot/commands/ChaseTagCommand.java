@@ -40,7 +40,7 @@ public class ChaseTagCommand extends CommandBase {
 
 
   private final ProfiledPIDController xController = new ProfiledPIDController(2, 0, 0, X_CONSTRAINTS);
-  private final ProfiledPIDController yController = new ProfiledPIDController(3, 0, 0, Y_CONSTRAINTS);
+  private final ProfiledPIDController yController = new ProfiledPIDController(2.5, 0, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController = new ProfiledPIDController(3, 0, .1, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lastTarget;
@@ -97,7 +97,7 @@ public class ChaseTagCommand extends CommandBase {
 
     TAG_TO_GOAL=
     new Transform3d(
-      new Translation3d(.8, offset, 0.0),
+      new Translation3d(Units.inchesToMeters(16.5), offset, 0.0),
       new Rotation3d(0.0,0.0, 0)
     );
   }

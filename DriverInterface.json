@@ -960,6 +960,32 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "5,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/Auto Extend?",
+              "_title": "SmartDashboard/Auto Extend?",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pressure",
+              "_title": "/SmartDashboard/Pressure",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
