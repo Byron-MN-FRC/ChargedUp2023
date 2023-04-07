@@ -55,6 +55,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveLift;
 import frc.robot.commands.DriveToEncoderBody;
 import frc.robot.commands.DriveToEncoderOuter;
+import frc.robot.commands.DriveToLight;
 import frc.robot.commands.DropAndRelease;
 import frc.robot.commands.EnableLift;
 import frc.robot.commands.GrabAndRaise;
@@ -231,9 +232,12 @@ aClawRelease.onTrue(new ClawRelease( m_clawSubsystem ).withInterruptBehavior(Int
     final JoystickButton leftBumpSetAprilTarget = new JoystickButton(attachmentController, XboxController.Button.kLeftBumper.value);
     leftBumpSetAprilTarget.onTrue(new AccessoryLeftBumper().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
-    final JoystickButton RightBumpSetAprilTarget = new JoystickButton(attachmentController, XboxController.Button.kRightBumper.value);
-    RightBumpSetAprilTarget.onTrue(new AccessoryRightBumper().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+    // final JoystickButton RightBumpSetAprilTarget = new JoystickButton(attachmentController, XboxController.Button.kRightBumper.value);
+    // RightBumpSetAprilTarget.onTrue(new AccessoryRightBumper().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     
+    final JoystickButton driveToLight = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
+    driveToLight.whileTrue(new DriveToLight(m_drivetrainSubsystem, photonCamera).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+
     final JoystickButton AccessoryBButton = new JoystickButton(attachmentController, XboxController.Button.kB.value);
     AccessoryBButton.onTrue(new AccessoryBButton().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     
