@@ -5,37 +5,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DrivetrainSubsystem;
-public class shifting extends CommandBase {
-  private double m_increment;
-  private double speed = 1;
-  private DrivetrainSubsystem m_DrivetrainSubsystem;
-  /** Creates a new shifting. */
-  public shifting(DrivetrainSubsystem DrivetrainSubsystem, double increment) {
+import frc.robot.subsystems.LiftSubsystem;
+
+public class manualExtend extends CommandBase {
+  LiftSubsystem m_LiftSubsystem;
+  /** Creates a new manualExtend. */
+  public manualExtend(LiftSubsystem liftSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_increment = increment;
-    m_DrivetrainSubsystem = DrivetrainSubsystem;
+    m_LiftSubsystem = liftSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if ((speed==1) && (m_increment>0)) {
-
-    }else{
-      speed = speed+m_increment;
-    }
+    m_LiftSubsystem.extendArm();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    // m_DrivetrainSubsystem.setDriveSpeed(speed);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_LiftSubsystem.retractArm();
+  }
 
   // Returns true when the command should end.
   @Override

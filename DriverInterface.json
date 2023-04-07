@@ -490,6 +490,151 @@
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
+          },
+          "18,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/driveSpeed",
+              "_title": "driveSpeed",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "19,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Tag to chase",
+              "_title": "Tag to chase",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "18,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/done",
+              "_title": "done",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/POV",
+              "_title": "POV",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/x \u003d ",
+              "_title": "x \u003d ",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "10,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pigeon Pitch",
+              "_title": "Pigeon Pitch",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "11,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/startX",
+              "_title": "startX",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/starty",
+              "_title": "starty",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "13,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/oofset",
+              "_title": "oofset",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "14,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/StoredPositionNew",
+              "_title": "StoredPositionNew",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "15,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/April Tags Viewed",
+              "_title": "April Tags Viewed",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -518,7 +663,7 @@
         "vgap": 16.0,
         "titleType": 1,
         "tiles": {
-          "6,0": {
+          "8,0": {
             "size": [
               3,
               1
@@ -533,21 +678,21 @@
               "Layout/Label position": "HIDDEN",
               "_children": {
                 "0,0": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/rpL",
                   "_title": "SmartDashboard/rpL",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 "1,0": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/rpM",
                   "_title": "SmartDashboard/rpM",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 "2,0": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/rpR",
                   "_title": "SmartDashboard/rpR",
                   "_glyph": 148,
@@ -556,7 +701,7 @@
               }
             }
           },
-          "6,1": {
+          "8,1": {
             "size": [
               3,
               1
@@ -571,21 +716,21 @@
               "Layout/Label position": "HIDDEN",
               "_children": {
                 "0,0": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/roL",
                   "_title": "SmartDashboard/roL",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 "1,0": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/roM",
                   "_title": "SmartDashboard/roM",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 "2,0": {
-                  "_type": "Toggle Switch",
+                  "_type": "Toggle Button",
                   "_source0": "network_table:///SmartDashboard/roR",
                   "_title": "SmartDashboard/roR",
                   "_glyph": 148,
@@ -594,46 +739,7 @@
               }
             }
           },
-          "12,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/April Tag Offset",
-              "_title": "SmartDashboard/April Tag Offset",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/April Tag Position",
-              "_title": "SmartDashboard/April Tag Position",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Target Selection",
-              "_title": "SmartDashboard/Target Selection",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,0": {
+          "14,0": {
             "size": [
               1,
               2
@@ -683,7 +789,7 @@
               "_showGlyph": false,
               "Layout/Number of columns": 2,
               "Layout/Number of rows": 3,
-              "Layout/Label position": "BOTTOM",
+              "Layout/Label position": "TOP",
               "_children": {
                 "0,0": {
                   "_type": "Boolean Box",
@@ -711,6 +817,13 @@
                   "_showGlyph": false,
                   "Colors/Color when true": "#7CFC00FF",
                   "Colors/Color when false": "#8B0000FF"
+                },
+                "0,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/April Tags Viewed",
+                  "_title": "April Tags Viewed",
+                  "_glyph": 148,
+                  "_showGlyph": false
                 }
               }
             }
@@ -730,7 +843,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "3,1": {
+          "3,2": {
             "size": [
               2,
               2
@@ -747,9 +860,9 @@
               "Visuals/Display value": true
             }
           },
-          "10,0": {
+          "11,0": {
             "size": [
-              1,
+              2,
               2
             ],
             "content": {
@@ -785,28 +898,15 @@
               }
             }
           },
-          "12,3": {
+          "5,0": {
             "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Grip Selection",
-              "_title": "SmartDashboard/Grip Selection",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,3": {
-            "size": [
-              2,
+              3,
               2
             ],
             "content": {
               "_type": "Simple Dial",
               "_source0": "network_table:///SmartDashboard/arm position",
-              "_title": "SmartDashboard/arm position",
+              "_title": "Arm Position",
               "_glyph": 148,
               "_showGlyph": false,
               "Range/Min": 0.0,
@@ -822,7 +922,67 @@
             "content": {
               "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/Auto Mode",
-              "_title": "/SmartDashboard/Auto Mode",
+              "_title": "Autonomous Selection",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,2": {
+            "size": [
+              7,
+              5
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://forward",
+              "_title": "forward",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "HALF",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": 0,
+              "imageHeight": 0
+            }
+          },
+          "3,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/Auto Lift?",
+              "_title": "Auton High Goal?",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/Auto Extend?",
+              "_title": "SmartDashboard/Auto Extend?",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pressure",
+              "_title": "/SmartDashboard/Pressure",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -832,9 +992,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -5.599999904632568,
-    "y": 0.4000000059604645,
-    "width": 1547.199951171875,
-    "height": 807.2000122070312
+    "x": -6.400000095367432,
+    "y": -6.400000095367432,
+    "width": 1548.800048828125,
+    "height": 814.7999877929688
   }
 }

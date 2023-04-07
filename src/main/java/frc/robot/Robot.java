@@ -13,13 +13,14 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.AutoConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,7 +30,9 @@ import frc.robot.Constants.AutoConstants;
  * the project.
  */
 public class Robot extends TimedRobot {
-
+    public PneumaticHub ph = new PneumaticHub(21);
+    // Compressor compressor = ph.makeCompressor();
+    Compressor compressor = new Compressor(21, PneumaticsModuleType.REVPH);
     private Command m_autonomousCommand;
     
 
@@ -45,13 +48,8 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
-
+        ph.enableCompressorAnalog(100, 120);
         CameraServer.startAutomaticCapture("forward", 0);
-        SmartDashboard.putString("Color", DriverStation.getAlliance().name());
-        if (DriverStation.getAlliance() == Alliance.Blue)
-            m_robotContainer.m_drivetrainSubsystem.switchColor();
-        SmartDashboard.putNumber("Meters per second =", AutoConstants.kMaxSpeedMetersPerSecond);
-        SmartDashboard.putBoolean("High goal", false);
     }
 
     /**
@@ -76,6 +74,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         // SmartDashboard.putString("Selected Position", RobotContainer.getInstance().m_shufBoard.SelectedPosition.name());
         SmartDashboard.putData(CommandScheduler.getInstance());
+        SmartDashboard.putNumber("Pressure", ph.getPressure(0));
     }
 
     /**
@@ -96,11 +95,14 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+        m_robotContainer.m_drivetrainSubsystem.setColor();
+        
+        SmartDashboard.putString("Color", DriverStation.getAlliance().name());
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
+        
     }
 
     /**
@@ -119,7 +121,11 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        }
+        m_robotContainer.m_drivetrainSubsystem.setColor();
+        
+        SmartDashboard.putString("Color", DriverStation.getAlliance().name());
+
+    }
 
     /**
      * This function is called periodically during operator control.

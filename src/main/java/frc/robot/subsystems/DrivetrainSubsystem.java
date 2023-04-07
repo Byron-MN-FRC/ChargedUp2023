@@ -56,7 +56,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.RobotContainer;
@@ -179,7 +178,6 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             var alliance = DriverStation.getAlliance();
             layout.setOrigin(Alliance.Blue == alliance ? 
                 OriginPosition.kBlueAllianceWallRightSide : OriginPosition.kRedAllianceWallRightSide);
-            if (Alliance.Blue == alliance) switchColor();
         } catch(IOException e){
             DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
             layout = null;
@@ -313,8 +311,8 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
             double pitch = getPitch();
             x = forwardController.calculate(pitch, 0);
             // pitch is current value and setpoint is desired value
-            SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
-            SmartDashboard.putNumber("Pigeon Pitch", pitch);
+            // SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
+            // SmartDashboard.putNumber("Pigeon Pitch", pitch);
             if (m_pigeon.getYaw() > 90 && m_pigeon.getYaw() < 270) {
                 x = -x;
             }
@@ -396,12 +394,13 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
     public void autoBalanceDrive() {
         forwardController.setP(.028);
+        // forwardController.setI(.02);
             double x;
             double pitch = getPitch();
             x = forwardController.calculate(pitch, 0);
             // pitch is current value and setpoint is desired value
-            SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
-            SmartDashboard.putNumber("Pigeon Pitch", pitch);
+            // SmartDashboard.putNumber("x = ", x * MAX_VELOCITY_METERS_PER_SECOND);
+            // SmartDashboard.putNumber("Pigeon Pitch", pitch);
             if (m_pigeon.getYaw() > 90 && m_pigeon.getYaw() < 270) {
                 x = -x;
             }
@@ -421,10 +420,17 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
     }
 
-    public void switchColor() {
-        middleAprilTag = 7;
-        leftAprilTag = 6;
-        rightAprilTag = 8;
+    public void setColor() {
+        if (DriverStation.getAlliance()==Alliance.Blue){
+            middleAprilTag = 7;
+            leftAprilTag = 6;
+            rightAprilTag = 8;
+        }
+        if (DriverStation.getAlliance()==Alliance.Red){
+            middleAprilTag = 2;
+            leftAprilTag = 1;
+            rightAprilTag = 3;
+        }
     }
 
 public SlewRateLimiter getXLimiter() {

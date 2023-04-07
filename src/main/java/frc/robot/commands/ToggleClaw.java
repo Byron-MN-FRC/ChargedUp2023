@@ -56,7 +56,6 @@ public class ToggleClaw extends CommandBase {
     @Override
 
     public void execute() {
-        System.out.println("Toggle Claw");
 
     }
 
