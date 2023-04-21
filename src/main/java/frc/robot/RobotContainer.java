@@ -246,8 +246,8 @@ aClawRelease.onTrue(new ClawRelease( m_clawSubsystem ).withInterruptBehavior(Int
     final JoystickButton AccessoryXButton = new JoystickButton(attachmentController, XboxController.Button.kX.value);
     AccessoryXButton.onTrue(new AccessoryXButton().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     
-    final JoystickButton manualExtend = new JoystickButton(attachmentController, XboxController.Button.kRightStick.value);
-    manualExtend.whileTrue(new manualExtend(m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+    // final JoystickButton manualExtend = new JoystickButton(attachmentController, XboxController.Button.kRightStick.value);
+    // manualExtend.whileTrue(new manualExtend(m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     
     final JoystickButton highGrab = new JoystickButton(attachmentController, XboxController.Button.kLeftBumper.value);
     highGrab.whileTrue(new HighGrab(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
