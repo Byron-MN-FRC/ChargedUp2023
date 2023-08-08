@@ -56,6 +56,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.RobotContainer;
@@ -335,6 +336,10 @@ ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     public void periodic() {
        SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
         setModuleStates(states);
+        SmartDashboard.putNumber("RightFront", FRONT_RIGHT_MODULE_STEER_OFFSET);
+        SmartDashboard.putNumber("RightBack", FRONT_RIGHT_MODULE_STEER_OFFSET);
+        SmartDashboard.putNumber("LeftFront", FRONT_RIGHT_MODULE_STEER_OFFSET);
+        SmartDashboard.putNumber("LeftBack", FRONT_RIGHT_MODULE_STEER_OFFSET);
     }
 
     /**

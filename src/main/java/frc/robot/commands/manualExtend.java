@@ -18,7 +18,7 @@ public class manualExtend extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_LiftSubsystem.extendArm();
+    // m_LiftSubsystem.extendArm();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

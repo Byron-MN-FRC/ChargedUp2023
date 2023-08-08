@@ -69,7 +69,7 @@ public class ExtendArm extends CommandBase {
 
     public void execute() {
         if (m_liftSubsystem.getLifttEncoder()<(m_liftSubsystem.highPos/2)){
-            m_liftSubsystem.extendArm();
+            // m_liftSubsystem.extendArm();
         }
         System.out.println(SmartDashboard.getNumber("Pressure", 0));
     }

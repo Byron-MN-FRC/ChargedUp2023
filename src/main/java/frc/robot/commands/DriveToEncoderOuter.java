@@ -77,7 +77,7 @@ public class DriveToEncoderOuter extends CommandBase {
                 m_armExtender = true;
         }
         if (m_armExtender && (m_liftSubsystem.getLifttEncoder()>=(m_liftSubsystem.highPos*2/3)) && Math.abs(startingPosition-m_liftSubsystem.getLifttEncoder())>=100000){
-            m_liftSubsystem.extendArm();
+            // m_liftSubsystem.extendArm();
         }
     }
 
