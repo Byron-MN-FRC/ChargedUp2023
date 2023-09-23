@@ -57,6 +57,8 @@ import frc.robot.commands.DriveToEncoderBody;
 import frc.robot.commands.DriveToEncoderOuter;
 import frc.robot.commands.DropAndRelease;
 import frc.robot.commands.EnableLift;
+import frc.robot.commands.FeederGrabPart1;
+import frc.robot.commands.FeederGrabPart2;
 import frc.robot.commands.GrabAndRaise;
 import frc.robot.commands.HighGrab;
 import frc.robot.commands.HighGrabPt2;
@@ -215,6 +217,12 @@ aClawRelease.onTrue(new ClawRelease( m_clawSubsystem ).withInterruptBehavior(Int
     final JoystickButton finishPlaceCargoAt = new JoystickButton(attachmentController, XboxController.Button.kRightBumper.value);
     finishPlaceCargoAt.onFalse(new PlaceCargoPrt2(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
     
+    final JoystickButton startFeederGrab = new JoystickButton(attachmentController, XboxController.Button.kLeftBumper.value);
+    startFeederGrab.whileTrue(new FeederGrabPart1(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    
+    final JoystickButton finishFeederGrab = new JoystickButton(attachmentController, XboxController.Button.kLeftBumper.value);
+    finishFeederGrab.onFalse(new FeederGrabPart2(m_clawSubsystem, m_liftSubsystem).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
     final JoystickButton armShake = new JoystickButton(attachmentController, XboxController.Button.kX.value);
     armShake.onTrue(new ShakeLift(m_liftSubsystem));
 
