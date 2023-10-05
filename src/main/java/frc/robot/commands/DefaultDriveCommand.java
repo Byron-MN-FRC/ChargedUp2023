@@ -37,6 +37,19 @@ public class DefaultDriveCommand extends CommandBase {
         // (square(m_rotationSupplier.getAsDouble(),3)),
         // m_drivetrainSubsystem.getGyroscopeRotation()));
 
+        //  Reduce the overall speed of robot
+        //  - start with 50% (.5)
+        //  - left trigger returns between 0 - 1 multiple it by .5 (pressing returns value > 0 *.5)
+        //  - right trigger returns between 0 - 1 multiple it by .5 (pressing returns value > 0 *.5)
+        //
+        //  Use Case :
+        //     Driving across field - speed up : 
+        //     - Hold LT down which returns 1 * .5 = .5 speed add to .5 start is 1.0 speed
+        //
+        //     Driving up to cargo - slow down : 
+        //     - Hold RT down which returns 1 * .5 = .5 speed subtract from 1 is .5 speed * .5 = .25 speed
+
+
         double driveSpeed = (.5+(RobotContainer.getInstance().getDriveController().getLeftTriggerAxis()*.5))*(1-(RobotContainer.getInstance().getDriveController().getRightTriggerAxis()*.5));
         if (RobotContainer.getInstance().m_liftSubsystem.isArmExtended()){
             m_drivetrainSubsystem.drive(

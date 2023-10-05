@@ -111,8 +111,8 @@ public LiftSubsystem() {
         SmartDashboard.putNumber("LeftLifterVelocity", leftLifter.getSelectedSensorVelocity());
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("StoredPositionNew", getStoredPosition());
-        if (isBodyTriggered()) {System.out.println("!!!!!Body Limit Switch!!!!!");}
-        if (isOuterTriggered()) {System.out.println("!!!!!Outer Limit Switch!!!!!");}
+       // if (isBodyTriggered()) {System.out.println("!!!!!Body Limit Switch!!!!!");}
+       // if (isOuterTriggered()) {System.out.println("!!!!!Outer Limit Switch!!!!!");}
         // put arm positions to the dashboard
         reportArmPose();
 
