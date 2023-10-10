@@ -356,18 +356,20 @@ public XboxController getAttachmentController() {
         TrajectoryGenerator.generateTrajectory(
         new Pose2d(Units.feetToMeters(0), 0, new Rotation2d(0)),
         List.of(
-          // new Translation2d(Units.feetToMeters(3),Units.feetToMeters(.1)),
-          new Translation2d(Units.feetToMeters(5), Units.feetToMeters(-.1)*negate)
+          new Translation2d(Units.feetToMeters(3), Units.feetToMeters(.1)),
+          new Translation2d(Units.feetToMeters(5), Units.feetToMeters(-.1)*negate),
+          new Translation2d(Units.feetToMeters(14), Units.feetToMeters(-.1)*negate)
         ),
         new Pose2d(Units.feetToMeters(7), Units.feetToMeters(.1)*negate, new Rotation2d(0)),
         configSlow);
+
              
-    Trajectory pathThreeTrajectoryTwo = 
-        TrajectoryGenerator.generateTrajectory(
-        new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
-        List.of(new Translation2d(Units.inchesToMeters(14), Units.inchesToMeters(-8.1)*negate)),
-        new Pose2d(Units.inchesToMeters(12), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
-        config);
+    // Trajectory pathThreeTrajectoryTwo = 
+    //     TrajectoryGenerator.generateTrajectory(
+    //     new Pose2d(Units.inchesToMeters(240.404), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
+    //     List.of(new Translation2d(Units.inchesToMeters(14), Units.inchesToMeters(-8.1)*negate)),
+    //     new Pose2d(Units.inchesToMeters(12), Units.inchesToMeters(-8)*negate, new Rotation2d(0)),
+    //     config);
 
 
     SwerveControllerCommand BumpPartOne =
@@ -393,7 +395,7 @@ public XboxController getAttachmentController() {
         thetaController,
         m_drivetrainSubsystem::setModuleStates,
         m_drivetrainSubsystem);
-    
+
     SwerveControllerCommand WallPathPartOne =
         new SwerveControllerCommand(
         wallPathTrajectoryOne,
@@ -406,17 +408,17 @@ public XboxController getAttachmentController() {
         m_drivetrainSubsystem::setModuleStates,
         m_drivetrainSubsystem);
 
-    SwerveControllerCommand pathThreePartTwo =
-        new SwerveControllerCommand(
-        pathThreeTrajectoryTwo,
-        m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
-        DriveConstants.kDriveKinematics,
-        // Position controllers
-        new PIDController(AutoConstants.kPXController, 0, 0),
-        new PIDController(AutoConstants.kPYController, 0, 0),
-        thetaController,
-        m_drivetrainSubsystem::setModuleStates,
-        m_drivetrainSubsystem);
+    // SwerveControllerCommand pathThreePartTwo =
+    //     new SwerveControllerCommand(
+    //     pathThreeTrajectoryTwo,
+    //     m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
+    //     DriveConstants.kDriveKinematics,
+    //     // Position controllers
+    //     new PIDController(AutoConstants.kPXController, 0, 0),
+    //     new PIDController(AutoConstants.kPYController, 0, 0),
+    //     thetaController,
+    //     m_drivetrainSubsystem::setModuleStates,
+    //     m_drivetrainSubsystem);
     // // Reset odometry to the starting pose of the trajectory.
     // m_drivetrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
@@ -474,7 +476,7 @@ System.out.println("!!!!!Autonomous Selected!!!!! " + m_chooser.getSelected().ge
         new RetractArm(m_liftSubsystem),
         new ParallelCommandGroup(
           new DriveToEncoderBody(m_liftSubsystem.storedPos, m_liftSubsystem),
-          pathMiddlePartOne
+          pathMiddlePartOne          
         ),
         new AutonBalance(m_drivetrainSubsystem)
       );
