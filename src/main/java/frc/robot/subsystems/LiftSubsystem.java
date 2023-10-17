@@ -317,4 +317,7 @@ public LiftSubsystem() {
     public double getStoredPosition(){
         return storedPos;
     }
+    public double getLowPosition(){
+        return lowPos;
+    }
 }

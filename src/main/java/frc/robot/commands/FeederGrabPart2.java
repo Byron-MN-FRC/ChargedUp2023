@@ -21,7 +21,7 @@ public class FeederGrabPart2 extends SequentialCommandGroup {
       new ClawGrab(clawSubsystem),
       new WaitCommand(.75),
       new RetractArm(liftSubsystem),
-      new DriveToEncoderBody(liftSubsystem.getStoredPosition(), liftSubsystem)
+      new DriveToEncoderBody(liftSubsystem.getLowPosition(), liftSubsystem)
     );
   }
 }
